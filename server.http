@@ -1,0 +1,12 @@
+@hostname = http://localhost:3000/api
+@contentType = application/json
+
+
+### SUCCESS
+POST {{hostname}}/auth/callback/credentials HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "dci@dcisuporte.com.br",
+  "password": "dci@6913"
+}
