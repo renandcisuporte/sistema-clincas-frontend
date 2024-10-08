@@ -1,0 +1,17 @@
+services:
+  dev:
+    image: renandci/clinics-site:development
+    env_file:
+      - ./.env
+    ports:
+      - ${PORT:-3333}:${PORT:-3333}
+    command: npm run dev -- -p ${PORT:-3333}
+    volumes:
+      - ./:/app
+    networks:
+      - shared
+
+networks:
+  shared:
+    driver: bridge
+    name: network-clinics-site
