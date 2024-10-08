@@ -1,8 +1,8 @@
 'use client'
 
-import { ButtonSubmit } from '@/app/_components/common/button-submit'
-import { InputLabel } from '@/app/_components/common/input'
-import { useToast } from '@/app/_hooks/use-toast'
+import { ButtonSubmit } from '@/app/components/common/button-submit'
+import { InputLabel } from '@/app/components/common/input'
+import { useToast } from '@/app/hooks/use-toast'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'

@@ -1,6 +1,6 @@
-import { LogOut } from '@/app/_components/common/button-others'
-import { Nav } from '@/app/_components/common/link'
-import { ChildrenProps } from '../_types/common'
+import { LogOut } from '@/app/components/common/button-others'
+import { Nav } from '@/app/components/common/link'
+import { ChildrenProps } from '../../types/common'
 
 export default function RootLayout({ children }: ChildrenProps) {
   return (

@@ -1,7 +1,7 @@
 'use client'
 
-import { ButtonSubmit } from '@/app/_components/common/button-submit'
-import { InputLabel } from '@/app/_components/common/input'
+import { ButtonSubmit } from '@/app/components/common/button-submit'
+import { InputLabel } from '@/app/components/common/input'
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/app/_components/ui/dialog'
-import { apiFecth, ApiFecthResponse } from '@/app/_lib/api'
-import { Clinic } from '@/app/_types/clinics'
+} from '@/app/components/ui/dialog'
+import { apiFecth, ApiFecthResponse } from '@/app/lib/api'
+import { Clinic } from '@/app/types/clinics'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import * as React from 'react'

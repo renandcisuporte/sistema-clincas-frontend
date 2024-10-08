@@ -1,8 +1,8 @@
-import { Toaster } from '@/app/_components/ui/toaster'
+import { Toaster } from '@/app/components/ui/toaster'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { SessionProvider } from './_components/session-provider'
-import { ChildrenProps } from './_types/common'
+import { SessionProvider } from './components/session-provider'
+import { ChildrenProps } from './types/common'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })

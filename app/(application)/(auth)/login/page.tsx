@@ -1,5 +1,5 @@
-import { PageClient } from '@/app/(auth)/login/page-client'
-import { loginAction } from '@/app/_actions/login'
+import { PageClient } from '@/app/(application)/(auth)/login/page-client'
+import { loginAction } from '@/app/actions/login'
 
 export default async function Home() {
   return (

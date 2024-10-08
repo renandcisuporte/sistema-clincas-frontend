@@ -1,4 +1,4 @@
-import { cn } from '@/app/_lib/utils'
+import { cn } from '@/app/lib/utils'
 import * as React from 'react'
 import { Input, InputProps } from '../ui/input'
 import { Label } from '../ui/label'

@@ -1,4 +1,4 @@
-import { Button } from '@/app/_components/ui/button'
+import { Button } from '@/app/components/ui/button'
 import {
   Table,
   TableBody,
@@ -6,10 +6,10 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/app/_components/ui/table'
-import { apiFecth, ApiFecthResponse } from '@/app/_lib/api'
-import { Clinic } from '@/app/_types/clinics'
-import { SearchParamsProps } from '@/app/_types/common'
+} from '@/app/components/ui/table'
+import { apiFecth, ApiFecthResponse } from '@/app/lib/api'
+import { Clinic } from '@/app/types/clinics'
+import { SearchParamsProps } from '@/app/types/common'
 import { authOptions } from '@/auth'
 import { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
