@@ -21,7 +21,12 @@ export function InputLabel({
   const restClass = input.className
 
   return (
-    <div className="grid w-full items-center space-y-1">
+    <div
+      className={cn(
+        'grid w-full items-center space-y-1',
+        message && 'text-red-800'
+      )}
+    >
       <Label htmlFor={id}>{label}</Label>
       <Input
         {...input}
@@ -31,9 +36,7 @@ export function InputLabel({
         )}
         id={id}
       />
-      <small aria-label="police" className="text-red-800">
-        {message}
-      </small>
+      <small aria-label="police">{message}</small>
     </div>
   )
 }

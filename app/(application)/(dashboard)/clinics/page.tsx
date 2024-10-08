@@ -23,6 +23,8 @@ export const metadata: Metadata = {
 const loadClinics = async (): Promise<ApiFecthResponse<Clinic[]>> => {
   const session = await getServerSession(authOptions)
 
+  console.log(session)
+
   return await apiFecth(`/clinics`, {
     accessToken: session?.accessToken,
     next: { tags: ['clincics'] },

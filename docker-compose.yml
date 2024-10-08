@@ -2,7 +2,7 @@ services:
   dev:
     image: renandci/clinics-site:development
     env_file:
-      - ./.env
+      - ./.env.local
     ports:
       - ${PORT:-3333}:${PORT:-3333}
     command: npm run dev -- -p ${PORT:-3333}
