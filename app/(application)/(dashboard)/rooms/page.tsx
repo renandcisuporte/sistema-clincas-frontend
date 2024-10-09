@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { ModalDelete, ModalForm } from './page-client'
 
 export const metadata: Metadata = {
-  title: 'Lista de Clinicas - Clinicas'
+  title: 'Lista de Salas - Clinicas'
 }
 
 export default async function Page({ searchParams }: SearchParamsProps) {
