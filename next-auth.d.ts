@@ -8,5 +8,6 @@ declare module 'next-auth' {
       fullName: string
     }
     accessToken: string
+    refreshToken: string
   }
 }

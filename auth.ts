@@ -11,7 +11,7 @@ export const authOptions = {
         email: { label: 'Username', type: 'email', placeholder: 'jsmith' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, _) {
         const res = await fetch(`${process.env.NEXTAUTH_API_URL}/auth`, {
           method: 'POST',
           body: JSON.stringify(credentials),
@@ -19,13 +19,10 @@ export const authOptions = {
         })
 
         const user = await res.json()
-
-        // If no error and we have user data, return it
         if (res.ok && user) {
           return user.data
         }
 
-        // Return null if user data could not be retrieved
         const message = JSON.stringify({
           error: { ...user.response.data },
           code: user.response.status
@@ -36,23 +33,42 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) {
-    //   console.log('ESTOU AQUI')
-    //   const isAllowedToSignIn = true
-    //   if (isAllowedToSignIn) {
-    //     return true
-    //   } else {
-    //     // Return false to display a default error message
-    //     return true
-    //     // Or you can return a URL to redirect to:
-    //     // return '/unauthorized'
-    //   }
-    // },
-    async jwt({ token, user }) {
-      return { ...token, ...user }
+    async jwt({ token, user, session }) {
+      const tokenParsed = JSON.parse(
+        Buffer.from(
+          String(token?.accessToken).split('.')[1],
+          'base64'
+        ).toString()
+      )
+      const dateNowInSeconds = Math.floor(new Date().getTime() / 1000)
+      const tokenIsNotExpired = dateNowInSeconds < tokenParsed.exp
+
+      if (tokenIsNotExpired) return { ...token, ...user }
+
+      const uri = `${process.env.NEXTAUTH_API_URL}/auth/refresh-token`
+      const resp = await fetch(uri, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.refreshToken}`
+        }
+      })
+
+      const respUser = await resp.json()
+
+      if (resp.ok && respUser) {
+        const { accessToken, refreshToken, ...rest } = respUser.data
+        token.accessToken = accessToken
+        token.refreshToken = refreshToken
+        // console.log('BELGA', { ...rest, ...token })
+
+        return { ...token, ...rest }
+      }
     },
-    async session({ session, token, user }) {
-      session.accessToken = token.accessToken as any
+    async session({ session, token }) {
+      session.accessToken = token.accessToken as string
+      session.refreshToken = token.refreshToken as string
+
       return session
     }
   },
