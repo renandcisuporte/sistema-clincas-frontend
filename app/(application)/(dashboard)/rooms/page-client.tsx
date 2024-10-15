@@ -1,6 +1,6 @@
 'use client'
 
-import { removeClinic, saveClinic } from '@/app/actions/clinics'
+import { removeRoom, saveRoom } from '@/app/actions/rooms'
 import { ButtonSubmit } from '@/app/components/common/button-submit'
 import { InputLabel } from '@/app/components/common/input'
 import { Button } from '@/app/components/ui/button'
@@ -14,9 +14,10 @@ import {
 } from '@/app/components/ui/dialog'
 import { ScrollArea } from '@/app/components/ui/scroll-area'
 import { useToast } from '@/app/hooks/use-toast'
-import { Clinic } from '@/app/types/clinics'
+import { Room } from '@/app/types/rooms'
+import { CircleX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
   // @ts-ignore
   experimental_useFormState as useFormState
@@ -24,160 +25,222 @@ import {
 
 export interface ModalFormInterface {
   open: boolean
-  clinic?: Clinic
+  data?: Room
 }
 
-export function ModalForm({ open, clinic }: ModalFormInterface) {
+export function ModalForm({ open, data }: ModalFormInterface) {
+  const [input, setInput] = useState({} as Room)
+
   const { back } = useRouter()
   const { toast } = useToast()
 
-  const [state, formAction] = useFormState(saveClinic, clinic)
+  const [state, formAction] = useFormState(saveRoom, {})
+  const { errors } = state
 
   useEffect(() => {
-    if (state?.message) {
-      back()
-      toast({
-        title: 'Atenção!',
-        description: state.message
-      })
-    }
-  }, [state])
+    if (data?.id) setInput({ ...data })
+  }, [data])
+
+  useEffect(() => {
+    if (state?.errorMessage !== 'OK') return
+    toast({ title: 'Atenção!', description: 'Salvo com sucesso!' })
+    back()
+  }, [state, back, toast])
 
   return (
-    <Dialog open={open} onOpenChange={() => back()} modal={true}>
-      <DialogContent className="sm:max-w-[767px] h-full max-h-[96%] !p-0">
+    <Dialog open={open} modal={true}>
+      <DialogContent
+        className="sm:max-w-[767px] h-full max-h-[96%] !p-0 [&>button]:hidden"
+        onEscapeKeyDown={() => back()}
+        onInteractOutside={(e) => e.preventDefault()}
+      >
+        <DialogClose asChild>
+          <CircleX
+            onClick={() => back()}
+            className="absolute right-4 top-4 z-10 cursor-pointer"
+          />
+        </DialogClose>
         <ScrollArea className="h-full">
           <div className="p-6">
             <DialogHeader>
               <DialogTitle>Editar/Cadastrar</DialogTitle>
               <DialogDescription>
-                Você pode editar ou cadastrar uma clinica no formulário abaixo.
+                Você pode editar ou cadastrar uma sala no formulário abaixo.
               </DialogDescription>
             </DialogHeader>
             <form
               action={formAction}
               className="flex flex-col md:flex-row flex-wrap space-y-4"
             >
-              <input type="hidden" name="id" value={clinic?.id} />
+              <input type="hidden" name="id" value={input?.id} />
               <InputLabel
                 label="Titulo Empresarial"
-                message={state?.errors?.title}
+                message={errors?.room}
                 input={{
                   type: 'text',
-                  name: 'title',
-                  defaultValue: clinic?.title
+                  name: 'room',
+                  defaultValue: input?.room
                 }}
               />
 
-              <InputLabel
+              {/* <InputLabel
                 label="Nome Fantasia"
-                message={state?.errors?.fantasy}
+                message={errors?.fantasy}
                 input={{
                   type: 'text',
                   name: 'fantasy',
-                  defaultValue: clinic?.fantasy
+                  defaultValue: input?.fantasy
                 }}
-              />
+              /> */}
 
-              <InputLabel
+              {/* <InputLabel
                 label="CNPJ"
-                message={state?.errors?.cnpj}
-                className="md:basis-48"
+                message={errors?.cnpj}
+                className="md:basis-56"
                 input={{
                   type: 'text',
                   name: 'cnpj',
-                  defaultValue: clinic?.cnpj
+                  defaultValue: state?.cnpj,
+                  value: input?.cnpj,
+                  onChange: (e) =>
+                    setInput((prev) => ({
+                      ...prev,
+                      cnpj: maskDocument(e.target.value)
+                    }))
                 }}
               />
 
               <InputLabel
                 label="Inscrição Estadual"
-                message={state?.errors?.ie}
-                className="md:basis-40 md:ml-4"
+                message={errors?.ie}
+                className="md:basis-56 md:ml-4"
                 input={{
                   type: 'text',
                   name: 'ie',
-                  defaultValue: clinic?.ie
+                  defaultValue: input?.ie
                 }}
               />
 
               <InputLabel
-                label="Telefones"
-                message={state?.errors?.phones}
+                label="Telefone"
+                className="md:basis-1/4 md:ml-4"
+                message={errors?.phone}
                 input={{
                   type: 'text',
-                  name: 'phones',
-                  defaultValue: clinic?.phones.join(', ')
+                  name: 'phone',
+                  defaultValue: input?.phone,
+                  value: input?.phone,
+                  onChange: (e) =>
+                    setInput((prev) => ({
+                      ...prev,
+                      phone: maskPhone(e.target.value)
+                    }))
+                }}
+              />
+
+              <InputLabel
+                label="Celular"
+                className="md:basis-1/4 md:mr-4"
+                message={errors?.mobilePhone}
+                input={{
+                  type: 'text',
+                  name: 'mobilePhone',
+                  defaultValue: input?.mobilePhone,
+                  value: input?.mobilePhone,
+                  onChange: (e) =>
+                    setInput((prev) => ({
+                      ...prev,
+                      mobilePhone: maskPhone(e.target.value)
+                    }))
                 }}
               />
 
               <InputLabel
                 label="Endereço"
-                message={state?.errors?.address.address}
+                message={errors?.address}
                 className="md:basis-2/4 md:mr-4"
                 input={{
                   type: 'text',
-                  name: 'address[address]',
-                  defaultValue: ''
+                  name: 'address',
+                  defaultValue: input?.address
                 }}
               />
 
               <InputLabel
                 label="Numero"
-                message={state?.errors?.address.number}
+                message={errors?.number}
                 className="md:basis-1/5 md:mr-4"
                 input={{
                   type: 'text',
-                  name: 'address[number]',
-                  defaultValue: ''
+                  name: 'number',
+                  defaultValue: input?.number
                 }}
               />
 
               <InputLabel
                 label="Referência"
-                message={state?.errors?.address.reference}
+                message={errors?.reference}
                 className="md:basis-2/3 md:mr-4"
                 input={{
                   type: 'text',
-                  name: 'address[reference]',
-                  defaultValue: ''
+                  name: 'reference',
+                  defaultValue: input?.reference
                 }}
               />
 
               <InputLabel
                 label="Complemento"
-                message={state?.errors?.address.component}
+                message={errors?.complement}
                 className="md:basis-2/3 md:mr-4"
                 input={{
                   type: 'text',
-                  name: 'address[component]',
-                  defaultValue: ''
+                  name: 'complement',
+                  defaultValue: input?.complement
                 }}
               />
 
               <InputLabel
                 label="Cidade"
-                message={state?.errors?.address.city}
+                message={errors?.city}
                 className="md:basis-1/2 md:mr-4"
                 input={{
                   type: 'text',
-                  name: 'address[city]',
-                  defaultValue: ''
+                  name: 'city',
+                  defaultValue: input?.city
                 }}
               />
 
               <InputLabel
                 label="UF"
-                message={state?.errors?.address.city}
+                message={errors?.state}
                 className="md:basis-1/6 md:mr-4"
                 input={{
                   type: 'text',
-                  name: 'address[city]',
-                  defaultValue: ''
+                  name: 'state',
+                  defaultValue: input?.state
                 }}
               />
 
-              <ButtonSubmit />
+              <InputLabel
+                label="CEP"
+                message={errors?.zipCode}
+                className="md:basis-1/6 md:mr-4"
+                input={{
+                  type: 'text',
+                  name: 'zipCode',
+                  defaultValue: input?.zipCode,
+                  value: input?.zipCode,
+                  onChange: (e) =>
+                    setInput((prev) => ({
+                      ...prev,
+                      zipCode: maskZipCode(e.target.value)
+                    }))
+                }}
+              /> */}
+
+              <div className="w-full text-center">
+                <ButtonSubmit />
+              </div>
             </form>
           </div>
         </ScrollArea>
@@ -186,21 +249,17 @@ export function ModalForm({ open, clinic }: ModalFormInterface) {
   )
 }
 
-export function ModalDelete({ open, clinic }: ModalFormInterface) {
+export function ModalDelete({ open, data }: ModalFormInterface) {
   const { back } = useRouter()
   const { toast } = useToast()
 
-  const [state, formAction] = useFormState(removeClinic, clinic)
+  const [state, formAction] = useFormState(removeRoom, {})
 
   useEffect(() => {
-    if (state?.message) {
-      back()
-      toast({
-        title: 'Atenção!',
-        description: state.message
-      })
-    }
-  }, [state])
+    if (state?.errorMessage !== 'OK') return
+    toast({ title: 'Atenção!', description: 'Excluido com sucesso!' })
+    back()
+  }, [state, back, toast])
 
   return (
     <Dialog open={open} onOpenChange={() => back()} modal={true}>
@@ -215,7 +274,7 @@ export function ModalDelete({ open, clinic }: ModalFormInterface) {
           action={formAction}
           className="flex flex-col space-y-4 flex-wrap md:flex-row md:space-x-2 float-right justify-end"
         >
-          <input type="hidden" name="id" value={clinic?.id} />
+          <input type="hidden" name="id" value={data?.id} />
           <DialogClose asChild>
             <Button variant="ghost" type="button">
               Cancela

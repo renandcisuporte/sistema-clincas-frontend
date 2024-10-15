@@ -1,14 +1,16 @@
-export type ApiFecthOptions = { accessToken?: string } & RequestInit
+export type ApiToken = { accessToken?: string } & RequestInit
 
-export type ApiFecthResponse<T> = {
-  data: T | []
-  error?: string
+export type ApiResponse<D = any, T = any> = {
+  data?: D
+  total?: T
+  errorMessage?: string
+  errors?: { [key: string]: string }
 }
 
 export async function apiFecth(
-  endpoint: string,
-  options: ApiFecthOptions
-): Promise<ApiFecthResponse<any>> {
+  path: string,
+  options: ApiToken
+): Promise<ApiResponse> {
   const { headers = {}, accessToken, ...restOptions } = options
 
   const authHeaders = {
@@ -17,13 +19,17 @@ export async function apiFecth(
     'Content-Type': 'application/json' // Ajuste se necessário,
   }
   // Faz a requisição utilizando o fetch nativo com a URL base e o token
-  const response = await fetch(`${process.env.NEXTAUTH_API_URL}${endpoint}`, {
+  const response = await fetch(`${process.env.NEXTAUTH_API_URL}${path}`, {
     ...restOptions,
     headers: authHeaders
   })
   // Verifica se a resposta é bem-sucedida
   if (!response.ok) {
-    return { data: [], error: `Erro na requisição: ${response.statusText}` }
+    const { errorMessage, fields } = await response.json()
+    return {
+      errorMessage,
+      errors: { ...fields }
+    }
   }
 
   if (response.status === 204) {
@@ -31,5 +37,5 @@ export async function apiFecth(
   }
 
   // Ou response.text(), dependendo do formato da resposta
-  return response.json()
+  return await response.json()
 }

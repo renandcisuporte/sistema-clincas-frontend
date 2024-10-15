@@ -10,4 +10,14 @@ declare module 'next-auth' {
     accessToken: string
     refreshToken: string
   }
+
+  interface User {
+    user: {
+      id: string
+      email: string
+      fullName: string
+    }
+    accessToken: string
+    refreshToken: string
+  }
 }

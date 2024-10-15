@@ -6,7 +6,10 @@ export interface SearchParamsProps {
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export interface ActionResponse {
-  errors?: { [key: string]: string }
-  message?: string
+export interface ActionResponse<T = any> {
+  data?: T[]
+  errorMessage?: string
+  fields?: {
+    [key: string]: string
+  }
 }

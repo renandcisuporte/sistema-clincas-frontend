@@ -2,8 +2,8 @@ import { Toaster } from '@/app/components/ui/toaster'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { SessionProvider } from './components/session-provider'
-import { ChildrenProps } from './types/common'
 import './globals.css'
+import { ChildrenProps } from './types/common'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: ChildrenProps) {
   return (
-    <SessionProvider>
-      <html lang="pt-br">
-        <body className={inter.className}>
+    <html lang="pt-br" suppressHydrationWarning>
+      <body className={inter.className}>
+        <SessionProvider>
           {children}
           <Toaster />
-        </body>
-      </html>
-    </SessionProvider>
+        </SessionProvider>
+      </body>
+    </html>
   )
 }

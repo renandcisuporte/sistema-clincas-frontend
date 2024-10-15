@@ -6,8 +6,9 @@ import { signOut } from 'next-auth/react'
 export function LogOut() {
   return (
     <Power
-      onClick={() => signOut({ callbackUrl: '/dashboard' })}
-      className="cursor-pointer"
+      strokeWidth={4}
+      onClick={() => signOut({ callbackUrl: '/login' })}
+      className="cursor-pointer text-white"
     />
   )
 }

@@ -18,7 +18,6 @@ export function InputLabel({
 }: InputLabelProps & { className?: string }) {
   const uId = React.useId()
   const id = input.id ?? uId
-
   const restClass = input.className
 
   return (
@@ -32,11 +31,11 @@ export function InputLabel({
       <Label htmlFor={id}>{label}</Label>
       <Input
         {...input}
-        id={id}
         className={cn(
           restClass,
           message && 'border-red-800 outline-none focus-visible:ring-red-400'
         )}
+        id={id}
       />
       <small aria-label="police">{message}</small>
     </div>

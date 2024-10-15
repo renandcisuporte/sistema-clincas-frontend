@@ -1,5 +1,6 @@
 'use client'
 
+import { Save, Trash } from 'lucide-react'
 import {
   // @ts-ignore
   experimental_useFormStatus as useFormStatus
@@ -21,6 +22,7 @@ export function ButtonSubmit({
         variant="destructive"
         className="disabled:cursor-not-allowed"
       >
+        <Trash className="w-4 mr-1" />
         {remove && pending ? 'Excluindo' : 'Excluir'}
       </Button>
     )
@@ -32,6 +34,7 @@ export function ButtonSubmit({
       disabled={pending}
       className="disabled:cursor-not-allowed"
     >
+      <Save className="w-4 mr-1" />
       {pending ? 'Salvando Dados' : 'Salvar'}
     </Button>
   )

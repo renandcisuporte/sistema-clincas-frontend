@@ -78,7 +78,7 @@ export function PageClient() {
       className="w-full md:max-w-md p-6 bg-white rounded-lg space-y-6"
     >
       <Image
-        src="/RUBRICA SISTEMA.png"
+        src="/RUBRICA-SISTEMA.png"
         alt="Logo"
         width={100}
         height={100}

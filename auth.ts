@@ -33,20 +33,18 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user, session }) {
-      const tokenParsed = JSON.parse(
-        Buffer.from(
-          String(token?.accessToken).split('.')[1],
-          'base64'
-        ).toString()
-      )
-      const dateNowInSeconds = Math.floor(new Date().getTime() / 1000)
-      const tokenIsNotExpired = dateNowInSeconds < tokenParsed.exp
+    async jwt({ token, user }) {
+      if (token.accessToken) {
+        const isToken = String(token.accessToken).split('.')[1]
+        const tokenDec = JSON.parse(Buffer.from(isToken, 'base64').toString())
 
-      if (tokenIsNotExpired) return { ...token, ...user }
+        const dateNowInSeconds = Math.floor(new Date().getTime() / 1000)
+        const tokenIsNotExpired = dateNowInSeconds < tokenDec.exp
+        if (tokenIsNotExpired) return { ...token, ...user }
+      }
 
       const uri = `${process.env.NEXTAUTH_API_URL}/auth/refresh-token`
-      const resp = await fetch(uri, {
+      const result = await fetch(uri, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,21 +52,20 @@ export const authOptions = {
         }
       })
 
-      const respUser = await resp.json()
-
-      if (resp.ok && respUser) {
-        const { accessToken, refreshToken, ...rest } = respUser.data
+      const resultUser = await result.json()
+      if (result.ok) {
+        const { accessToken, refreshToken, ...rest } = resultUser.data
         token.accessToken = accessToken
         token.refreshToken = refreshToken
-        // console.log('BELGA', { ...rest, ...token })
 
         return { ...token, ...rest }
       }
+
+      return { ...token, ...user }
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string
       session.refreshToken = token.refreshToken as string
-
       return session
     }
   },

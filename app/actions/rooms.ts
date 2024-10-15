@@ -1,109 +1,81 @@
 'use server'
 
-import { apiFecth, ApiFecthResponse } from '@/app/lib/api'
-import { Clinic } from '@/app/types/clinics'
-import { ActionResponse } from '@/app/types/common'
+import { apiFecth, ApiResponse } from '@/app/lib/api'
 import { authOptions } from '@/auth'
 import { getServerSession } from 'next-auth'
 import { revalidateTag } from 'next/cache'
-import * as z from 'zod'
+import { Room } from '../types/rooms'
 
-const common = {
-  fantasy: z.string().min(3, { message: 'Campo obrigatório!' }),
-  title: z.string().min(3, { message: 'Campo obrigatório!' }),
-  cnpj: z.string().min(3, { message: 'Campo obrigatório!' }),
-  ie: z.string().min(3, { message: 'Campo obrigatório!' })
-}
-
-const schemaForm = z.object({
-  id: z.string().optional(),
-  ...common
-})
-
-const schemaDelete = z.object({
-  id: z.string().uuid({ message: 'Error' })
-})
-
-export async function saveClinic(
-  _state: any,
+export async function saveRoom(
+  _: any,
   formData: FormData
-): Promise<ActionResponse> {
+): Promise<ApiResponse> {
   const session = await getServerSession(authOptions)
-
-  const form = await schemaForm.safeParseAsync({
-    id: formData.get('id'),
-    fantasy: formData.get('fantasy'),
-    title: formData.get('title'),
-    cnpj: formData.get('cnpj'),
-    ie: formData.get('ie')
-  })
-
-  if (!form.success) {
-    return {
-      errors: form.error.issues.reduce((prev, issue) => {
-        return Object.assign(prev, { [`${issue.path}`]: `${issue.message}` })
-      }, {})
-    }
-  }
-  const { cnpj, fantasy, ie, title, id } = form.data
-
-  let method = 'POST'
-  let uriFecth = '/clinics'
-  if (id) {
-    method = 'PUT'
-    uriFecth = `/clinics/${id}`
-  }
-
-  await apiFecth(uriFecth, {
-    method,
+  const api = {
     accessToken: session?.accessToken,
-    body: JSON.stringify({ cnpj, fantasy, ie, title })
+    method: 'POST',
+    url: '/rooms',
+    body: ''
+  }
+
+  const form = Object.fromEntries(formData)
+
+  const { id, ...restform } = form
+  api.body = JSON.stringify({ ...restform })
+
+  if (id) {
+    api.url = `/rooms/${form?.id}`
+    api.method = 'PUT'
+  }
+
+  const { url, ...restApi } = api
+  const result = await apiFecth(url, {
+    ...restApi
   })
 
-  revalidateTag('clinics')
+  revalidateTag('rooms')
 
   return {
-    message: 'Dados salvos com sucesso!'
+    ...result,
+    errorMessage: result.errorMessage ?? 'OK'
   }
 }
 
-export async function removeClinic(
+export async function removeRoom(
   _state: any,
   formData: FormData
-): Promise<ActionResponse> {
+): Promise<any> {
   const session = await getServerSession(authOptions)
 
-  const form = await schemaDelete.safeParseAsync({
-    id: formData.get('id')
-  })
+  const form = Object.fromEntries(formData)
 
-  if (!form.success) {
-    return {
-      errors: form.error.issues.reduce((prev, issue) => {
-        return Object.assign(prev, { [`${issue.path}`]: `${issue.message}` })
-      }, {})
-    }
-  }
-
-  const { id } = form.data
-  await apiFecth(`/clinics/${id}`, {
+  const { id } = form
+  await apiFecth(`/rooms/${id}`, {
     method: 'DELETE',
     accessToken: session?.accessToken
   })
 
-  revalidateTag('clinics')
+  revalidateTag('rooms')
 
   return {
-    message: 'Dados removido com sucesso!'
+    data: null,
+    errorMessage: 'OK'
   }
 }
 
-export async function loadClinics(): Promise<ApiFecthResponse<Clinic[]>> {
+export async function loadRooms(args: any): Promise<ApiResponse<Room[]>> {
   const session = await getServerSession(authOptions)
+  const { title = '', cnpj = '', limit = 15, page = 1 } = args
+  const searchParams = new URLSearchParams({
+    title,
+    cnpj,
+    limit,
+    page
+  })
 
-  return await apiFecth(`/clinics`, {
+  return await apiFecth(`/rooms?${searchParams.toString()}`, {
     accessToken: session?.accessToken,
-    next: { tags: ['clinics'] },
+    next: { tags: ['rooms'] },
     cache: 'force-cache'
   })
 }
