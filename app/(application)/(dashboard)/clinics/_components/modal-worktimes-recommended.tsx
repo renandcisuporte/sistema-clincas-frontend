@@ -1,6 +1,6 @@
 'use client'
 
-import { saveWorkTime } from '@/app/actions/work-times'
+import { saveWorkTimeRecommended } from '@/app/actions/work-times'
 import { ButtonSubmit } from '@/app/components/common/button-submit'
 import { InputLabel } from '@/app/components/common/input'
 import { Button } from '@/app/components/ui/button'
@@ -23,18 +23,21 @@ import {
   experimental_useFormState as useFormState
 } from 'react-dom'
 
-export interface ModalWorkTimesInterface {
+export interface ModalWorkTimesRecommendedInterface {
   open: boolean
   input?: WorkTime[]
 }
 
-export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
+export function ModalWorkTimesRecommended({
+  open,
+  input
+}: ModalWorkTimesRecommendedInterface) {
   const { back } = useRouter()
   const { toast } = useToast()
   const [items, setItems] = useState<WorkTime[]>([])
   const { page } = useParams()
 
-  const [state, formAction] = useFormState(saveWorkTime, {})
+  const [state, formAction] = useFormState(saveWorkTimeRecommended, {})
 
   const handleAdd = useHandleAdd(items, setItems)
 
@@ -80,7 +83,7 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
         <ScrollArea className="h-full">
           <form action={formAction} className="space-y-4 p-6">
             <Dialog.DialogHeader>
-              <Dialog.DialogTitle>Horário de Funcionamento</Dialog.DialogTitle>
+              <Dialog.DialogTitle>Horário de Recomendado</Dialog.DialogTitle>
             </Dialog.DialogHeader>
             <input type="hidden" name="clinicId" defaultValue={page[0]!} />
             {items.map(({ week, open, times }, i) => (
