@@ -21,11 +21,13 @@ const config: Config = {
       },
       backgroundColor: {
         default: '#1ca69d',
+        'default-dark': '#18928a',
         'default-10': '#72b21a',
         'default-20': '#00b050'
       },
       colors: {
         default: '#1ca69d',
+        'default-dark': '#18928a',
         'default-10': '#72b21a',
         'default-20': '#00b050',
         background: 'hsl(var(--background))',
