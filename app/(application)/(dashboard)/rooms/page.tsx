@@ -12,6 +12,7 @@ import {
 } from '@/app/components/ui/table'
 import { cn } from '@/app/lib/utils'
 import { SearchParamsProps } from '@/app/types/common'
+import { Edit, Save, Search, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { ModalDelete, ModalForm } from './page-client'
@@ -47,6 +48,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         />
 
         <Button type="submit" className="mt-5" size="sm">
+          <Search className="w-4 mr-1" />
           Pesquisar
         </Button>
         <Link
@@ -56,6 +58,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             buttonVariants({ variant: 'outline', size: 'sm' })
           )}
         >
+          <Save className="w-4 mr-1" />
           Cadastrar
         </Link>
       </form>
@@ -73,13 +76,14 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             <TableRow key={item.id}>
               <TableCell>{item.room}</TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
-                oi
+                0
               </TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
                 <Link
                   href={{ query: { id: item.id, modal: true } }}
                   className={buttonVariants({ variant: 'outline', size: 'sm' })}
                 >
+                  <Edit className="w-4 mr-1" />
                   Editar
                 </Link>
 
@@ -90,6 +94,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                     size: 'sm'
                   })}
                 >
+                  <Trash className="w-4 mr-1" />
                   Excluir
                 </Link>
               </TableCell>
@@ -100,7 +105,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           <TableRow>
             <TableCell colSpan={3}>
               <div className="flex flex-row space-x-4 flex-wrap justify-end items-center">
-                <span>PÁGINAÇÃO:</span>
+                <span>PAGINAÇÃO:</span>
                 <Link
                   href={{
                     query: {
