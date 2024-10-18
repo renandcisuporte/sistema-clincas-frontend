@@ -80,11 +80,11 @@ export function PageClient() {
       <Image
         src="/RUBRICA-SISTEMA.png"
         alt="Logo"
-        width={100}
+        width={250}
         height={100}
         className="mx-auto"
       />
-      {/* {JSON.stringify(error)} */}
+
       <InputLabel
         label="Digite seu E-mail"
         message={error?.email}
