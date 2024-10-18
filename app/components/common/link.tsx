@@ -1,27 +1,47 @@
 'use client'
 
 import { cn } from '@/app/lib/utils'
-import Link from 'next/link'
+import { ArrowDown, ArrowRight } from 'lucide-react'
+import * as LinkNext from 'next/link'
 import { usePathname } from 'next/navigation'
+import { DetailedHTMLProps, HTMLAttributes, useCallback, useState } from 'react'
 
-export function Nav({ ...rest }) {
+type Props = {
+  children: React.ReactNode
+  label?: string
+  ['data-href']: string
+} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+
+export function LinkDropDown({ children, label, ...rest }: Props) {
+  const [open, setOpen] = useState(false)
+
   const path = usePathname()
-  const url = rest.href
-  const active = path.startsWith(url)
+  const active = path.startsWith(rest['data-href'])
+
+  const className = cn(active && '!bg-neutral-100 !text-black')
+
+  const handleClick = useCallback(() => setOpen(!open), [open])
+
+  console.log('active', active)
 
   return (
-    <Link
-      className={cn(
-        // 'before:absolute before:bottom-[0%] before:right-0 before:mb-0 before:-mr-2 before:rounded-full before:bg-[red] before:block before:w-4 before:h-4',
-        'py-3 px-4 text-white bg-neutral-900 w-full relative',
-        'bg-default hover:bg-neutral-100 hover:text-black',
-
-        // active && bgDefault100 && `bg-[${bgDefault100}]/2`
-        active && 'bg-neutral-100 text-black'
-        // 'hover:bg-neutral-100 hover:text-black'
-      )}
-      href={url}
-      {...rest}
-    />
+    <div {...rest} className={className}>
+      <span onClick={handleClick}>
+        {!open && <ArrowRight />}
+        {open && <ArrowDown />}
+        <span>{label ?? 'Administrativo'}</span>
+      </span>
+      <div data-open={open}>{children}</div>
+    </div>
   )
+}
+
+export function Link({ ...rest }: Record<string, any>) {
+  const path = usePathname()
+  const url = rest.href.toString()
+  const active = path.startsWith(url) || path.startsWith(rest['data-href'])
+
+  const className = cn(active && '!bg-neutral-100 !text-black')
+
+  return <LinkNext.default className={className} href={url} {...rest} />
 }
