@@ -69,6 +69,7 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
     )
     // Atualiza o estado uma única vez
     setItems(updatedItems)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input])
 
   return (

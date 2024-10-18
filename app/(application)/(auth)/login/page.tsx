@@ -1,5 +1,5 @@
 import { PageClient } from '@/app/(application)/(auth)/login/page-client'
-import { Icon } from '@/app/components/common/icon'
+import { Icons } from '@/app/components/common/icons'
 import Image from 'next/image'
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
       <PageClient />
       <address className="text-white p-4 text-md absolute bottom-0 left-0 w-full flex items-center justify-between [&>aside]:flex [&>aside]:flex-row [&>aside]:items-center [&>aside]:space-x-2 [&>aside]:uppercase [&>aside]:leading-4 bg-default">
         <aside>
-          <Icon.whatsapp className="w-8 h-8 fill-white" />
+          <Icons.whatsapp className="w-8 h-8 fill-white" />
           <span>
             suporte:
             <br />

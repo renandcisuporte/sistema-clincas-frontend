@@ -48,7 +48,7 @@ export function Chart(props: ChartsInterface) {
         0
       )
     }),
-    []
+    [workHours]
   )
 
   const sumHours = total.workHoursRecommended - total.workHours

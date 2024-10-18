@@ -1,22 +1,26 @@
-module.exports = {
-  apps : [{
-    script: 'index.js',
-    watch: '.'
-  }, {
-    script: './service-worker/',
-    watch: ['./service-worker']
-  }],
+require('dotenv/config')
 
-  deploy : {
-    production : {
-      user : 'SSH_USERNAME',
-      host : 'SSH_HOSTMACHINE',
-      ref  : 'origin/master',
-      repo : 'GIT_REPOSITORY',
-      path : 'DESTINATION_PATH',
-      'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': ''
+module.exports = {
+  apps: [
+    {
+      version: '1.0.0',
+      name: 'daniela-fidellis-app',
+      script: './node_modules/next/dist/bin/next',
+      args: 'start',
+      instances: 1,
+      exec_mode: 'fork',
+      max_restarts: 500,
+      max_memory_restart: '96M',
+      restart_delay: 5000,
+      autorestart: true,
+      ignore_watch: ['node_modules'],
+      env: {
+        ...process.env
+      },
+      env_production: {
+        ...process.env,
+        NODE_ENV: 'production'
+      }
     }
-  }
-};
+  ]
+}

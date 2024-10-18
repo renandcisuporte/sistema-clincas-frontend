@@ -22,8 +22,6 @@ export function LinkDropDown({ children, label, ...rest }: Props) {
 
   const handleClick = useCallback(() => setOpen(!open), [open])
 
-  console.log('active', active)
-
   return (
     <div {...rest} className={className}>
       <span onClick={handleClick}>
