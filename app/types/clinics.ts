@@ -22,7 +22,8 @@ const ClinicSchema = z.object({
   city: z.string().optional(),
   state: z.string().optional(),
   zipCode: z.string().optional(),
-  workTimes: z.array(WorkTimesSchema).optional()
+  workTimes: z.array(WorkTimesSchema).optional(),
+  workTimesRecommended: z.array(WorkTimesSchema).optional()
 })
 
 export type Clinic = z.infer<typeof ClinicSchema>

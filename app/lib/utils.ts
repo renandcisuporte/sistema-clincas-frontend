@@ -43,6 +43,32 @@ const handleObjectValue = (
   }, obj)
 }
 
+export function handleTimeToMinutes(time: string) {
+  const [hours, minutes] = time.split(':')
+  return parseInt(hours) * 60 + parseInt(minutes)
+}
+
+export function handleCalculateToHours(
+  times: Record<string, any>[],
+  open: boolean
+): number {
+  if (open) return 0
+
+  let openMinute = 0
+  let closedMinute = 0
+  let totalMinutes = 0
+  times.forEach(({ description, time }: any) => {
+    if (description === 'Abre à(s)') openMinute = handleTimeToMinutes(time)
+    if (description === 'Fecha à(s)') closedMinute = handleTimeToMinutes(time)
+    if (openMinute && closedMinute) {
+      totalMinutes += closedMinute - openMinute
+    }
+  })
+
+  // Converte o total de minutos em horas
+  return totalMinutes / 60
+}
+
 export const handleError = (
   errors: {
     path: string[]
