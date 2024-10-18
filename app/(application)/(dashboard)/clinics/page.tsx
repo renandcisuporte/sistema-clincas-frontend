@@ -116,7 +116,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           <TableRow>
             <TableCell colSpan={4}>
               <div className="flex flex-row space-x-4 flex-wrap justify-end items-center">
-                <span>PÁGINAÇÃO:</span>
+                <span>PAGINAÇÃO:</span>
                 <Link
                   href={{
                     query: {

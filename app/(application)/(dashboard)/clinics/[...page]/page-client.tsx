@@ -49,23 +49,42 @@ export function PageClient({ input }: ParamsProps) {
           Voltar
         </Button>
 
-        <Link
-          href={{
-            pathname: `/clinics/${input?.id}/update`,
-            query: {
-              modal: 'open',
-              id: input?.id
-            }
-          }}
-          className={cn(
-            buttonVariants({ variant: 'outline', size: 'sm' }),
-            'mr-4'
-          )}
-          type="button"
-        >
-          <Clock className="w-4 mr-1" />
-          Horário de Funcionamento
-        </Link>
+        {input?.id && (
+          <>
+            <Link
+              href={{
+                pathname: `/clinics/${input?.id}/update`,
+                query: {
+                  modal: 'work_times'
+                }
+              }}
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'sm' }),
+                'mr-4'
+              )}
+              type="button"
+            >
+              <Clock className="w-4 mr-1" />
+              Horário de Funcionamento
+            </Link>
+            <Link
+              href={{
+                pathname: `/clinics/${input?.id}/update`,
+                query: {
+                  modal: 'work_times_recommended'
+                }
+              }}
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'sm' }),
+                'mr-4'
+              )}
+              type="button"
+            >
+              <Clock className="w-4 mr-1" />
+              Horário Recomendado
+            </Link>
+          </>
+        )}
 
         <ButtonSubmit size="sm" />
       </div>
