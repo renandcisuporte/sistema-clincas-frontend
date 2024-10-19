@@ -22,6 +22,8 @@ jobs:
           password: ${{ secrets.DANIELA_FIDELLIS_PASSWORD }}
           server-dir: ./public_html/
           exclude: |
+            **/Dockerfile*
+            **/docker-*
             **/.vscode*
             **/.vscode*/**
             **/.next*
@@ -43,4 +45,4 @@ jobs:
           username: ${{ secrets.DANIELA_FIDELLIS_USER }}
           password: ${{ secrets.DANIELA_FIDELLIS_PASS }}
           port: 22022
-          script: ./deploy.sh
+          script: /home/dclinica/public_html/deploy.sh
