@@ -45,4 +45,7 @@ jobs:
           username: ${{ secrets.DANIELA_FIDELLIS_USER }}
           password: ${{ secrets.DANIELA_FIDELLIS_PASS }}
           port: 22022
-          script: /home/dclinica/public_html/deploy.sh
+          script: |
+            cd /home/dclinica/public_html
+            chmod +x ./deploy.sh
+            ./deploy.sh
