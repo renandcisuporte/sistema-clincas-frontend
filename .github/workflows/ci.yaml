@@ -1,4 +1,4 @@
-name: 🚀 DEPLOY API DANIELA FIDELLIS
+name: 🚀 DEPLOY SITE DANIELA FIDELLIS
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.DANIELA_FIDELLIS_PASS }}
           port: 22022
           script: |
-            cd /home/dclinica/api.dclinica.com.br
+            cd /home/dclinica/site.dclinica.com.br
             echo '# Git pull project'
             git pull
             echo '# Stop project'
