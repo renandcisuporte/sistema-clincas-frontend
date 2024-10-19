@@ -1,0 +1,33 @@
+name: 🚀 DEPLOY SITE DANIELA FIDELLIS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  script_work:
+    name: Work in Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Work Deploy in Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DANIELA_FIDELLIS_HOST }}
+          username: ${{ secrets.DANIELA_FIDELLIS_USER }}
+          password: ${{ secrets.DANIELA_FIDELLIS_PASS }}
+          port: 22022
+          script: |
+            cd /home/dclinica/site.dclinica.com.br
+            echo '# Git pull project'
+            git pull
+            echo '# Stop project'
+            pm2 stop ecosystem.config.js
+            echo "# Installing dependencies"
+            npm install
+            echo "# Running build"
+            npm run build
+            echo "# Running server PM2"
+            pm2 start ecosystem.config.js --env development
+            pm2 save
+            pm2 startup
