@@ -1,3 +1,0 @@
-RewriteEngine On
-# Redireciona todo o tráfego da raiz para a porta 5444
-RewriteRule ^(.*)$ http://localhost:3004/$1 [P,L]
