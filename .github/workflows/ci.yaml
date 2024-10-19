@@ -6,7 +6,33 @@ on:
       - master
 
 jobs:
+  build_work:
+    name: Build Project in Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.DANIELA_FIDELLIS_HOST }}
+          username: ${{ secrets.DANIELA_FIDELLIS_USERNAME }}
+          password: ${{ secrets.DANIELA_FIDELLIS_PASSWORD }}
+          server-dir: ./public_html/
+          exclude: |
+            **/.vscode*
+            **/.vscode*/**
+            **/.next*
+            **/.next*/**
+            **/.git*
+            **/.git*/**
+            README.md
+            **/node_modules/**
+
   script_work:
+    needs: build_work
     name: Work in Server
     runs-on: ubuntu-latest
     steps:
@@ -17,17 +43,4 @@ jobs:
           username: ${{ secrets.DANIELA_FIDELLIS_USER }}
           password: ${{ secrets.DANIELA_FIDELLIS_PASS }}
           port: 22022
-          script: |
-            cd /home/dclinica/site.dclinica.com.br
-            echo '# Git pull project'
-            git pull
-            echo '# Stop project'
-            pm2 stop ecosystem.config.js
-            echo "# Installing dependencies"
-            npm install
-            echo "# Running build"
-            npm run build
-            echo "# Running server PM2"
-            pm2 start ecosystem.config.js --env development
-            pm2 save
-            pm2 startup
+          script: ./deploy.sh
