@@ -80,7 +80,7 @@ export function Chart(props: ChartsInterface) {
                 </span>
                 <span className="text-md font-bold leading-none sm:text-2xl w-full">
                   <span
-                    className={cn(`w-4 h-4 inline-block`)}
+                    className={cn(`w-4 h-4 inline-block mr-1`)}
                     style={{
                       backgroundColor: chartConfig[chart].color
                     }}

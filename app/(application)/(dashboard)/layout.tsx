@@ -83,7 +83,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
             data-href={['/clinics', '/peoples', '/jobs-works']}
             label="Administrativo"
           >
-            <Nav.Link href="/clinics">
+            <Nav.Link href={`/clinics/${clinicId}/update`}>
               <span>
                 <Hospital className="w-6 h-6" />
                 <span>Dados da Clínica</span>
