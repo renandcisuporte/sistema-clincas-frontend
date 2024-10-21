@@ -1,6 +1,7 @@
 import { findClinics } from '@/app/actions/clinics'
 import { buttonVariants } from '@/app/components/ui/button'
 import { cn } from '@/app/lib/utils'
+import { SearchParamsProps } from '@/app/types/common'
 import { authOptions } from '@/auth'
 import { Clock } from 'lucide-react'
 import { getServerSession } from 'next-auth'
@@ -8,12 +9,7 @@ import Link from 'next/link'
 import { ModalWorkTimes } from './_components/modal-worktimes'
 import { ModalWorkTimesRecommended } from './_components/modal-worktimes-recommended'
 
-type ParamsProps = {
-  _: any
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default async function Page({ searchParams }: ParamsProps) {
+export default async function Page({ searchParams }: SearchParamsProps) {
   const session = await getServerSession(authOptions)
   const { modal } = searchParams
 

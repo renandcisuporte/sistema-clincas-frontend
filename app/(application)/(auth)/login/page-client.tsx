@@ -85,9 +85,10 @@ export function PageClient() {
       <Image
         src="/RUBRICA-SISTEMA.png"
         alt="Logo"
-        width={250}
-        height={100}
+        width={255}
+        height={170}
         className="mx-auto"
+        quality="100"
       />
 
       <InputLabel
