@@ -85,7 +85,7 @@ export async function loadClinics(args: any): Promise<ApiResponse<Clinic[]>> {
 
   return await apiFecth(`/clinics?${searchParams.toString()}`, {
     accessToken: session?.accessToken,
-    next: { tags: ['clinics'] },
-    cache: 'force-cache'
+    next: { tags: ['clinics'] }
+    // cache: 'force-cache'
   })
 }

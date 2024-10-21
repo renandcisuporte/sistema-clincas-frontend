@@ -20,6 +20,7 @@ import {
 import { ChartsInterface } from '@/app/types/chart'
 import { Check, TrendingDown, TrendingUp } from 'lucide-react'
 import React from 'react'
+import { cn } from '../lib/utils'
 
 export const description = 'A bar chart with a label'
 
@@ -30,12 +31,12 @@ const chartConfig = {
   },
   workHoursRecommended: {
     label: 'Recomendadas',
-    color: 'hsl(var(--chart-3))'
+    color: 'hsl(var(--chart-1))'
   }
 } satisfies ChartConfig
 
 export function Chart(props: ChartsInterface) {
-  const { fantasy, title, workHours } = props
+  const { fantasy, workHours } = props
 
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>('workHours')
@@ -66,6 +67,7 @@ export function Chart(props: ChartsInterface) {
         <div className="flex">
           {['workHours', 'workHoursRecommended'].map((key) => {
             const chart = key as keyof typeof chartConfig
+
             return (
               <button
                 key={chart}
@@ -77,6 +79,12 @@ export function Chart(props: ChartsInterface) {
                   {chartConfig[chart].label}
                 </span>
                 <span className="text-md font-bold leading-none sm:text-2xl w-full">
+                  <span
+                    className={cn(`w-4 h-4 inline-block`)}
+                    style={{
+                      backgroundColor: chartConfig[chart].color
+                    }}
+                  />
                   {total[key as keyof typeof total].toLocaleString()}hs
                 </span>
               </button>

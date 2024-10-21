@@ -8,6 +8,7 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
+        code: { label: 'Code', type: 'text', placeholder: '000-000' },
         email: { label: 'Username', type: 'email', placeholder: 'jsmith' },
         password: { label: 'Password', type: 'password' }
       },
@@ -37,10 +38,17 @@ export const authOptions = {
       if (token.accessToken) {
         const isToken = String(token.accessToken).split('.')[1]
         const tokenDec = JSON.parse(Buffer.from(isToken, 'base64').toString())
-
         const dateNowInSeconds = Math.floor(new Date().getTime() / 1000)
         const tokenIsNotExpired = dateNowInSeconds < tokenDec.exp
-        if (tokenIsNotExpired) return { ...token, ...user }
+
+        if (tokenIsNotExpired)
+          return {
+            clinicId: tokenDec.clinicId,
+            ...token,
+            user: {
+              ...tokenDec.user
+            }
+          }
       }
 
       const uri = `${process.env.NEXTAUTH_API_URL}/auth/refresh-token`
@@ -57,6 +65,8 @@ export const authOptions = {
         const { accessToken, refreshToken, ...rest } = resultUser.data
         token.accessToken = accessToken
         token.refreshToken = refreshToken
+        token.clinicId = rest.clinicId
+        token.user = rest.user
 
         return { ...token, ...rest }
       }
@@ -64,9 +74,14 @@ export const authOptions = {
       return { ...token, ...user }
     },
     async session({ session, token }) {
+      session.clinicId = token.clinicId as string
       session.accessToken = token.accessToken as string
       session.refreshToken = token.refreshToken as string
-      return session
+      session.user = token.user as any
+
+      return {
+        ...session
+      }
     }
   },
   pages: {

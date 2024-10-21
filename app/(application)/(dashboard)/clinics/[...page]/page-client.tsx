@@ -7,7 +7,7 @@ import { Button, buttonVariants } from '@/app/components/ui/button'
 import { useToast } from '@/app/hooks/use-toast'
 import { cn, maskDocument, maskPhone, maskZipCode } from '@/app/lib/utils'
 import { Clinic } from '@/app/types/clinics'
-import { Clock, Undo } from 'lucide-react'
+import { Clock, Undo, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -37,56 +37,59 @@ export function PageClient({ input }: ParamsProps) {
       action={formAction}
       className="flex flex-col md:flex-row flex-wrap space-y-4"
     >
-      <div className="w-full flex items-center justify-end">
-        <Button
-          variant="outline"
-          size="sm"
-          className="mr-4"
-          onClick={() => back()}
-          type="button"
-        >
-          <Undo className="w-4 mr-1" />
-          Voltar
-        </Button>
+      <div className="border-b border-neutral-300 w-full mb-4 flex flex-row items-center justify-between pb-4">
+        <h2 className="text-xl">Clinica - {input?.title}</h2>
+        <div className="flex items-center justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            className="mr-4"
+            onClick={() => back()}
+            type="button"
+          >
+            <Undo className="w-4 mr-1" />
+            Voltar
+          </Button>
 
-        {input?.id && (
-          <>
-            <Link
-              href={{
-                pathname: `/clinics/${input?.id}/update`,
-                query: {
-                  modal: 'work_times'
-                }
-              }}
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'sm' }),
-                'mr-4'
-              )}
-              type="button"
-            >
-              <Clock className="w-4 mr-1" />
-              Horário de Funcionamento
-            </Link>
-            <Link
-              href={{
-                pathname: `/clinics/${input?.id}/update`,
-                query: {
-                  modal: 'work_times_recommended'
-                }
-              }}
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'sm' }),
-                'mr-4'
-              )}
-              type="button"
-            >
-              <Clock className="w-4 mr-1" />
-              Horário Recomendado
-            </Link>
-          </>
-        )}
+          {false && (
+            <>
+              <Link
+                href={{
+                  pathname: `/clinics/${input?.id}/update`,
+                  query: {
+                    modal: 'work_times'
+                  }
+                }}
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: 'sm' }),
+                  'mr-4'
+                )}
+                type="button"
+              >
+                <Clock className="w-4 mr-1" />
+                Horário de Funcionamento
+              </Link>
+              <Link
+                href={{
+                  pathname: `/clinics/${input?.id}/update`,
+                  query: {
+                    modal: 'work_times_recommended'
+                  }
+                }}
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: 'sm' }),
+                  'mr-4'
+                )}
+                type="button"
+              >
+                <Clock className="w-4 mr-1" />
+                Horário Recomendado
+              </Link>
+            </>
+          )}
 
-        <ButtonSubmit size="sm" />
+          <ButtonSubmit size="sm" />
+        </div>
       </div>
 
       <input type="hidden" name="id" defaultValue={input?.id} />
@@ -242,6 +245,32 @@ export function PageClient({ input }: ParamsProps) {
           }
         }}
       />
+
+      <div className="border-b border-neutral-300 w-full mb-4 flex flex-row items-center justify-between mt-6 pb-4">
+        <h2 className="text-xl">Usuários/Clinica - {input?.title}</h2>
+        <div className="flex items-center justify-end">
+          {input?.id && (
+            <>
+              <Link
+                href={{
+                  pathname: `/clinics/${input?.id}/update`,
+                  query: {
+                    modal: 'clinics_users'
+                  }
+                }}
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: 'sm' }),
+                  'mr-4'
+                )}
+                type="button"
+              >
+                <Users className="w-4 mr-1" />
+                Cadastrar Usuários/Clinica
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
     </form>
   )
 }
