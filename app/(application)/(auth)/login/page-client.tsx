@@ -11,6 +11,9 @@ import * as React from 'react'
 import { z } from 'zod'
 
 const schemaLogin = z.object({
+  code: z
+    .string({ message: 'Campo obrigatório!' })
+    .min(7, { message: 'Digite o código da clínica' }),
   email: z
     .string({
       message: 'Campo obrigatório!'
@@ -37,6 +40,7 @@ export function PageClient() {
     try {
       setLoading(true)
       const form = await schemaLogin.safeParseAsync({
+        code: formField?.code,
         email: formField?.email,
         password: formField?.password
       })
@@ -52,6 +56,7 @@ export function PageClient() {
 
       const res = await signIn('credentials', {
         redirect: false,
+        code: formField.code,
         email: formField.email,
         password: formField.password
       })
@@ -85,6 +90,22 @@ export function PageClient() {
         className="mx-auto"
       />
 
+      <InputLabel
+        label="Código Clínica"
+        message={error?.code}
+        input={{
+          type: 'text',
+          name: 'code',
+          maxLength: 7,
+          onChange: (event) => {
+            event.target.value = String(event.target.value)
+              .replace(/-/g, '')
+              .replace(/(.{3})(?=.)/g, '$1-')
+            const { name, value } = event.target
+            setFormField((old) => ({ ...old, [name]: value }))
+          }
+        }}
+      />
       <InputLabel
         label="Digite seu E-mail"
         message={error?.email}
