@@ -1,5 +1,5 @@
 import { PageClient } from '@/app/(application)/(auth)/login/page-client'
-import { Icons } from '@/app/components/common/icons'
+import { Icons } from '@/app/_components/common/icons'
 import Image from 'next/image'
 
 export default function Home() {

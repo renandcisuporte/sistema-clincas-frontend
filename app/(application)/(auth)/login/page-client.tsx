@@ -1,8 +1,8 @@
 'use client'
 
-import { InputLabel } from '@/app/components/common/input'
-import { Button } from '@/app/components/ui/button'
-import { useToast } from '@/app/hooks/use-toast'
+import { InputLabel } from '@/app/_components/common/input'
+import { Button } from '@/app/_components/ui/button'
+import { useToast } from '@/app/_hooks/use-toast'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'

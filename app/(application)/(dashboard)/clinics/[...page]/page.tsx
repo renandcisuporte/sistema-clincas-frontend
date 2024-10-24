@@ -1,4 +1,4 @@
-import { findClinics } from '@/app/actions/clinics'
+import { findClinics } from '@/app/_actions/clinics'
 import { ModalWorkTimes } from '../_components/modal-worktimes'
 import { ModalWorkTimesRecommended } from '../_components/modal-worktimes-recommended'
 import { PageClient } from './page-client'

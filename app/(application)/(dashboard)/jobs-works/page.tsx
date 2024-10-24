@@ -1,11 +1,12 @@
-import { findClinics } from '@/app/actions/clinics'
-import { buttonVariants } from '@/app/components/ui/button'
-import { cn } from '@/app/lib/utils'
-import { SearchParamsProps } from '@/app/types/common'
+import { findClinics } from '@/app/_actions/clinics'
+import { buttonVariants } from '@/app/_components/ui/button'
+import { cn } from '@/app/_lib/utils'
+import { SearchParamsProps } from '@/app/_types/common'
 import { authOptions } from '@/auth'
 import { Clock } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
+import { ModalAverageTimesService } from './_components/modal-average-time-service'
 import { ModalWorkTimes } from './_components/modal-worktimes'
 import { ModalWorkTimesRecommended } from './_components/modal-worktimes-recommended'
 
@@ -59,6 +60,24 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         Horário Recomendado
       </Link>
 
+      <Link
+        href={{
+          pathname: `/jobs-works`,
+          query: {
+            clinicId,
+            modal: 'average_times_service'
+          }
+        }}
+        className={cn(
+          buttonVariants({ variant: 'default-10', size: 'lg' }),
+          'mr-4'
+        )}
+        type="button"
+      >
+        <Clock className="w-4 mr-1" />
+        Tempo médio de atendimento
+      </Link>
+
       {modal === 'work_times' && (
         <ModalWorkTimes open={modal === 'work_times'} input={data?.workTimes} />
       )}
@@ -66,6 +85,12 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         <ModalWorkTimesRecommended
           open={modal === 'work_times_recommended'}
           input={data?.workTimesRecommended}
+        />
+      )}
+      {modal === 'average_times_service' && (
+        <ModalAverageTimesService
+          open={modal === 'average_times_service'}
+          input={data}
         />
       )}
     </div>

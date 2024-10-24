@@ -1,12 +1,12 @@
 'use client'
 
-import { saveClinic } from '@/app/actions/clinics'
-import { ButtonSubmit } from '@/app/components/common/button-submit'
-import { InputLabel } from '@/app/components/common/input'
-import { Button, buttonVariants } from '@/app/components/ui/button'
-import { useToast } from '@/app/hooks/use-toast'
-import { cn, maskDocument, maskPhone, maskZipCode } from '@/app/lib/utils'
-import { Clinic } from '@/app/types/clinics'
+import { saveClinic } from '@/app/_actions/clinics'
+import { ButtonSubmit } from '@/app/_components/common/button-submit'
+import { InputLabel } from '@/app/_components/common/input'
+import { Button, buttonVariants } from '@/app/_components/ui/button'
+import { useToast } from '@/app/_hooks/use-toast'
+import { cn, maskDocument, maskPhone, maskZipCode } from '@/app/_lib/utils'
+import { Clinic } from '@/app/_types/clinics'
 import { Clock, Undo, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -29,7 +29,7 @@ export function PageClient({ input }: ParamsProps) {
   useEffect(() => {
     if (state?.errorMessage !== 'OK') return
     toast({ title: 'Atenção!', description: 'Salvo com sucesso!' })
-    back()
+    // back()
   }, [back, state, toast])
 
   return (

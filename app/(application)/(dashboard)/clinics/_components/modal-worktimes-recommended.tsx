@@ -1,20 +1,20 @@
 'use client'
 
-import { saveWorkTimeRecommended } from '@/app/actions/work-times'
-import { ButtonSubmit } from '@/app/components/common/button-submit'
-import { InputLabel } from '@/app/components/common/input'
-import { Button } from '@/app/components/ui/button'
-import { Checkbox } from '@/app/components/ui/checkbox'
-import * as Dialog from '@/app/components/ui/dialog'
-import { ScrollArea } from '@/app/components/ui/scroll-area'
-import { weeks } from '@/app/contants'
-import { useToast } from '@/app/hooks/use-toast'
+import { saveWorkTimeRecommended } from '@/app/_actions/work-times'
+import { ButtonSubmit } from '@/app/_components/common/button-submit'
+import { InputLabel } from '@/app/_components/common/input'
+import { Button } from '@/app/_components/ui/button'
+import { Checkbox } from '@/app/_components/ui/checkbox'
+import * as Dialog from '@/app/_components/ui/dialog'
+import { ScrollArea } from '@/app/_components/ui/scroll-area'
+import { weeks } from '@/app/_contants'
+import { useToast } from '@/app/_hooks/use-toast'
 import {
   useHandleAdd,
   useHandleCalculateTotalHours,
   useHandleRemove
-} from '@/app/hooks/use-work-times'
-import { WorkTime } from '@/app/types/work-times'
+} from '@/app/_hooks/use-work-times'
+import { WorkTime } from '@/app/_types/work-times'
 import { Ban, Minus, Plus } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'

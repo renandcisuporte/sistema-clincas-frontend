@@ -1,8 +1,8 @@
 'use client'
 
-import { removeClinic } from '@/app/actions/clinics'
-import { ButtonSubmit } from '@/app/components/common/button-submit'
-import { Button } from '@/app/components/ui/button'
+import { removeClinic } from '@/app/_actions/clinics'
+import { ButtonSubmit } from '@/app/_components/common/button-submit'
+import { Button } from '@/app/_components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -10,9 +10,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle
-} from '@/app/components/ui/dialog'
-import { useToast } from '@/app/hooks/use-toast'
-import { Clinic } from '@/app/types/clinics'
+} from '@/app/_components/ui/dialog'
+import { useToast } from '@/app/_hooks/use-toast'
+import { Clinic } from '@/app/_types/clinics'
 import { Ban } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'

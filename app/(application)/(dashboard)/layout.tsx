@@ -1,7 +1,7 @@
-import { LogOut } from '@/app/components/common/button-others'
-import * as Nav from '@/app/components/common/link'
-import { cn } from '@/app/lib/utils'
-import { ChildrenProps } from '@/app/types/common'
+import { LogOut } from '@/app/_components/common/button-others'
+import * as Nav from '@/app/_components/common/link'
+import { cn } from '@/app/_lib/utils'
+import { ChildrenProps } from '@/app/_types/common'
 import { authOptions } from '@/auth'
 import {
   Clock,
@@ -80,7 +80,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
           </Nav.Link>
 
           <Nav.LinkDropDown
-            data-href={['/clinics', '/peoples', '/jobs-works']}
+            data-href={['/clinics', '/peoples', '/jobs-works', '/rooms']}
             label="Administrativo"
           >
             <Nav.Link href={`/clinics/${clinicId}/update`}>
@@ -103,7 +103,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
               </span>
             </Nav.Link>
 
-            <Nav.Link href="#">
+            <Nav.Link href="/rooms">
               <span>
                 <Stethoscope className="w-6 h-6" />
                 <span>Espaços Terapeutico</span>
