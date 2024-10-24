@@ -1,20 +1,20 @@
 'use client'
 
-import { saveWorkTime } from '@/app/actions/work-times'
-import { ButtonSubmit } from '@/app/components/common/button-submit'
-import { InputLabel } from '@/app/components/common/input'
-import { Button } from '@/app/components/ui/button'
-import { Checkbox } from '@/app/components/ui/checkbox'
-import * as Dialog from '@/app/components/ui/dialog'
-import { ScrollArea } from '@/app/components/ui/scroll-area'
-import { weeks } from '@/app/contants'
-import { useToast } from '@/app/hooks/use-toast'
+import { saveWorkTime } from '@/app/_actions/work-times'
+import { ButtonSubmit } from '@/app/_components/common/button-submit'
+import { InputLabel } from '@/app/_components/common/input'
+import { Button } from '@/app/_components/ui/button'
+import { Checkbox } from '@/app/_components/ui/checkbox'
+import * as Dialog from '@/app/_components/ui/dialog'
+import { ScrollArea } from '@/app/_components/ui/scroll-area'
+import { weeks } from '@/app/_contants'
+import { useToast } from '@/app/_hooks/use-toast'
 import {
   useHandleAdd,
   useHandleCalculateTotalHours,
   useHandleRemove
-} from '@/app/hooks/use-work-times'
-import { WorkTime } from '@/app/types/work-times'
+} from '@/app/_hooks/use-work-times'
+import { WorkTime } from '@/app/_types/work-times'
 import { Ban, Minus, Plus } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -55,21 +55,18 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
 
   useEffect(() => {
     if (weeks.length > 0) setItems(weeks)
-    if (!input?.length) return
-    const updatedItems = input.reduce(
-      (acc, { open, times, week }) => {
-        const key = acc.findIndex((item) => item.week === week)
 
-        if (key !== -1) acc[key] = { ...acc[key], open, times }
-        else acc.push({ week, open, times })
+    if (input && input.length > 0) {
+      const itemUpdate = [...input]
 
-        return acc
-      },
-      [...items]
-    )
-    // Atualiza o estado uma única vez
-    setItems(updatedItems)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      weeks.map((item) => {
+        const { open, times, week } = item
+        const key = itemUpdate.findIndex((item) => item.week === week)
+        if (key !== -1) itemUpdate[key] = { ...itemUpdate[key] }
+        else itemUpdate.push({ week, open, times })
+      })
+      setItems(itemUpdate)
+    }
   }, [input])
 
   return (
@@ -84,15 +81,20 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
               <Dialog.DialogTitle>Horário de Funcionamento</Dialog.DialogTitle>
             </Dialog.DialogHeader>
             <input
+              name="id"
               type="hidden"
-              name="clinicId"
               defaultValue={params.get('clinicId')!}
             />
             {items.map(({ week, open, times }, i) => (
               <div key={week}>
                 <input
                   type="hidden"
-                  name={`week[${i}][week]`}
+                  name={`[${i}][clinicId]`}
+                  defaultValue={params.get('clinicId')!}
+                />
+                <input
+                  type="hidden"
+                  name={`[${i}][week]`}
                   defaultValue={week}
                 />
 
@@ -105,15 +107,18 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
                     />
                   </span>
                   <small className="font-bold text-default">
-                    Total de horas: {calculateTotalHours(times, open)}h
+                    Total de horas: {calculateTotalHours(times, !open)}h
                   </small>
                 </h4>
                 <div className="flex space-x-2 mb-2">
                   <div className="flex items-center space-x-2">
+                    <input
+                      type="hidden"
+                      name={`[${i}][open]`}
+                      defaultValue={open ? 'true' : 'false'}
+                    />
                     <Checkbox
-                      name={`week[${i}][open]`}
-                      checked={open}
-                      value={'true'}
+                      defaultChecked={!open}
                       onClick={() => {
                         const item = [...items]
                         item[i].open = !item[i].open
@@ -130,14 +135,14 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
                 </div>
 
                 <div className="flex flex-row flex-wrap border-b border-b-neutral-300">
-                  {times.map(({ description, time }, ii) => (
+                  {times?.map(({ description, time }, ii) => (
                     <div
                       key={ii}
                       className="flex flex-row flex-wrap w-1/2 space-x-4 p-2"
                     >
                       <input
                         type="hidden"
-                        name={`week[${i}][times][${ii}][description]`}
+                        name={`[${i}][times][${ii}][description]`}
                         defaultValue={description}
                       />
 
@@ -147,7 +152,7 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
                         input={{
                           type: 'time',
                           defaultValue: time,
-                          name: `week[${i}][times][${ii}][time]`,
+                          name: `[${i}][times][${ii}][time]`,
                           onChange: (e) => {
                             const item = [...items]
                             item[i].times[ii].description = description

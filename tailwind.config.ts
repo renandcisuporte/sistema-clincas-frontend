@@ -23,13 +23,15 @@ const config: Config = {
         default: '#1ca69d',
         'default-dark': '#18928a',
         'default-10': '#72b21a',
-        'default-20': '#00b050'
+        'default-20': '#00b050',
+        danger: '#e76e50'
       },
       colors: {
         default: '#1ca69d',
         'default-dark': '#18928a',
         'default-10': '#72b21a',
         'default-20': '#00b050',
+        danger: '#e76e50',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

@@ -1,6 +1,6 @@
-import { Chart } from '@/app/components/chart'
-import { apiFecth } from '@/app/lib/api'
-import { ChartsInterface } from '@/app/types/chart'
+import { Chart } from '@/app/_components/chart'
+import { apiFecth } from '@/app/_lib/api'
+import { ChartsInterface } from '@/app/_types/chart'
 import { authOptions } from '@/auth'
 import { getServerSession } from 'next-auth'
 

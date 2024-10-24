@@ -1,6 +1,6 @@
-import { loadRooms } from '@/app/actions/rooms'
-import { InputLabel } from '@/app/components/common/input'
-import { Button, buttonVariants } from '@/app/components/ui/button'
+import { loadRooms } from '@/app/_actions/rooms'
+import { InputLabel } from '@/app/_components/common/input'
+import { Button, buttonVariants } from '@/app/_components/ui/button'
 import {
   Table,
   TableBody,
@@ -9,12 +9,13 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/app/components/ui/table'
-import { cn } from '@/app/lib/utils'
-import { SearchParamsProps } from '@/app/types/common'
+} from '@/app/_components/ui/table'
+import { cn } from '@/app/_lib/utils'
+import { SearchParamsProps } from '@/app/_types/common'
 import { Edit, Save, Search, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { SwitchRoom } from './_components/switch-room'
 import { ModalDelete, ModalForm } from './page-client'
 
 export const metadata: Metadata = {
@@ -42,8 +43,8 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           className="flex-1"
           input={{
             type: 'text',
-            name: 'title',
-            placeholder: 'Pesquisa nome da clinica'
+            name: 'room',
+            placeholder: 'Pesquisar salas'
           }}
         />
 
@@ -67,7 +68,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         <TableHeader>
           <TableRow>
             <TableHead>Salas</TableHead>
-            <TableHead>Clinica</TableHead>
+            <TableHead>Ativo/Inativo</TableHead>
             <TableHead className="text-center">Ações</TableHead>
           </TableRow>
         </TableHeader>
@@ -76,7 +77,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             <TableRow key={item.id}>
               <TableCell>{item.room}</TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
-                0
+                <SwitchRoom active={item.active === true} id={item.id!} />
               </TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
                 <Link

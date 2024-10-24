@@ -1,6 +1,6 @@
-import { loadClinics } from '@/app/actions/clinics'
-import { InputLabel } from '@/app/components/common/input'
-import { Button, buttonVariants } from '@/app/components/ui/button'
+import { loadClinics } from '@/app/_actions/clinics'
+import { InputLabel } from '@/app/_components/common/input'
+import { Button, buttonVariants } from '@/app/_components/ui/button'
 import {
   Table,
   TableBody,
@@ -9,9 +9,9 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/app/components/ui/table'
-import { cn } from '@/app/lib/utils'
-import { SearchParamsProps } from '@/app/types/common'
+} from '@/app/_components/ui/table'
+import { cn } from '@/app/_lib/utils'
+import { SearchParamsProps } from '@/app/_types/common'
 import { Edit, Save, Search, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
