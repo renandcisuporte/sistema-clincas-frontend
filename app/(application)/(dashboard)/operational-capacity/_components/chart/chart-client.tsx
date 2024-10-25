@@ -17,10 +17,10 @@ import {
   ChartTooltipContent
 } from '@/app/_components/ui/chart'
 
+import { cn } from '@/app/_lib/utils'
 import { ChartsInterface } from '@/app/_types/chart'
 import { Check, TrendingDown, TrendingUp } from 'lucide-react'
 import React from 'react'
-import { cn } from '../_lib/utils'
 
 export const description = 'A bar chart with a label'
 
@@ -39,7 +39,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function Chart(props: ChartsInterface) {
+export function ChartClient(props: ChartsInterface) {
   const { fantasy, workHours } = props
 
   const [activeChart, setActiveChart] =

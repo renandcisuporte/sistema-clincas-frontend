@@ -55,7 +55,7 @@ export function ModalDelete({ open, clinic }: ModalFormInterface) {
           <DialogClose asChild>
             <Button variant="ghost" type="button">
               <Ban className="w-4 mr-1" />
-              Cancela
+              Cancelar
             </Button>
           </DialogClose>
           <ButtonSubmit remove />
