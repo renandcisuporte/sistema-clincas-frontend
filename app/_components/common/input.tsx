@@ -4,7 +4,7 @@ import { Input, InputProps } from '../ui/input'
 import { Label } from '../ui/label'
 
 export interface InputLabelProps {
-  label: string
+  label?: string
   input: InputProps
   message?: string | undefined
 }
@@ -28,7 +28,7 @@ export function InputLabel({
         message && 'text-red-800'
       )}
     >
-      <Label htmlFor={id}>{label}</Label>
+      {label && <Label htmlFor={id}>{label}</Label>}
       <Input
         {...input}
         className={cn(

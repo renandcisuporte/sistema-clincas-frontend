@@ -149,7 +149,7 @@ export function ModalDelete({ open, data }: ModalFormInterface) {
           <input type="hidden" name="id" value={data?.id} />
           <DialogClose asChild>
             <Button variant="ghost" type="button">
-              Cancela
+              Cancelar
             </Button>
           </DialogClose>
           <ButtonSubmit remove />

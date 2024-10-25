@@ -26,7 +26,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
   const { room, limit = 15, page = 1, modal, id } = searchParams
 
   const result = await loadRooms({ room, limit, page })
-  const { data, total } = result
+  const { data, total, active, inative } = result
 
   return (
     <div className="flex flex-col space-y-4">
@@ -39,7 +39,6 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       <h1 className="text-2xl font-bold">Salas</h1>
       <form className="flex flex-row space-x-4 flex-wrap">
         <InputLabel
-          label="Salas"
           className="flex-1"
           input={{
             type: 'text',
@@ -48,16 +47,13 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           }}
         />
 
-        <Button type="submit" className="mt-5" size="sm">
+        <Button type="submit" size="sm">
           <Search className="w-4 mr-1" />
           Pesquisar
         </Button>
         <Link
           href={{ query: { modal: 'true' } }}
-          className={cn(
-            'mt-5',
-            buttonVariants({ variant: 'outline', size: 'sm' })
-          )}
+          className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
         >
           <Save className="w-4 mr-1" />
           Cadastrar
@@ -67,7 +63,18 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Salas</TableHead>
+            <TableHead>
+              <span>Salas</span>
+              <span className="ml-2 text-xs font-normal">
+                Total de salas: ({total})
+              </span>
+              <span className="ml-2 text-xs font-normal">
+                Ativas: ({active})
+              </span>
+              <span className="ml-2 text-xs font-normal">
+                Inativas: ({inative})
+              </span>
+            </TableHead>
             <TableHead>Ativo/Inativo</TableHead>
             <TableHead className="text-center">Ações</TableHead>
           </TableRow>
@@ -81,7 +88,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
               </TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
                 <Link
-                  href={{ query: { id: item.id, modal: true } }}
+                  href={{ query: { id: item.id, modal: 'true' } }}
                   className={buttonVariants({ variant: 'outline', size: 'sm' })}
                 >
                   <Edit className="w-4 mr-1" />
@@ -110,7 +117,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 <Link
                   href={{
                     query: {
-                      page: Number(page) - 1 == 0 ? 1 : Number(page) - 1,
+                      page: Number(page) - 1 === 0 ? 1 : Number(page) - 1,
                       limit,
                       room
                     }
@@ -126,7 +133,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                       page:
                         data?.length === Number(limit)
                           ? Number(page) + 1
-                          : page,
+                          : Number(page),
                       limit,
                       room
                     }

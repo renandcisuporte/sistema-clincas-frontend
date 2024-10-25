@@ -5,6 +5,7 @@ export type ApiResponse<D = any, T = any> = {
   total?: T
   errorMessage?: string
   errors?: { [key: string]: string }
+  [key: string]: unknown | any
 }
 
 export async function apiFecth(

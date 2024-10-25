@@ -73,7 +73,7 @@ export function ModalAverageTimesService({
             <Dialog.DialogClose asChild>
               <Button variant="ghost" type="button">
                 <Ban className="w-4 mr-1" />
-                Cancela
+                Cancelar
               </Button>
             </Dialog.DialogClose>
             <ButtonSubmit />
