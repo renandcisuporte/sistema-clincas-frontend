@@ -89,7 +89,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
                 <span>Dados da Clínica</span>
               </span>
             </Nav.Link>
-            <Nav.Link href="#">
+            <Nav.Link href="/peoples">
               <span>
                 <UsersRound className="w-6 h-6" />
                 <span>Pessoas</span>
