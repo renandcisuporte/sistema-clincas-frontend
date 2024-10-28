@@ -32,11 +32,11 @@ export function maskZipCode(str: string): string {
   return zipCode.replace(/(\d{5})(\d{3})$/, '$1-$2')
 }
 
-const handleObjectValue = (
+export function handleObjectValue(
   obj: { [key: string]: any },
   path: string[],
   value: string
-) => {
+) {
   path.reduce((acc, key, index) => {
     acc[key] = index === path.length - 1 ? value : acc[key] ?? {}
     return acc[key]
@@ -69,14 +69,55 @@ export function handleCalculateToHours(
   return totalMinutes / 60
 }
 
-export const handleError = (
+export function handleError(
   errors: {
     path: string[]
     message: string
   }[]
-) => {
+) {
   return errors.reduce((prev: { [key: string]: any }, issue: any) => {
     handleObjectValue(prev, issue.path, issue.message)
     return prev
+  }, {})
+}
+
+/**
+ *
+ * @param data Converte um objeto com chaves aninhadas em um objeto com chaves simples
+ * @returns
+ */
+export function dataToJson(data: FormData): Record<string, any> {
+  return Array.from(data).reduce((object: Record<string, any>, pair) => {
+    let keys = pair[0].replace(/\]/g, '').split('[')
+    let key = keys[0]
+    let value = pair[1]
+
+    if (keys.length > 1) {
+      let i: number, x: string, segment: any
+      let last = value
+      let type = isNaN(Number(keys[1])) ? {} : []
+
+      value = segment = object[key] || type
+
+      for (i = 1; i < keys.length; i++) {
+        x = keys[i]
+
+        if (i === keys.length - 1) {
+          if (Array.isArray(segment)) {
+            segment.push(last)
+          } else {
+            segment[x] = last
+          }
+        } else if (segment[x] === undefined) {
+          segment[x] = isNaN(Number(keys[i + 1])) ? {} : []
+        }
+
+        segment = segment[x]
+      }
+    }
+
+    object[key] = value
+
+    return object
   }, {})
 }
