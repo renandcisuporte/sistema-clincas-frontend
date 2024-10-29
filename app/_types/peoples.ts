@@ -11,6 +11,7 @@ const PeopleSchema = z.object({
   id: z.string().uuid().optional(),
   fullName: z.string({ message: 'Campo fullName obrigatório!' }).min(5),
   document: z.string({ message: 'Campo document obrigatório!' }).optional(),
+  type: z.string().optional(),
   dateOfBirth: z
     .string({ message: 'Campo brithDate obrigatório!' })
     .transform((string) => new Date(string))

@@ -15,6 +15,7 @@ import { SearchParamsProps } from '@/app/_types/common'
 import { Edit, Save, Search, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { SwitchPeople } from './_components/switch-people'
 import { ModalDelete, ModalForm } from './page-client'
 
 export const metadata: Metadata = {
@@ -26,8 +27,6 @@ export default async function Page({ searchParams }: SearchParamsProps) {
 
   const result = await loadPeoples({ full_name, limit, page })
   const { data, total } = result
-
-  console.log(data)
 
   return (
     <div className="flex flex-col space-y-4">
@@ -79,7 +78,10 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             <TableRow key={item.id}>
               <TableCell>{item.fullName}</TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
-                {/* <SwitchRoom active={item.phones} id={item.id!} /> */}
+                <SwitchPeople
+                  active={item.type as 'specialist' | 'user'}
+                  id={item.id!}
+                />
               </TableCell>
               <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
                 <Link
@@ -102,7 +104,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 </Link>
               </TableCell>
             </TableRow>
-          ))}
+          ))}{' '}
         </TableBody>
         <TableFooter>
           <TableRow>
