@@ -1,6 +1,6 @@
 'use client'
 
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
 import {
   Card,
@@ -102,30 +102,65 @@ export function ChartClient(props: ChartsInterface) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[200px] w-full">
-          <BarChart accessibilityLayer data={workHours}>
+          <BarChart
+            accessibilityLayer
+            data={workHours}
+            layout="horizontal"
+            margin={{ top: 24 }}
+          >
             <CartesianGrid vertical={false} />
+
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
             <XAxis
               dataKey="week"
+              type="category"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  indicator="dashed"
-                  labelFormatter={(value) => `${value}h`}
-                />
-              }
+
+            <XAxis
+              dataKey="week"
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 3)}
             />
-            <Bar dataKey="workTime" fill="var(--color-workTime)" radius={4} />
+
+            <Bar
+              dataKey="workTime"
+              layout="vertical"
+              fill="var(--color-workTime)"
+              radius={4}
+            >
+              <LabelList
+                dataKey="workTime"
+                position="top"
+                offset={8}
+                className="fill-[--color-workTime]"
+                fontSize={12}
+                formatter={(str: string) => `${str}hs`}
+              />
+            </Bar>
             <Bar
               dataKey="workTimeRecommend"
               fill="var(--color-workTimeRecommend)"
               radius={4}
-            />
+            >
+              <LabelList
+                dataKey="workTimeRecommend"
+                position="top"
+                offset={8}
+                className="fill-[--color-workTimeRecommend]"
+                fontSize={12}
+                formatter={(str: string) => `${str}hs`}
+              />
+            </Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>

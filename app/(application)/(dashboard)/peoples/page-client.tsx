@@ -41,7 +41,11 @@ export function ModalForm({ open, data }: ModalFormInterface) {
   const { errors } = state
 
   useEffect(() => {
-    if (!data?.phones.length) return setPhones([{ phone: '', description: '' }])
+    if (!data?.phones.length) {
+      setPhones([{ phone: '', description: '' }])
+      return () => setPhones([])
+    }
+
     const itemUpdate = [...data.phones]
     setPhones(itemUpdate)
   }, [data?.phones])

@@ -6,5 +6,7 @@ export interface ChartsInterface {
     workTime: number
     workTimeRecommend: number
     workTimeService: number
+    dailyProcedure?: number
+    dailyIdleProcedure?: number
   }[]
 }

@@ -64,7 +64,7 @@ export function ModalAverageTimesService({
               label={'Tempo de Atendimento'}
               className="flex-1"
               input={{
-                type: 'time',
+                type: 'number',
                 name: 'time',
                 defaultValue: input?.averageService
               }}

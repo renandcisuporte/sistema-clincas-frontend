@@ -27,7 +27,7 @@ export async function Room() {
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex justify-between p-0">
+      <CardContent className="flex justify-between p-0 h-28">
         {[
           { active: 'Ativas', bg: '--chart-2' },
           { inative: 'Inativas', bg: '--chart-1' }

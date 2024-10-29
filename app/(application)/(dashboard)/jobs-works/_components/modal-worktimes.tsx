@@ -54,19 +54,13 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
   }, [state, back, toast])
 
   useEffect(() => {
-    if (weeks.length > 0) setItems(weeks)
-
-    if (input && input.length > 0) {
-      const itemUpdate = [...input]
-
-      weeks.map((item) => {
-        const { open, times, week } = item
-        const key = itemUpdate.findIndex((item) => item.week === week)
-        if (key !== -1) itemUpdate[key] = { ...itemUpdate[key] }
-        else itemUpdate.push({ week, open, times })
-      })
-      setItems(itemUpdate)
+    if (!input?.length) {
+      setItems(weeks)
+      return () => setItems([])
     }
+
+    const itemUpdate = [...input]
+    setItems(itemUpdate)
   }, [input])
 
   return (

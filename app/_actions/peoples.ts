@@ -66,6 +66,18 @@ export async function removePeople(
   }
 }
 
+export async function activeInativePeople(id: string): Promise<void> {
+  const session = await getServerSession(authOptions)
+
+  await apiFecth(`/peoples/${id}/active-inative`, {
+    accessToken: session?.accessToken,
+    method: 'PUT',
+    body: JSON.stringify({})
+  })
+
+  revalidateTag('peoples')
+}
+
 export async function loadPeoples(args: any): Promise<ApiResponse<People[]>> {
   const session = await getServerSession(authOptions)
   const { full_name = '', limit = 15, page = 1 } = args
@@ -77,11 +89,9 @@ export async function loadPeoples(args: any): Promise<ApiResponse<People[]>> {
 
   const result = await apiFecth(`/peoples?${searchParams.toString()}`, {
     accessToken: session?.accessToken,
-    next: { tags: ['peoples'] }
-    // cache: 'force-cache'
+    next: { tags: ['peoples'] },
+    cache: 'force-cache'
   })
-
-  console.log('result', result)
 
   return result
 }
