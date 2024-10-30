@@ -21,8 +21,6 @@ export async function savePeople(
 
   const form = dataToJson(formData)
 
-  console.log('object', form)
-
   const { id, ...restform } = form
   api.body = JSON.stringify({ ...restform })
 
@@ -36,7 +34,7 @@ export async function savePeople(
     ...restApi
   })
 
-  revalidateTag('rooms')
+  revalidateTag('peoples')
 
   return {
     ...result,
@@ -53,12 +51,12 @@ export async function removePeople(
   const form = Object.fromEntries(formData)
 
   const { id } = form
-  await apiFecth(`/rooms/${id}`, {
+  await apiFecth(`/peoples/${id}`, {
     method: 'DELETE',
     accessToken: session?.accessToken
   })
 
-  revalidateTag('rooms')
+  revalidateTag('peoples')
 
   return {
     data: null,

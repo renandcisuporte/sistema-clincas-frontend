@@ -17,7 +17,8 @@ type CalculateDimanicClientProps = {
 }
 
 export function CalculateDimanicClient({ data }: CalculateDimanicClientProps) {
-  const [week, setWeek] = useState(0)
+  const date = new Date()
+  const [week, setWeek] = useState(date.getDay())
 
   const handleWeek = useCallback(
     (type: 'prev' | 'next') =>
@@ -56,7 +57,7 @@ export function CalculateDimanicClient({ data }: CalculateDimanicClientProps) {
           />
         </div>
         <div className="flex flex-row justify-between [&>div]:flex [&>div]:flex-col [&>div]:text-center [&>div>strong]:uppercase [&>div>strong]:text-xs [&>div>span]:text-6xl [&>div>span]:font-bold space-x-4">
-          <div>
+          <div className="text-default">
             <strong>capacidade de procedimento por dia</strong>
             <span>
               {
@@ -66,7 +67,7 @@ export function CalculateDimanicClient({ data }: CalculateDimanicClientProps) {
             </span>
           </div>
 
-          <div>
+          <div className="text-danger">
             <strong>espaço total ocioso por dia</strong>
             <span>
               {
