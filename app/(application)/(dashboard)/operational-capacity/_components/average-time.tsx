@@ -18,7 +18,7 @@ export async function AverageTime() {
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-3 py-2.5 sm:py-3">
-          <CardTitle className="text-sm">Média de tempo</CardTitle>
+          <CardTitle className="text-md">Média de tempo</CardTitle>
           <CardDescription>
             <small>Média de tempo de procedimento</small>
           </CardDescription>

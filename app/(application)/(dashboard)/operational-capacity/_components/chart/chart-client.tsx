@@ -64,10 +64,10 @@ export function ChartClient(props: ChartsInterface) {
   const sumHoursPositive = sumHours <= -1 ? sumHours * -1 : sumHours
 
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-3 py-2.5 sm:py-3">
-          <CardTitle className="text-sm">{fantasy}</CardTitle>
+          <CardTitle className="text-md">{fantasy}</CardTitle>
           <CardDescription>
             <small>Total de horas trabalhadas/recomendadas semanalmente</small>
           </CardDescription>
@@ -77,10 +77,10 @@ export function ChartClient(props: ChartsInterface) {
             const chart = key as keyof typeof chartConfig
 
             return (
-              <button
+              <span
                 key={chart}
                 data-active={activeChart === chart}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-3 py-2 text-center even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-4 sm:py-3"
+                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-3 py-2 text-center even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-4 sm:py-3 min-w-36"
                 onClick={() => setActiveChart(chart)}
               >
                 <span className="text-xs text-muted-foreground w-full">
@@ -95,7 +95,7 @@ export function ChartClient(props: ChartsInterface) {
                   />
                   {total[key as keyof typeof total].toLocaleString()}hs
                 </span>
-              </button>
+              </span>
             )
           })}
         </div>
