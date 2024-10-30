@@ -6,7 +6,6 @@ import { authOptions } from '@/auth'
 import {
   Clock,
   Equal,
-  EqualNot,
   Gauge,
   Hospital,
   Stethoscope,
@@ -80,7 +79,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
           </Nav.Link>
 
           <Nav.LinkDropDown
-            data-href={['/clinics', '/peoples', '/jobs-works', '/rooms']}
+            data-href={['/clinics', '/jobs-works', '/rooms']}
             label="Administrativo"
           >
             <Nav.Link href={`/clinics/${clinicId}/update`}>
@@ -89,20 +88,12 @@ export default async function RootLayout({ children }: ChildrenProps) {
                 <span>Dados da Clínica</span>
               </span>
             </Nav.Link>
-            <Nav.Link href="/peoples">
-              <span>
-                <UsersRound className="w-6 h-6" />
-                <span>Pessoas</span>
-              </span>
-            </Nav.Link>
-
             <Nav.Link href="/jobs-works">
               <span>
                 <Clock className="w-6 h-6" />
                 <span>Horários de Trabalho</span>
               </span>
             </Nav.Link>
-
             <Nav.Link href="/rooms">
               <span>
                 <Stethoscope className="w-6 h-6" />
@@ -111,17 +102,17 @@ export default async function RootLayout({ children }: ChildrenProps) {
             </Nav.Link>
           </Nav.LinkDropDown>
 
-          <Nav.LinkDropDown data-href="#" label="Cadastros">
-            <Nav.Link href="#">
+          <Nav.LinkDropDown data-href={['/peoples']} label="Cadastros">
+            <Nav.Link href="/peoples">
               <span>
-                <Equal className="w-6 h-6" />
-                <span>Despesas Fixas</span>
+                <UsersRound className="w-6 h-6" />
+                <span>Pessoas</span>
               </span>
             </Nav.Link>
             <Nav.Link href="#">
               <span>
-                <EqualNot className="w-6 h-6" />
-                <span>Despesas Variáveis</span>
+                <Equal className="w-6 h-6" />
+                <span>Despesas</span>
               </span>
             </Nav.Link>
           </Nav.LinkDropDown>
