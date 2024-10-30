@@ -21,7 +21,7 @@ export async function Speciality() {
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-3 py-2.5 sm:py-3">
-          <CardTitle className="text-sm">Profissionais</CardTitle>
+          <CardTitle className="text-md">Profissionais</CardTitle>
           <CardDescription>
             <small>Total de profissionais</small>
           </CardDescription>

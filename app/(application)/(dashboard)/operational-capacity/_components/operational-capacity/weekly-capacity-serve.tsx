@@ -1,9 +1,9 @@
 import { apiFecth } from '@/app/_lib/api'
 import { authOptions } from '@/auth'
 import { getServerSession } from 'next-auth'
-import { CalculateDimanicClient } from './calculate-dimanic-client'
+import { WeeklyCapacityClient } from './weekly-capacity-client'
 
-export async function Component() {
+export async function WeeklyCapacityServer() {
   const session = await getServerSession(authOptions)
 
   const { data } = await apiFecth(`/clinics/charts`, {
@@ -11,5 +11,5 @@ export async function Component() {
     next: { tags: [`clinics_charts`] }
   })
 
-  return <CalculateDimanicClient data={data} />
+  return <WeeklyCapacityClient data={data} />
 }
