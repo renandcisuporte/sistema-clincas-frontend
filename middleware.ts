@@ -6,6 +6,7 @@ export const config = {
     '/dashboard',
     '/operational-capacity',
     '/rooms',
-    '/peoples'
+    '/peoples',
+    '/expenses'
   ]
 }

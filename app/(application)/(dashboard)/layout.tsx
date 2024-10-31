@@ -102,14 +102,17 @@ export default async function RootLayout({ children }: ChildrenProps) {
             </Nav.Link>
           </Nav.LinkDropDown>
 
-          <Nav.LinkDropDown data-href={['/peoples']} label="Cadastros">
+          <Nav.LinkDropDown
+            data-href={['/peoples', '/expenses']}
+            label="Cadastros"
+          >
             <Nav.Link href="/peoples">
               <span>
                 <UsersRound className="w-6 h-6" />
                 <span>Pessoas</span>
               </span>
             </Nav.Link>
-            <Nav.Link href="#">
+            <Nav.Link href="/expenses">
               <span>
                 <Equal className="w-6 h-6" />
                 <span>Despesas</span>
