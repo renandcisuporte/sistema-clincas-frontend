@@ -12,29 +12,28 @@ import {
   SelectValue
 } from '../ui/select'
 
-export interface SelectLabelProps {
+export interface SelectLabelProps extends SelectProps {
   label?: string
-  select: SelectProps
+  classHelper?: string
   options: { label: string; value: string }[]
   message?: string | undefined
 }
 
 export function SelectLabel({
-  select,
   label,
   message,
-  className,
+  classHelper,
   ...rest
-}: SelectLabelProps & { className?: string }) {
+}: SelectLabelProps) {
   const uId = React.useId()
-  const id = select.id ?? uId
-  const restClass = select.className
+  const id = rest.id ?? uId
+  const restClass = rest.className
 
   return (
     <div
       className={cn(
         'flex flex-col w-full space-y-1',
-        className,
+        classHelper,
         message && 'text-red-800'
       )}
     >

@@ -142,17 +142,15 @@ export function ModalWorkTimes({ open, input }: ModalWorkTimesInterface) {
 
                       <InputLabel
                         label={description}
-                        className="flex-1"
-                        input={{
-                          type: 'time',
-                          defaultValue: time,
-                          name: `[${i}][times][${ii}][time]`,
-                          onChange: (e) => {
-                            const item = [...items]
-                            item[i].times[ii].description = description
-                            item[i].times[ii].time = e.target.value
-                            setItems(item)
-                          }
+                        classHelper="flex-1"
+                        type="time"
+                        defaultValue="time"
+                        name={`[${i}][times][${ii}][time]`}
+                        onChange={(e) => {
+                          const item = [...items]
+                          item[i].times[ii].description = description
+                          item[i].times[ii].time = e.target.value
+                          setItems(item)
                         }}
                       />
 

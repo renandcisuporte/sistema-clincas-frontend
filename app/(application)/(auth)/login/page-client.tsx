@@ -31,7 +31,7 @@ export function PageClient() {
   const { refresh, push } = useRouter()
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState({} as any)
-  const [formField, setFormField] = React.useState<LoginProps>({} as LoginProps)
+  const [fields, setFields] = React.useState<LoginProps>({} as LoginProps)
 
   const { toast } = useToast()
 
@@ -40,9 +40,9 @@ export function PageClient() {
     try {
       setLoading(true)
       const form = await schemaLogin.safeParseAsync({
-        code: formField?.code,
-        email: formField?.email,
-        password: formField?.password
+        code: fields?.code,
+        email: fields?.email,
+        password: fields?.password
       })
 
       if (!form.success) {
@@ -56,9 +56,9 @@ export function PageClient() {
 
       const res = await signIn('credentials', {
         redirect: false,
-        code: formField.code,
-        email: formField.email,
-        password: formField.password
+        code: fields.code,
+        email: fields.email,
+        password: fields.password
       })
 
       if (res?.error) {
@@ -94,41 +94,32 @@ export function PageClient() {
       <InputLabel
         label="Código Clínica"
         message={error?.code}
-        input={{
-          type: 'text',
-          name: 'code',
-          maxLength: 7,
-          onChange: (event) => {
-            event.target.value = String(event.target.value)
-              .replace(/-/g, '')
-              .replace(/(.{3})(?=.)/g, '$1-')
-            const { name, value } = event.target
-            setFormField((old) => ({ ...old, [name]: value }))
-          }
+        type="text"
+        name="code"
+        maxLength={7}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = event.target
+          setFields((old) => ({ ...old, [name]: value }))
         }}
       />
       <InputLabel
         label="Digite seu E-mail"
         message={error?.email}
-        input={{
-          type: 'email',
-          name: 'email',
-          onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-            const { name, value } = event.target
-            setFormField((old) => ({ ...old, [name]: value }))
-          }
+        type="email"
+        name="email"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = event.target
+          setFields((old) => ({ ...old, [name]: value }))
         }}
       />
       <InputLabel
         label="Digite sua Senha"
         message={error?.password}
-        input={{
-          type: 'password',
-          name: 'password',
-          onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-            const { name, value } = event.target
-            setFormField((old) => ({ ...old, [name]: value }))
-          }
+        type="password"
+        name="password"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = event.target
+          setFields((old) => ({ ...old, [name]: value }))
         }}
       />
 

@@ -39,20 +39,16 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         <InputLabel
           label="Clinicas"
           className="flex-1"
-          input={{
-            type: 'text',
-            name: 'title',
-            placeholder: 'Pesquisa nome da clinica'
-          }}
+          type="text"
+          name="title"
+          placeholder="Pesquisa nome da clinica"
         />
         <InputLabel
           label="CNPJ"
           className="flex-1"
-          input={{
-            type: 'text',
-            name: 'cnpj',
-            placeholder: 'Pesquise pelo CNPJ'
-          }}
+          type="text"
+          name="cnpj"
+          placeholder="Pesquise pelo CNPJ"
         />
         <Button type="submit" className="mt-5" size="sm">
           <Search className="w-4 mr-1" />

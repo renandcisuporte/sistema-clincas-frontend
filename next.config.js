@@ -7,6 +7,8 @@ const nextConfig = {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXT_REDIRECT: process.env.NEXT_REDIRECT,
   },
+  reactStrictMode: true,
+  swcMinify: true,
   experimental: {
     serverActions: true,
   },
