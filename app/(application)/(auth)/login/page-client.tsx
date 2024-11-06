@@ -31,7 +31,11 @@ export function PageClient() {
   const { refresh, push } = useRouter()
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState({} as any)
-  const [fields, setFields] = React.useState<LoginProps>({} as LoginProps)
+  const [fields, setFields] = React.useState<LoginProps>({
+    code: '',
+    email: '',
+    password: ''
+  })
 
   const { toast } = useToast()
 
@@ -66,6 +70,7 @@ export function PageClient() {
       }
 
       push('/dashboard')
+      refresh()
     } catch (error: any) {
       console.log(error)
       setError({})
@@ -97,9 +102,13 @@ export function PageClient() {
         type="text"
         name="code"
         maxLength={7}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          const { name, value } = event.target
-          setFields((old) => ({ ...old, [name]: value }))
+        value={fields?.code}
+        onChange={(e) => {
+          const { name, value } = e.target
+          setFields((old) => ({
+            ...old,
+            [name]: value.replace(/-/g, '').replace(/(.{3})(?=.)/g, '$1-')
+          }))
         }}
       />
       <InputLabel
@@ -107,8 +116,8 @@ export function PageClient() {
         message={error?.email}
         type="email"
         name="email"
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          const { name, value } = event.target
+        onChange={(e) => {
+          const { name, value } = e.target
           setFields((old) => ({ ...old, [name]: value }))
         }}
       />
@@ -117,8 +126,8 @@ export function PageClient() {
         message={error?.password}
         type="password"
         name="password"
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          const { name, value } = event.target
+        onChange={(e) => {
+          const { name, value } = e.target
           setFields((old) => ({ ...old, [name]: value }))
         }}
       />
