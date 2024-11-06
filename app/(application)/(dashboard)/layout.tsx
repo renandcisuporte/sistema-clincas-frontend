@@ -30,14 +30,14 @@ export default async function RootLayout({ children }: ChildrenProps) {
           'bg-default'
         )}
       >
-        <span className="h-16 relative w-full bg-white border-white border-b-4">
+        <span className="h-16 relative w-full bg-white border-white border-b-4 flex items-center justify-center">
           <Image
             alt="Logo"
             src="/RUBRICA-SISTEMA.png"
-            className="w-32 mx-auto"
-            width={120}
-            height={120}
+            className="object-contain"
             quality={100}
+            width={200}
+            height={50}
           />
         </span>
         {/* NAVIGATION */}
