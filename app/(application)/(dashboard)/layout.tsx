@@ -1,8 +1,8 @@
-import { LogOut } from '@/app/_components/common/button-others'
-import * as Nav from '@/app/_components/common/link'
-import { cn } from '@/app/_lib/utils'
-import { ChildrenProps } from '@/app/_types/common'
-import { authOptions } from '@/auth'
+import { LogOut } from "@/app/_components/common/button-others";
+import * as Nav from "@/app/_components/common/link";
+import { cn } from "@/app/_lib/utils";
+import { ChildrenProps } from "@/app/_types/common";
+import { authOptions } from "@/auth";
 import {
   Clock,
   Equal,
@@ -12,25 +12,25 @@ import {
   TrendingUp,
   User,
   UserPen,
-  UsersRound
-} from 'lucide-react'
-import { getServerSession } from 'next-auth'
-import Image from 'next/image'
+  UsersRound,
+} from "lucide-react";
+import { getServerSession } from "next-auth";
+import Image from "next/image";
 
 export default async function RootLayout({ children }: ChildrenProps) {
-  const session = await getServerSession(authOptions)
-  if (!session) return null
-  const { clinicId, user } = session
+  const session = await getServerSession(authOptions);
+  if (!session) return null;
+  const { clinicId, user } = session;
 
   return (
-    <main className="bg-neutral-100 h-full flex flex-col md:flex-row">
+    <main className="flex h-full flex-col bg-neutral-100 md:flex-row">
       <div
         className={cn(
-          'sticky top-0 left-0 h-16 flex items-center w-full md:max-w-64 md:flex-col md:items-start md:h-screen bg-neutral-800',
-          'bg-default'
+          "sticky left-0 top-0 flex h-16 w-full items-center bg-neutral-800 md:h-screen md:max-w-64 md:flex-col md:items-start",
+          "bg-default",
         )}
       >
-        <span className="h-16 relative w-full bg-white border-white border-b-4 flex items-center justify-center">
+        <span className="relative flex h-16 w-full items-center justify-center border-b-4 border-white bg-white">
           <Image
             alt="Logo"
             src="/RUBRICA-SISTEMA.png"
@@ -44,31 +44,31 @@ export default async function RootLayout({ children }: ChildrenProps) {
         <nav
           className={cn(
             // nav
-            'border-transparent divide-y divide-default mt-6 w-full md:max-w-64 md:h-screen flex-1 overscroll-none overflow-y-auto',
+            "mt-6 w-full flex-1 divide-y divide-default overflow-y-auto overscroll-none border-transparent md:h-screen md:max-w-64",
 
             // nav > a
-            '[&>a]:block [&>a]:h-16 [&>a]:text-white [&>a]:w-full [&>a]:relative [&>a]:items-center [&>a]:flex-wrap [&>a]:space-x-2 [&>a]:px-4 [&>a]:bg-default-dark hover:[&>a]:bg-neutral-100 hover:[&>a]:text-black',
+            "[&>a]:relative [&>a]:block [&>a]:h-16 [&>a]:w-full [&>a]:flex-wrap [&>a]:items-center [&>a]:space-x-2 [&>a]:bg-default-dark [&>a]:px-4 [&>a]:text-white hover:[&>a]:bg-neutral-100 hover:[&>a]:text-black",
 
             // nav > a > span
-            '[&>a>span]:h-16 [&>a>span]:flex [&>a>span]:space-x-1 [&>a>span]:items-center',
+            "[&>a>span]:flex [&>a>span]:h-16 [&>a>span]:items-center [&>a>span]:space-x-1",
 
             // nav > div
-            '[&>div]:h-auto [&>div]:cursor-pointer [&>div]:text-white [&>div]:w-full [&>div]:relative [&>div]:items-center [&>div]:flex-col [&>div]:bg-default-dark hover:[&>div]:bg-neutral-100 hover:[&>div]:text-black',
+            "[&>div]:relative [&>div]:h-auto [&>div]:w-full [&>div]:cursor-pointer [&>div]:flex-col [&>div]:items-center [&>div]:bg-default-dark [&>div]:text-white hover:[&>div]:bg-neutral-100 hover:[&>div]:text-black",
 
             // nav > div > span
-            '[&>div>span]:h-16 [&>div>span]:px-4 [&>div>span]:flex [&>div>span]:space-x-1 [&>div>span]:items-center',
+            "[&>div>span]:flex [&>div>span]:h-16 [&>div>span]:items-center [&>div>span]:space-x-1 [&>div>span]:px-4",
 
             // nav > div > div
-            '[&>div>div]:flex-1 [&>div>div]:-mt-[1px] [&>div>div]:border-l-[1em] [&>div>div]:border-l-default [&>div>div]:cursor-pointer [&>div>div]:min-h-16 [&>div>div]:items-center [&>div>div]:text-white [&>div>div]:w-full [&>div>div]:hidden [&>div>div[data-open=true]]:block',
+            "[&>div>div[data-open=true]]:block [&>div>div]:-mt-[1px] [&>div>div]:hidden [&>div>div]:min-h-16 [&>div>div]:w-full [&>div>div]:flex-1 [&>div>div]:cursor-pointer [&>div>div]:items-center [&>div>div]:border-l-[1em] [&>div>div]:border-l-default [&>div>div]:text-white",
 
             // nav > div > div > a
             // '[&>div>div>a]:text-sm [&>div>div>a]:flex [&>div>div>a]:items-center [&>div>div>a]:px-4 [&>div>div>a]:h-16 [&>div>div]:w-full',
 
             // nav > div > div > a
-            '[&>div>div>a]:text-sm [&>div>div>a]:block [&>div>div>a]:h-16 [&>div>div>a]:text-white [&>div>div>a]:w-full [&>div>div>a]:relative [&>div>div>a]:items-center [&>div>div>a]:flex-wrap [&>div>div>a]:space-x-2 [&>div>div>a]:px-4 [&>div>div>a]:bg-default-dark hover:[&>div>div>a]:bg-neutral-100 hover:[&>div>div>a]:text-black', // nav > a
+            "[&>div>div>a]:relative [&>div>div>a]:block [&>div>div>a]:h-16 [&>div>div>a]:w-full [&>div>div>a]:flex-wrap [&>div>div>a]:items-center [&>div>div>a]:space-x-2 [&>div>div>a]:bg-default-dark [&>div>div>a]:px-4 [&>div>div>a]:text-sm [&>div>div>a]:text-white hover:[&>div>div>a]:bg-neutral-100 hover:[&>div>div>a]:text-black", // nav > a
 
             // nav > div > div > a > span
-            '[&>div>div>a>span]:h-16 [&>div>div>a>span]:flex [&>div>div>a>span]:space-x-1 [&>div>div>a>span]:items-center' // nav > a > span
+            "[&>div>div>a>span]:flex [&>div>div>a>span]:h-16 [&>div>div>a>span]:items-center [&>div>div>a>span]:space-x-1", // nav > a > span
           )}
         >
           <Nav.Link href="/dashboard">
@@ -79,42 +79,42 @@ export default async function RootLayout({ children }: ChildrenProps) {
           </Nav.Link>
 
           <Nav.LinkDropDown
-            data-href={['/clinics', '/jobs-works', '/rooms']}
+            data-href={["/clinics", "/jobs-works", "/rooms"]}
             label="Administrativo"
           >
             <Nav.Link href={`/clinics/${clinicId}/update`}>
               <span>
-                <Hospital className="w-6 h-6" />
+                <Hospital className="h-6 w-6" />
                 <span>Dados da Clínica</span>
               </span>
             </Nav.Link>
             <Nav.Link href="/jobs-works">
               <span>
-                <Clock className="w-6 h-6" />
+                <Clock className="h-6 w-6" />
                 <span>Horários de Trabalho</span>
               </span>
             </Nav.Link>
             <Nav.Link href="/rooms">
               <span>
-                <Stethoscope className="w-6 h-6" />
+                <Stethoscope className="h-6 w-6" />
                 <span>Espaços Terapeutico</span>
               </span>
             </Nav.Link>
           </Nav.LinkDropDown>
 
           <Nav.LinkDropDown
-            data-href={['/peoples', '/expenses']}
+            data-href={["/peoples", "/expenses"]}
             label="Cadastros"
           >
             <Nav.Link href="/peoples">
               <span>
-                <UsersRound className="w-6 h-6" />
+                <UsersRound className="h-6 w-6" />
                 <span>Pessoas</span>
               </span>
             </Nav.Link>
             <Nav.Link href="/expenses">
               <span>
-                <Equal className="w-6 h-6" />
+                <Equal className="h-6 w-6" />
                 <span>Despesas</span>
               </span>
             </Nav.Link>
@@ -123,7 +123,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
           <Nav.LinkDropDown data-href="/operational-capacity" label="Gráficos">
             <Nav.Link href="/operational-capacity">
               <span>
-                <TrendingUp className="w-6 h-6" />
+                <TrendingUp className="h-6 w-6" />
                 <span>Capacidade Operacional</span>
               </span>
             </Nav.Link>
@@ -135,25 +135,25 @@ export default async function RootLayout({ children }: ChildrenProps) {
           alt=""
           width="170"
           height="50"
-          className="mx-auto m-4"
+          className="m-4 mx-auto"
         />
       </div>
       <section className="flex-1 p-4">
         <div
           className={cn(
-            'h-16 sticky top-0 left-0 shadow-lg  -mt-4 -mx-4 justify-between flex',
-            'border-default bg-default z-50'
+            "sticky left-0 top-0 -mx-4 -mt-4 flex h-16 justify-between shadow-lg",
+            "z-50 border-default bg-default",
           )}
         >
           <aside className="flex-1 px-4"></aside>
           <aside
             className={cn(
-              'min-w-36 bg-white h-16 flex space-x-1 flex-wrap items-center relative px-4 cursor-pointer',
-              '[&>div]:hidden [&>div]:absolute [&>div]:top-[100%] [&>div]:bg-white [&>div]:w-56 [&>div]:p-4 [&>div]:shadow-lg [&>div]:right-0 [&>div]:flex-col [&>div]:hover:block',
-              '[&>div>span]:flex [&>div>span]:space-x-1 [&>div>span]:my-4'
+              "relative flex h-16 min-w-36 cursor-pointer flex-wrap items-center space-x-1 bg-white px-4",
+              "[&>div]:absolute [&>div]:right-0 [&>div]:top-[100%] [&>div]:hidden [&>div]:w-56 [&>div]:flex-col [&>div]:bg-white [&>div]:p-4 [&>div]:shadow-lg [&>div]:hover:block",
+              "[&>div>span]:my-4 [&>div>span]:flex [&>div>span]:space-x-1",
             )}
           >
-            <User /> <span>Olá {user?.fullName?.split(' ')[0]}</span>
+            <User /> <span>Olá {user?.fullName?.split(" ")[0]}</span>
             <div>
               <span>
                 <UserPen /> <span>Meus Dados</span>
@@ -163,8 +163,8 @@ export default async function RootLayout({ children }: ChildrenProps) {
             </div>
           </aside>
         </div>
-        <div className="bg-white shadow-lg p-4 rounded-lg mt-6">{children}</div>
+        <div className="mt-6 rounded-lg bg-white p-4 shadow-lg">{children}</div>
       </section>
     </main>
-  )
+  );
 }
