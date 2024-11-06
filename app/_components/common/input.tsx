@@ -3,34 +3,33 @@ import * as React from 'react'
 import { Input, InputProps } from '../ui/input'
 import { Label } from '../ui/label'
 
-export interface InputLabelProps {
+export interface InputLabelProps extends InputProps {
   label?: string
-  input: InputProps
   message?: string | undefined
+  classHelper?: string
 }
 
 export function InputLabel({
-  input,
   label,
   message,
-  className,
+  classHelper,
   ...rest
-}: InputLabelProps & { className?: string }) {
+}: InputLabelProps & {}) {
   const uId = React.useId()
-  const id = input.id ?? uId
-  const restClass = input.className
+  const id = rest.id ?? uId
+  const restClass = rest.className ?? ''
 
   return (
     <div
       className={cn(
         'flex flex-col w-full space-y-1',
-        className,
+        classHelper,
         message && 'text-red-800'
       )}
     >
       {label && <Label htmlFor={id}>{label}</Label>}
       <Input
-        {...input}
+        {...rest}
         className={cn(
           restClass,
           message && 'border-red-800 outline-none focus-visible:ring-red-400'

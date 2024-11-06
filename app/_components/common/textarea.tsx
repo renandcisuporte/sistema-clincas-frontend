@@ -4,34 +4,33 @@ import * as React from 'react'
 import { Label } from '../ui/label'
 import { Textarea, TextareaProps } from '../ui/textarea'
 
-export interface TextLabelProps {
+export interface TextLabelProps extends TextareaProps {
   label: string
-  input: TextareaProps
+  classHelper?: string
   message?: string | undefined
 }
 
 export function TextareaLabel({
-  input,
   label,
   message,
-  className,
+  classHelper,
   ...rest
-}: TextLabelProps & { className?: string }) {
+}: TextLabelProps & { classHelper?: string }) {
   const uId = React.useId()
-  const id = input.id ?? uId
-  const restClass = input.className
+  const id = rest.id ?? uId
+  const restClass = rest.className
 
   return (
     <div
       className={cn(
         'flex flex-col w-full space-y-1',
-        className,
+        classHelper,
         message && 'text-red-800'
       )}
     >
       <Label htmlFor={id}>{label}</Label>
       <Textarea
-        {...input}
+        {...rest}
         className={cn(
           restClass,
           message && 'border-red-800 outline-none focus-visible:ring-red-400'

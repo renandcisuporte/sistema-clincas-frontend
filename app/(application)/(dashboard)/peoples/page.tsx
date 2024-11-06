@@ -39,12 +39,10 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       <h1 className="text-2xl font-bold">Pessoas</h1>
       <form className="flex flex-row space-x-4 flex-wrap">
         <InputLabel
-          className="flex-1"
-          input={{
-            type: 'text',
-            name: 'full_name',
-            placeholder: 'Pesquisar salas'
-          }}
+          classHelper="flex-1"
+          type="text"
+          name="full_name"
+          placeholder="Pesquisar salas"
         />
 
         <Button type="submit" size="sm">

@@ -96,153 +96,127 @@ export function PageClient({ input }: ParamsProps) {
       <InputLabel
         label="Titulo Empresarial"
         message={errors?.title}
-        input={{
-          type: 'text',
-          name: 'title',
-          defaultValue: input?.title
-        }}
+        type="text"
+        name="title"
+        defaultValue={input?.title}
       />
 
       <InputLabel
         label="Nome Fantasia"
         message={errors?.fantasy}
-        input={{
-          type: 'text',
-          name: 'fantasy',
-          defaultValue: input?.fantasy
-        }}
+        type="text"
+        name="fantasy"
+        defaultValue={input?.fantasy}
       />
 
       <InputLabel
         label="CNPJ"
         message={errors?.cnpj}
-        className="md:basis-56"
-        input={{
-          type: 'text',
-          name: 'cnpj',
-          defaultValue: input?.cnpj,
-          onChange: (e) => {
-            e.target.value = maskDocument(e.target.value)
-          }
+        classHelper="md:basis-56"
+        type="text"
+        name="cnpj"
+        defaultValue={input?.cnpj}
+        onChange={(e) => {
+          e.target.value = maskDocument(e.target.value)
         }}
       />
 
       <InputLabel
         label="Inscrição Estadual"
         message={errors?.ie}
-        className="md:basis-56 md:ml-4"
-        input={{
-          type: 'text',
-          name: 'ie',
-          defaultValue: input?.ie
-        }}
+        classHelper="md:basis-56 md:ml-4"
+        type="text"
+        name="ie"
+        defaultValue={input?.ie}
       />
 
       <InputLabel
         label="Telefone"
-        className="md:basis-1/4 md:ml-4"
+        classHelper="md:basis-1/4 md:ml-4"
         message={errors?.phone}
-        input={{
-          type: 'text',
-          name: 'phone',
-          defaultValue: input?.phone,
-          onChange: (e) => {
-            e.target.value = maskPhone(e.target.value)
-          }
+        type="text"
+        name="phone"
+        defaultValue={input?.phone}
+        onChange={(e) => {
+          e.target.value = maskPhone(e.target.value)
         }}
       />
 
       <InputLabel
         label="Celular"
-        className="md:basis-1/4 md:ml-4"
+        classHelper="md:basis-1/4 md:ml-4"
         message={errors?.mobilePhone}
-        input={{
-          type: 'text',
-          name: 'mobilePhone',
-          defaultValue: input?.mobilePhone,
-          onChange: (e) => {
-            e.target.value = maskPhone(e.target.value)
-          }
+        type="text"
+        name="mobilePhone"
+        defaultValue={input?.mobilePhone}
+        onChange={(e) => {
+          e.target.value = maskPhone(e.target.value)
         }}
       />
 
       <InputLabel
         label="Endereço"
         message={errors?.address}
-        className="md:basis-2/4 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'address',
-          defaultValue: input?.address
-        }}
+        classHelper="md:basis-2/4 md:mr-4"
+        type="text"
+        name="address"
+        defaultValue={input?.address}
       />
 
       <InputLabel
         label="Numero"
         message={errors?.number}
-        className="md:basis-1/5 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'number',
-          defaultValue: input?.number
-        }}
+        classHelper="md:basis-1/5 md:mr-4"
+        type="text"
+        name="number"
+        defaultValue={input?.number}
       />
 
       <InputLabel
         label="Referência"
         message={errors?.reference}
-        className="md:basis-2/3 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'reference',
-          defaultValue: input?.reference
-        }}
+        classHelper="md:basis-2/3 md:mr-4"
+        type="text"
+        name="reference"
+        defaultValue={input?.reference}
       />
 
       <InputLabel
         label="Complemento"
         message={errors?.complement}
-        className="md:basis-2/3 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'complement',
-          defaultValue: input?.complement
-        }}
+        classHelper="md:basis-2/3 md:mr-4"
+        type="text"
+        name="complement"
+        defaultValue={input?.complement}
       />
 
       <InputLabel
         label="Cidade"
         message={errors?.city}
-        className="md:basis-1/2 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'city',
-          defaultValue: input?.city
-        }}
+        classHelper="md:basis-1/2 md:mr-4"
+        type="text"
+        name="city"
+        defaultValue={input?.city}
       />
 
       <InputLabel
         label="UF"
         message={errors?.state}
-        className="md:basis-1/6 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'state',
-          defaultValue: input?.state
-        }}
+        classHelper="md:basis-1/6 md:mr-4"
+        type="text"
+        name="state"
+        defaultValue={input?.state}
       />
 
       <InputLabel
         label="CEP"
         message={errors?.zipCode}
-        className="md:basis-1/6 md:mr-4"
-        input={{
-          type: 'text',
-          name: 'zipCode',
-          defaultValue: input?.zipCode,
-          onChange: (e) => {
-            e.target.value = maskZipCode(e.target.value)
-          }
+        classHelper="md:basis-1/6 md:mr-4"
+        type="text"
+        name="zipCode"
+        defaultValue={input?.zipCode}
+        onChange={(e) => {
+          e.target.value = maskZipCode(e.target.value)
         }}
       />
 

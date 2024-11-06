@@ -62,12 +62,10 @@ export function ModalAverageTimesService({
             />
             <InputLabel
               label={'Tempo de Atendimento'}
-              className="flex-1"
-              input={{
-                type: 'number',
-                name: 'time',
-                defaultValue: input?.averageService
-              }}
+              classHelper="flex-1"
+              type="number"
+              name="time"
+              defaultValue={input?.averageService}
             />
 
             <Dialog.DialogClose asChild>

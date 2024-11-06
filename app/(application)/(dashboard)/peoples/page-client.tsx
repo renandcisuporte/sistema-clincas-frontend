@@ -41,7 +41,7 @@ export function ModalForm({ open, data }: ModalFormInterface) {
   const { errors } = state
 
   useEffect(() => {
-    if (!data?.phones.length) {
+    if (!data?.phones?.length) {
       setPhones([{ phone: '', description: '' }])
       return () => setPhones([])
     }
@@ -85,46 +85,38 @@ export function ModalForm({ open, data }: ModalFormInterface) {
               <InputLabel
                 label="Nome Completo *"
                 message={errors?.fullName}
-                input={{
-                  type: 'text',
-                  name: 'fullName',
-                  defaultValue: data?.fullName
-                }}
+                type="text"
+                name="fullName"
+                defaultValue={data?.fullName}
               />
 
               <InputLabel
                 label="E-mail"
                 message={errors?.email}
-                className="md:basis-72"
-                input={{
-                  name: 'email',
-                  defaultValue: data?.email
-                }}
+                classHelper="md:basis-72"
+                name="email"
+                defaultValue={data?.email}
               />
 
               <InputLabel
                 label="CPF"
                 message={errors?.document}
-                className="md:basis-48 md:ml-4"
-                input={{
-                  type: 'text',
-                  name: 'document',
-                  defaultValue: data?.document,
-                  onChange: (e) => {
-                    e.currentTarget.value = maskDocument(e.currentTarget.value)
-                  }
+                classHelper="md:basis-48 md:ml-4"
+                type="text"
+                name="document"
+                defaultValue={data?.document}
+                onChange={(e) => {
+                  e.currentTarget.value = maskDocument(e.currentTarget.value)
                 }}
               />
 
               <InputLabel
                 label="Data Nascimento"
-                className="md:basis-40 md:ml-4"
+                classHelper="md:basis-40 md:ml-4"
                 message={errors?.brithDate}
-                input={{
-                  type: 'date',
-                  name: 'dateOfBirth',
-                  defaultValue: `${data?.dateOfBirth}`
-                }}
+                type="date"
+                name="dateOfBirth"
+                defaultValue={`${data?.dateOfBirth}`}
               />
 
               <div className="flex flex-col w-full space-y-4">
@@ -145,24 +137,18 @@ export function ModalForm({ open, data }: ModalFormInterface) {
                   <div key={phone.phone} className="flex flex-row flex-wrap">
                     <InputLabel
                       label="Telefone"
-                      className="md:basis-56"
-                      input={{
-                        name: `phones[${index}][phone]`,
-                        defaultValue: phone?.phone,
-                        onChange: (e) => {
-                          e.currentTarget.value = maskPhone(
-                            e.currentTarget.value
-                          )
-                        }
+                      classHelper="md:basis-56"
+                      name={`phones[${index}][phone]`}
+                      defaultValue={phone?.phone}
+                      onChange={(e) => {
+                        e.currentTarget.value = maskPhone(e.currentTarget.value)
                       }}
                     />
                     <InputLabel
                       label="Descrição"
-                      className="md:flex-1 md:ml-4"
-                      input={{
-                        name: `phones[${index}][description]`,
-                        defaultValue: phone?.description
-                      }}
+                      classHelper="md:flex-1 md:ml-4"
+                      name={`phones[${index}][description]`}
+                      defaultValue={phone?.description}
                     />
                     <Trash
                       className="mt-8 ml-4 w-4 h-4 cursor-pointer"
@@ -178,63 +164,51 @@ export function ModalForm({ open, data }: ModalFormInterface) {
               <InputLabel
                 label="Endereço"
                 message={errors?.address}
-                className="md:basis-96"
-                input={{
-                  name: 'address',
-                  defaultValue: data?.address
-                }}
+                classHelper="md:basis-96"
+                name="address"
+                defaultValue={data?.address}
               />
 
               <InputLabel
                 label="Nr."
                 message={errors?.number}
-                className="md:basis-20 md:ml-4"
-                input={{
-                  name: 'number',
-                  defaultValue: data?.number
-                }}
+                classHelper="md:basis-20 md:ml-4"
+                name="number"
+                defaultValue={data?.number}
               />
 
               <InputLabel
                 label="Bairro"
                 message={errors?.neighborhood}
-                className="md:basis-64"
-                input={{
-                  name: 'neighborhood',
-                  defaultValue: data?.neighborhood
-                }}
+                classHelper="md:basis-64"
+                name="neighborhood"
+                defaultValue={data?.neighborhood}
               />
 
               <InputLabel
                 label="Cidade"
                 message={errors?.city}
-                className="md:basis-64 md:ml-4"
-                input={{
-                  name: 'city',
-                  defaultValue: data?.city
-                }}
+                classHelper="md:basis-64 md:ml-4"
+                name="city"
+                defaultValue={data?.city}
               />
 
               <InputLabel
                 label="UF"
                 message={errors?.state}
-                className="md:basis-20 md:ml-4"
-                input={{
-                  name: 'state',
-                  defaultValue: data?.state
-                }}
+                classHelper="md:basis-20 md:ml-4"
+                name="state"
+                defaultValue={data?.state}
               />
 
               <InputLabel
                 label="CEP"
                 message={errors?.zipCode}
-                className="md:basis-44"
-                input={{
-                  name: 'zipCode',
-                  defaultValue: data?.zipCode,
-                  onChange: (e) => {
-                    e.currentTarget.value = maskZipCode(e.currentTarget.value)
-                  }
+                classHelper="md:basis-44"
+                name="zipCode"
+                defaultValue={data?.zipCode}
+                onChange={(e) => {
+                  e.currentTarget.value = maskZipCode(e.currentTarget.value)
                 }}
               />
 

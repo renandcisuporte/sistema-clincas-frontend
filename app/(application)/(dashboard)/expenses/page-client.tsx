@@ -81,12 +81,10 @@ export function ModalForm({ open, data }: ModalFormInterface) {
               <InputLabel
                 label="Descrição *"
                 message={errors?.description}
-                className="md:w-full"
-                input={{
-                  type: 'text',
-                  name: 'description',
-                  defaultValue: data?.description
-                }}
+                classHelper="md:w-full"
+                type="text"
+                name="description"
+                defaultValue={data?.description}
               />
 
               <div className="flex flex-col w-full space-y-2">

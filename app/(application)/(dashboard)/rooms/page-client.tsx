@@ -70,24 +70,20 @@ export function ModalForm({ open, data }: ModalFormInterface) {
               <input type="hidden" name="id" defaultValue={data?.id} />
               <InputLabel
                 label="Cód *"
-                className="md:basis-24"
+                classHelper="md:basis-24"
                 message={errors?.code}
-                input={{
-                  type: 'text',
-                  name: 'code',
-                  defaultValue: data?.code
-                }}
+                type="text"
+                name="code"
+                defaultValue={data?.code}
               />
 
               <InputLabel
                 label="Sala *"
                 message={errors?.room}
-                className="md:basis-80 md:ml-4"
-                input={{
-                  type: 'text',
-                  name: 'room',
-                  defaultValue: data?.room
-                }}
+                classHelper="md:basis-80 md:ml-4"
+                type="text"
+                name="room"
+                defaultValue={data?.room}
               />
 
               {/* <InputLabel
@@ -104,10 +100,8 @@ export function ModalForm({ open, data }: ModalFormInterface) {
               <TextareaLabel
                 label="Descrição"
                 message={errors?.description}
-                input={{
-                  name: 'description',
-                  defaultValue: data?.description
-                }}
+                name="description"
+                defaultValue={data?.description}
               />
 
               <div className="w-full text-center">

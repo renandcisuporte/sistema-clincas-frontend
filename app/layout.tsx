@@ -1,7 +1,6 @@
 import { Toaster } from '@/app/_components/ui/toaster'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { SessionProvider } from './_components/session-provider'
 import { ChildrenProps } from './_types/common'
 import './globals.css'
 
@@ -15,10 +14,10 @@ export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <body className={inter.className}>
-        <SessionProvider>
-          {children}
-          <Toaster />
-        </SessionProvider>
+        {/* <SessionProvider> */}
+        {children}
+        <Toaster />
+        {/* </SessionProvider> */}
       </body>
     </html>
   )
