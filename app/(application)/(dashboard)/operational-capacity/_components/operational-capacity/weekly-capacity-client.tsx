@@ -1,13 +1,13 @@
-'use client'
+"use client"
 
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
-} from '@/app/_components/ui/card'
-import { ChartsInterface } from '@/app/_types/chart'
+  CardTitle,
+} from "@/app/_components/ui/card"
+import { ChartsInterface } from "@/app/_types/chart"
 
 type WeeklyCapacityClientProps = {
   data: ChartsInterface
@@ -15,14 +15,14 @@ type WeeklyCapacityClientProps = {
 
 export function WeeklyCapacityClient({ data }: WeeklyCapacityClientProps) {
   return (
-    <Card className="h-full flex flex-col justify-center">
+    <Card className="flex h-full flex-col justify-center">
       <CardHeader>
         <CardTitle className="text-md">Capacidade Semanal</CardTitle>
         <CardDescription>
-          Total de procedimento/ocioso semanal que podem ser realiziados
+          Total de procedimento/ocioso semanal que podem ser realizados
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-row justify-between items-center [&>div]:flex [&>div]:flex-col [&>div]:text-center [&>div>strong]:uppercase [&>div>strong]:text-xs [&>div>span]:text-6xl [&>div>span]:font-bold p-6">
+      <CardContent className="flex flex-1 flex-row items-center justify-between p-6 [&>div>span]:text-6xl [&>div>span]:font-bold [&>div>strong]:text-xs [&>div>strong]:uppercase [&>div]:flex [&>div]:flex-col [&>div]:text-center">
         <div className="text-default">
           <strong>capacidade de procedimento</strong>
           <span>{data.weeklyCapacity?.procedure}</span>
