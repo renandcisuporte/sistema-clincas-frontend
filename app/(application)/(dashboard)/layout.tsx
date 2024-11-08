@@ -1,8 +1,8 @@
-import { LogOut } from "@/app/_components/common/button-others";
-import * as Nav from "@/app/_components/common/link";
-import { cn } from "@/app/_lib/utils";
-import { ChildrenProps } from "@/app/_types/common";
-import { authOptions } from "@/auth";
+import { LogOut } from "@/app/_components/common/button-others"
+import * as Nav from "@/app/_components/common/link"
+import { cn } from "@/app/_lib/utils"
+import { ChildrenProps } from "@/app/_types/common"
+import { authOptions } from "@/auth"
 import {
   Clock,
   Equal,
@@ -13,14 +13,14 @@ import {
   User,
   UserPen,
   UsersRound,
-} from "lucide-react";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
+} from "lucide-react"
+import { getServerSession } from "next-auth"
+import Image from "next/image"
 
 export default async function RootLayout({ children }: ChildrenProps) {
-  const session = await getServerSession(authOptions);
-  if (!session) return null;
-  const { clinicId, user } = session;
+  const session = await getServerSession(authOptions)
+  if (!session) return null
+  const { clinicId, user } = session
 
   return (
     <main className="flex h-full flex-col bg-neutral-100 md:flex-row">
@@ -77,6 +77,21 @@ export default async function RootLayout({ children }: ChildrenProps) {
               <span>Dashboard</span>
             </span>
           </Nav.Link>
+
+          <Nav.LinkDropDown data-href={["/releases"]} label="Lançamentos">
+            <Nav.Link href="/releases/fixed">
+              <span>
+                <Clock className="h-6 w-6" />
+                <span>Despesas Fixas</span>
+              </span>
+            </Nav.Link>
+            <Nav.Link href="/releases/variable">
+              <span>
+                <Clock className="h-6 w-6" />
+                <span>Despesas Variáveis</span>
+              </span>
+            </Nav.Link>
+          </Nav.LinkDropDown>
 
           <Nav.LinkDropDown
             data-href={["/clinics", "/jobs-works", "/rooms"]}
@@ -166,5 +181,5 @@ export default async function RootLayout({ children }: ChildrenProps) {
         <div className="mt-6 rounded-lg bg-white p-4 shadow-lg">{children}</div>
       </section>
     </main>
-  );
+  )
 }

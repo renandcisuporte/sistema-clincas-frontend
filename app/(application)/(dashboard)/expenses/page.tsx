@@ -1,30 +1,30 @@
-import { loadExpenses } from '@/app/_actions/expenses'
-import { InputLabel } from '@/app/_components/common/input'
-import { Button, buttonVariants } from '@/app/_components/ui/button'
+import { loadExpenses } from "@/app/_actions/expenses"
+import { InputLabel } from "@/app/_components/common/input"
+import { Pagination } from "@/app/_components/common/pagination"
+import { Button, buttonVariants } from "@/app/_components/ui/button"
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
-  TableRow
-} from '@/app/_components/ui/table'
-import { cn } from '@/app/_lib/utils'
-import { SearchParamsProps } from '@/app/_types/common'
-import { Edit, Save, Search, Trash } from 'lucide-react'
-import { Metadata } from 'next'
-import Link from 'next/link'
-import { SwitchExpense } from './_components/switch-expense'
-import { TypeExpense } from './_components/type-expense'
-import { ModalDelete, ModalForm } from './page-client'
+  TableRow,
+} from "@/app/_components/ui/table"
+import { cn } from "@/app/_lib/utils"
+import { SearchParamsProps } from "@/app/_types/common"
+import { Edit, Save, Search, Trash } from "lucide-react"
+import { Metadata } from "next"
+import Link from "next/link"
+import { SwitchExpense } from "./_components/switch-expense"
+import { TypeExpense } from "./_components/type-expense"
+import { ModalDelete, ModalForm } from "./page-client"
 
 export const metadata: Metadata = {
-  title: 'Lista de Despesas - Clinicas'
+  title: "Lista de Despesas - Clinicas",
 }
 
 export default async function Page({ searchParams }: SearchParamsProps) {
-  const { description, limit = 15, page = 1, modal, id } = searchParams
+  const { description = "", limit = 15, page = 1, modal, id } = searchParams
 
   const result = await loadExpenses({ description, limit, page })
   const { data, total, fixed, variable, active, inative } = result
@@ -32,32 +32,39 @@ export default async function Page({ searchParams }: SearchParamsProps) {
   return (
     <div className="flex flex-col space-y-4">
       {result.errorMessage && (
-        <div className="p-6 bg-amber-100/50 rounded-lg text-amber-600 font-semibold">
+        <div className="rounded-lg bg-amber-100/50 p-6 font-semibold text-amber-600">
           {result.errorMessage}
         </div>
       )}
 
       <h1 className="text-2xl font-bold">Despesas</h1>
-      <form className="flex flex-row space-x-4 flex-wrap">
+      <form className="flex flex-row flex-wrap space-x-4">
         <InputLabel
-          className="flex-1"
+          classHelper="flex-1"
           type="text"
           name="description"
           placeholder="Pesquisar..."
         />
 
-        <Button type="submit" size="sm">
-          <Search className="w-4 mr-1" />
+        <Button type="submit">
+          <Search className="mr-1 w-4" />
           Pesquisar
         </Button>
         <Link
-          href={{ query: { modal: 'true' } }}
-          className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+          href={{ query: { modal: "true" } }}
+          className={cn(buttonVariants({ variant: "outline" }))}
         >
-          <Save className="w-4 mr-1" />
+          <Save className="mr-1 w-4" />
           Cadastrar
         </Link>
       </form>
+
+      <Pagination
+        limit={+limit}
+        page={+page}
+        total={Number(data?.length)}
+        description={String(description)}
+      />
 
       <Table>
         <TableHeader>
@@ -85,81 +92,50 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           {data?.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.description}</TableCell>
-              <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
+              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
                 <TypeExpense type={item.type} id={item.id!} />
               </TableCell>
-              <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
+              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
                 <SwitchExpense active={item.active === true} id={item.id!} />
               </TableCell>
-              <TableCell className="whitespace-nowrap w-[1%] text-center space-x-1">
+              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
                 <Link
-                  href={{ query: { id: item.id, modal: 'true' } }}
-                  className={buttonVariants({ variant: 'outline', size: 'sm' })}
+                  href={{ query: { id: item.id, modal: "true" } }}
+                  className={buttonVariants({ variant: "outline", size: "sm" })}
                 >
-                  <Edit className="w-4 mr-1" />
+                  <Edit className="mr-1 w-4" />
                   Editar
                 </Link>
 
                 <Link
-                  href={{ query: { id: item.id, modal: 'delete' } }}
+                  href={{ query: { id: item.id, modal: "delete" } }}
                   className={buttonVariants({
-                    variant: 'destructive',
-                    size: 'sm'
+                    variant: "destructive",
+                    size: "sm",
                   })}
                 >
-                  <Trash className="w-4 mr-1" />
+                  <Trash className="mr-1 w-4" />
                   Excluir
                 </Link>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>
-              <div className="flex flex-row space-x-4 flex-wrap justify-end items-center">
-                <span>PAGINAÇÃO:</span>
-                <Link
-                  href={{
-                    query: {
-                      page: Number(page) - 1 === 0 ? 1 : Number(page) - 1,
-                      limit,
-                      description
-                    }
-                  }}
-                  className={buttonVariants({ variant: 'outline', size: 'sm' })}
-                >
-                  Anterior
-                </Link>
-                <span>{page}</span>
-                <Link
-                  href={{
-                    query: {
-                      page:
-                        data?.length === Number(limit)
-                          ? Number(page) + 1
-                          : Number(page),
-                      limit,
-                      description
-                    }
-                  }}
-                  className={buttonVariants({ variant: 'outline', size: 'sm' })}
-                >
-                  Próxima
-                </Link>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
 
+      <Pagination
+        limit={+limit}
+        page={+page}
+        total={Number(data?.length)}
+        description={String(description)}
+      />
       <ModalForm
-        open={modal === 'true'}
+        open={modal === "true"}
         data={data?.find((item) => item.id === id)}
       />
 
       <ModalDelete
-        open={modal === 'delete'}
+        open={modal === "delete"}
         data={data?.find((item) => item.id === id)}
       />
     </div>
