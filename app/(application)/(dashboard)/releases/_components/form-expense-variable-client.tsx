@@ -59,7 +59,7 @@ export function FormExpenseVariableClient({
         <div className="text-center">
           <h3 className="text-xl">Nenhum lançamento feito!</h3>
           <small>
-            Selecione um tipo de lançamento, e gerencie os gastos menal
+            Selecione um tipo de lançamento, e gerencie os gastos mensal
           </small>
         </div>
       )}
@@ -73,7 +73,7 @@ export function FormExpenseVariableClient({
                   <Table.TableHead
                     key={id}
                     className={cn(
-                      "bg-default p-2 text-center text-white data-[atualy='true']:!bg-default/40 data-[atualy='true']:!text-default",
+                      "bg-default p-2 text-center uppercase text-white data-[atualy='true']:!bg-orange-200 data-[atualy='true']:!text-orange-600",
                     )}
                     data-atualy={`${monthAtualy}`}
                   >
@@ -113,7 +113,7 @@ export function FormExpenseVariableClient({
                         <Table.TableCell
                           key={`${_id}_${id}`}
                           className={cn(
-                            "p-2 data-[atualy='true']:!bg-default/10 [&>input]:data-[atualy='true']:!border-default [&>input]:data-[atualy='true']:!bg-transparent [&>input]:data-[atualy='true']:!text-default [&>input]:data-[atualy='true']:placeholder:!text-default",
+                            "p-2 data-[atualy='true']:!bg-orange-200 [&>input]:data-[atualy='true']:!border-orange-600 [&>input]:data-[atualy='true']:!bg-transparent [&>input]:data-[atualy='true']:!text-orange-600 [&>input]:data-[atualy='true']:placeholder:!text-orange-600",
                           )}
                           data-atualy={`${monthAtualy}`}
                         >
