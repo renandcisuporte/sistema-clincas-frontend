@@ -5,7 +5,7 @@ import { Input } from "@/app/_components/ui/input"
 import * as Table from "@/app/_components/ui/table"
 import { mockMonths, month } from "@/app/_contants"
 import { cn, maskPrice } from "@/app/_lib/utils"
-import { Fragment, useState } from "react"
+import { Fragment } from "react"
 import {
   // @ts-ignore
   experimental_useFormState as useFormState,
@@ -23,15 +23,13 @@ type Realeses = {
   }
 }
 
-export function FormExpensesClient({
+export function FormExpenseFixedClient({
   expenses,
   realeses,
 }: {
   expenses: Expenses[]
   realeses: Realeses[]
 }) {
-  const [expense, setExpense] = useState(expenses)
-
   const [_, formAction] = useFormState(actionRelease, {
     message: "OK",
   })
@@ -79,7 +77,7 @@ export function FormExpensesClient({
                   let priceValueBool = false
                   const monthAtualy = month === index
 
-                  const realese = realeses[_id][date]
+                  const realese = realeses?.[_id]?.[date]
                   if (realese && +realese.price > 0) {
                     priceValueBool = true
                     priceValue = maskPrice(`${+realese.price * 100}`)

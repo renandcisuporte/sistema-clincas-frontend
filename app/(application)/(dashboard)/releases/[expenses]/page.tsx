@@ -1,7 +1,8 @@
 import { apiFecth } from "@/app/_lib/api"
 import { authOptions } from "@/auth"
 import { getServerSession } from "next-auth"
-import { FormExpensesClient } from "../_components/form-expenses-client"
+import { FormExpenseFixedClient } from "../_components/form-expense-fixed-client"
+import { FormExpenseVariableClient } from "../_components/form-expense-variable-client"
 
 type Props = {
   params: {
@@ -29,10 +30,18 @@ export default async function Page({ params }: Props) {
 
   switch (expenses) {
     case "variable":
-      return <>Var{JSON.stringify(expense)}</>
+      return (
+        <FormExpenseVariableClient
+          expenses={expense.data}
+          realeses={realese.data}
+        />
+      )
     case "fixed":
       return (
-        <FormExpensesClient expenses={expense.data} realeses={realese.data} />
+        <FormExpenseFixedClient
+          expenses={expense.data}
+          realeses={realese.data}
+        />
       )
     default:
       return <>Selecione os tipo um tipo de lançamento</>
