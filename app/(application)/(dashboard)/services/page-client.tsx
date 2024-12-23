@@ -59,7 +59,8 @@ export function ModalForm({ open, data }: ModalFormInterface) {
             <DialogHeader>
               <DialogTitle>Editar/Cadastrar</DialogTitle>
               <DialogDescription>
-                Você pode editar ou cadastrar pessoas no formulário abaixo.
+                Você pode editar ou cadastrar procedimentos no formulário
+                abaixo.
               </DialogDescription>
             </DialogHeader>
             <form
@@ -68,7 +69,7 @@ export function ModalForm({ open, data }: ModalFormInterface) {
             >
               <input type="hidden" name="id" defaultValue={data?.id} />
               <InputLabel
-                label="Serviço *"
+                label="Procedimento *"
                 message={errors?.name}
                 type="text"
                 name="name"

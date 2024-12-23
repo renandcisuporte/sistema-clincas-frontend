@@ -56,7 +56,7 @@ export async function removeService(
     accessToken: session?.accessToken,
   })
 
-  revalidateTag("services")
+  revalidateTag(`services`)
 
   return {
     data: null,

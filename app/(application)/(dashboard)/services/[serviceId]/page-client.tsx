@@ -147,7 +147,7 @@ export function TableListing({
   const [sum, setSum] = useState<{ [x: string]: number }>({})
   const [handleInput, setHandleInput] = useState<{ [x: string]: boolean }>({})
 
-  const { back } = useRouter()
+  const { push } = useRouter()
   const { toast } = useToast()
 
   const [state, formAction] = useFormState(saveServiceInProduct, {})
@@ -164,11 +164,12 @@ export function TableListing({
     [setSum],
   )
 
+  let serviceId = products[0]?.serviceId
   useEffect(() => {
     if (state?.errorMessage !== "OK") return
     toast({ title: "Atenção!", description: "Salvo com sucesso!" })
-    back()
-  }, [state, back, toast])
+    push(`/services/${serviceId}`)
+  }, [state, toast, serviceId, push])
 
   return (
     <form action={formAction} id="form-add-product" method="POST">
@@ -222,7 +223,7 @@ export function TableListing({
                 </TableCell>
                 <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
                   <InputLabel
-                    type="number"
+                    type="text"
                     disabled={checked}
                     defaultValue={0}
                     name={`services[${key}][rental]`}
