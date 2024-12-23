@@ -1,9 +1,8 @@
 "use client"
 
-import { removeRoom, saveRoom } from "@/app/_actions/rooms"
+import { removeProduct, saveProduct } from "@/app/_actions/products"
 import { ButtonSubmit } from "@/app/_components/common/button-submit"
 import { InputLabel } from "@/app/_components/common/input"
-import { TextareaLabel } from "@/app/_components/common/textarea"
 import { Button } from "@/app/_components/ui/button"
 import {
   Dialog,
@@ -15,7 +14,8 @@ import {
 } from "@/app/_components/ui/dialog"
 import { ScrollArea } from "@/app/_components/ui/scroll-area"
 import { useToast } from "@/app/_hooks/use-toast"
-import { Room } from "@/app/_types/rooms"
+import { maskPrice } from "@/app/_lib/utils"
+import { Product } from "@/app/_types/products"
 import { CircleX } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -26,14 +26,14 @@ import {
 
 export interface ModalFormInterface {
   open: boolean
-  data?: Room
+  data?: Product
 }
 
 export function ModalForm({ open, data }: ModalFormInterface) {
   const { back } = useRouter()
   const { toast } = useToast()
 
-  const [state, formAction] = useFormState(saveRoom, {})
+  const [state, formAction] = useFormState(saveProduct, {})
   const { errors } = state
 
   useEffect(() => {
@@ -42,10 +42,12 @@ export function ModalForm({ open, data }: ModalFormInterface) {
     back()
   }, [state, back, toast])
 
+  console.log(data)
+
   return (
     <Dialog open={open} modal={true}>
       <DialogContent
-        className="!p-0 sm:max-w-[767px] [&>button]:hidden"
+        className="h-auto sm:max-w-[767px] [&>button]:hidden"
         onEscapeKeyDown={() => back()}
         onInteractOutside={(e) => e.preventDefault()}
       >
@@ -60,7 +62,7 @@ export function ModalForm({ open, data }: ModalFormInterface) {
             <DialogHeader>
               <DialogTitle>Editar/Cadastrar</DialogTitle>
               <DialogDescription>
-                Você pode editar ou cadastrar uma sala no formulário abaixo.
+                Você pode editar ou cadastrar pessoas no formulário abaixo.
               </DialogDescription>
             </DialogHeader>
             <form
@@ -69,39 +71,32 @@ export function ModalForm({ open, data }: ModalFormInterface) {
             >
               <input type="hidden" name="id" defaultValue={data?.id} />
               <InputLabel
-                label="Cód *"
-                classHelper="md:basis-24"
-                message={errors?.code}
+                label="Produto *"
+                message={errors?.name}
                 type="text"
-                name="code"
-                defaultValue={data?.code}
+                name="name"
+                defaultValue={data?.name}
               />
 
               <InputLabel
-                label="Sala *"
-                message={errors?.room}
-                classHelper="md:basis-80 md:ml-4"
-                type="text"
-                name="room"
-                defaultValue={data?.room}
+                label="Qtde (ml/un)"
+                message={errors?.quantity}
+                classHelper="md:basis-44 md:mr-4"
+                name="quantity"
+                defaultValue={data?.quantity}
               />
 
-              {/* <InputLabel
-                label="Tempo de Atendimento"
-                className="md:basis-40 md:ml-4"
-                message={errors?.averageService}
-                input={{
-                  type: 'time',
-                  name: 'averageService',
-                  defaultValue: data?.averageService
+              <InputLabel
+                label="Preço"
+                message={errors?.price}
+                classHelper="md:basis-44 md:mr-4"
+                name="price"
+                defaultValue={maskPrice(`${data?.price}` || "0")}
+                onChange={(e) => {
+                  e.currentTarget.value = maskPrice(
+                    String(e.currentTarget.value),
+                  )
                 }}
-              /> */}
-
-              <TextareaLabel
-                label="Descrição"
-                message={errors?.description}
-                name="description"
-                defaultValue={data?.description}
               />
 
               <div className="w-full text-center">
@@ -119,7 +114,7 @@ export function ModalDelete({ open, data }: ModalFormInterface) {
   const { back } = useRouter()
   const { toast } = useToast()
 
-  const [state, formAction] = useFormState(removeRoom, {})
+  const [state, formAction] = useFormState(removeProduct, {})
 
   useEffect(() => {
     if (state?.errorMessage !== "OK") return
