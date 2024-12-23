@@ -75,48 +75,6 @@ export function ModalForm({ open, data }: ModalFormInterface) {
                 defaultValue={data?.name}
               />
 
-              {/* <div className="flex w-full flex-col space-y-4">
-                <hr className="mt-4 flex-1" />
-                <DialogTitle className="flex flex-row items-center">
-                  <span>Editar/Telefones</span>
-                  <Plus
-                    className="ml-2 h-4 w-4 cursor-pointer"
-                    onClick={() =>
-                      setPhones((old) => [
-                        ...old,
-                        { phone: "", description: "" },
-                      ])
-                    }
-                  />
-                </DialogTitle>
-                {phones.map((phone, index) => (
-                  <div key={phone.phone} className="flex flex-row flex-wrap">
-                    <InputLabel
-                      label="Telefone"
-                      classHelper="md:basis-56"
-                      name={`phones[${index}][phone]`}
-                      defaultValue={phone?.phone}
-                      onChange={(e) => {
-                        e.currentTarget.value = maskPhone(e.currentTarget.value)
-                      }}
-                    />
-                    <InputLabel
-                      label="Descrição"
-                      classHelper="md:flex-1 md:ml-4"
-                      name={`phones[${index}][description]`}
-                      defaultValue={phone?.description}
-                    />
-                    <Trash
-                      className="ml-4 mt-8 h-4 w-4 cursor-pointer"
-                      onClick={() => {
-                        setPhones(phones.filter((_, i) => i !== index))
-                      }}
-                    />
-                  </div>
-                ))}
-                <hr className="my-4 flex-1" />
-              </div> */}
-
               <div className="w-full text-center">
                 <ButtonSubmit />
               </div>

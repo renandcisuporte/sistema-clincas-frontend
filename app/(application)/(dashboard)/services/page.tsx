@@ -36,7 +36,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       )}
 
       <h1 className="text-2xl font-bold">Serviços</h1>
-      <form className="flex flex-row flex-wrap space-x-4">
+      <form className="flex flex-row flex-wrap space-x-4" method="GET">
         <InputLabel
           classHelper="flex-1"
           type="text"
