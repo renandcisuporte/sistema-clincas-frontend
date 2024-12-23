@@ -1,9 +1,8 @@
 "use client"
 
-import { removeRoom, saveRoom } from "@/app/_actions/rooms"
+import { removeService, saveService } from "@/app/_actions/services"
 import { ButtonSubmit } from "@/app/_components/common/button-submit"
 import { InputLabel } from "@/app/_components/common/input"
-import { TextareaLabel } from "@/app/_components/common/textarea"
 import { Button } from "@/app/_components/ui/button"
 import {
   Dialog,
@@ -15,7 +14,7 @@ import {
 } from "@/app/_components/ui/dialog"
 import { ScrollArea } from "@/app/_components/ui/scroll-area"
 import { useToast } from "@/app/_hooks/use-toast"
-import { Room } from "@/app/_types/rooms"
+import { Service } from "@/app/_types/services"
 import { CircleX } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -26,14 +25,14 @@ import {
 
 export interface ModalFormInterface {
   open: boolean
-  data?: Room
+  data?: Service
 }
 
 export function ModalForm({ open, data }: ModalFormInterface) {
   const { back } = useRouter()
   const { toast } = useToast()
 
-  const [state, formAction] = useFormState(saveRoom, {})
+  const [state, formAction] = useFormState(saveService, {})
   const { errors } = state
 
   useEffect(() => {
@@ -45,7 +44,7 @@ export function ModalForm({ open, data }: ModalFormInterface) {
   return (
     <Dialog open={open} modal={true}>
       <DialogContent
-        className="!p-0 sm:max-w-[767px] [&>button]:hidden"
+        className="h-auto !p-0 sm:max-w-sm [&>button]:hidden"
         onEscapeKeyDown={() => back()}
         onInteractOutside={(e) => e.preventDefault()}
       >
@@ -60,7 +59,7 @@ export function ModalForm({ open, data }: ModalFormInterface) {
             <DialogHeader>
               <DialogTitle>Editar/Cadastrar</DialogTitle>
               <DialogDescription>
-                Você pode editar ou cadastrar uma sala no formulário abaixo.
+                Você pode editar ou cadastrar pessoas no formulário abaixo.
               </DialogDescription>
             </DialogHeader>
             <form
@@ -69,40 +68,54 @@ export function ModalForm({ open, data }: ModalFormInterface) {
             >
               <input type="hidden" name="id" defaultValue={data?.id} />
               <InputLabel
-                label="Cód *"
-                classHelper="md:basis-24"
-                message={errors?.code}
+                label="Serviço *"
+                message={errors?.name}
                 type="text"
-                name="code"
-                defaultValue={data?.code}
+                name="name"
+                defaultValue={data?.name}
               />
 
-              <InputLabel
-                label="Sala *"
-                message={errors?.room}
-                classHelper="md:basis-80 md:ml-4"
-                type="text"
-                name="room"
-                defaultValue={data?.room}
-              />
-
-              {/* <InputLabel
-                label="Tempo de Atendimento"
-                className="md:basis-40 md:ml-4"
-                message={errors?.averageService}
-                input={{
-                  type: 'time',
-                  name: 'averageService',
-                  defaultValue: data?.averageService
-                }}
-              /> */}
-
-              <TextareaLabel
-                label="Descrição"
-                message={errors?.description}
-                name="description"
-                defaultValue={data?.description}
-              />
+              {/* <div className="flex w-full flex-col space-y-4">
+                <hr className="mt-4 flex-1" />
+                <DialogTitle className="flex flex-row items-center">
+                  <span>Editar/Telefones</span>
+                  <Plus
+                    className="ml-2 h-4 w-4 cursor-pointer"
+                    onClick={() =>
+                      setPhones((old) => [
+                        ...old,
+                        { phone: "", description: "" },
+                      ])
+                    }
+                  />
+                </DialogTitle>
+                {phones.map((phone, index) => (
+                  <div key={phone.phone} className="flex flex-row flex-wrap">
+                    <InputLabel
+                      label="Telefone"
+                      classHelper="md:basis-56"
+                      name={`phones[${index}][phone]`}
+                      defaultValue={phone?.phone}
+                      onChange={(e) => {
+                        e.currentTarget.value = maskPhone(e.currentTarget.value)
+                      }}
+                    />
+                    <InputLabel
+                      label="Descrição"
+                      classHelper="md:flex-1 md:ml-4"
+                      name={`phones[${index}][description]`}
+                      defaultValue={phone?.description}
+                    />
+                    <Trash
+                      className="ml-4 mt-8 h-4 w-4 cursor-pointer"
+                      onClick={() => {
+                        setPhones(phones.filter((_, i) => i !== index))
+                      }}
+                    />
+                  </div>
+                ))}
+                <hr className="my-4 flex-1" />
+              </div> */}
 
               <div className="w-full text-center">
                 <ButtonSubmit />
@@ -119,7 +132,7 @@ export function ModalDelete({ open, data }: ModalFormInterface) {
   const { back } = useRouter()
   const { toast } = useToast()
 
-  const [state, formAction] = useFormState(removeRoom, {})
+  const [state, formAction] = useFormState(removeService, {})
 
   useEffect(() => {
     if (state?.errorMessage !== "OK") return

@@ -4,10 +4,12 @@ import { cn } from "@/app/_lib/utils"
 import { ChildrenProps } from "@/app/_types/common"
 import { authOptions } from "@/auth"
 import {
+  ChartNoAxesGantt,
   Clock,
   Equal,
   Gauge,
   Hospital,
+  PackageSearch,
   Stethoscope,
   TrendingUp,
   User,
@@ -118,9 +120,21 @@ export default async function RootLayout({ children }: ChildrenProps) {
           </Nav.LinkDropDown>
 
           <Nav.LinkDropDown
-            data-href={["/peoples", "/expenses"]}
+            data-href={["/peoples", "/expenses", "/services", "/products"]}
             label="Cadastros"
           >
+            <Nav.Link href="/products">
+              <span>
+                <PackageSearch className="h-6 w-6" />
+                <span>Produtos</span>
+              </span>
+            </Nav.Link>
+            <Nav.Link href="/services">
+              <span>
+                <ChartNoAxesGantt className="h-6 w-6" />
+                <span>Serviços</span>
+              </span>
+            </Nav.Link>
             <Nav.Link href="/peoples">
               <span>
                 <UsersRound className="h-6 w-6" />
