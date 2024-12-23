@@ -144,7 +144,9 @@ export function TableListing({
 }: {
   products: ({ serviceId: string } & Product)[]
 }) {
-  const [sum, setSum] = useState({} as any)
+  const [sum, setSum] = useState<{ [x: string]: number }>({})
+  const [handleInput, setHandleInput] = useState<{ [x: string]: boolean }>({})
+
   const { back } = useRouter()
   const { toast } = useToast()
 
@@ -187,60 +189,78 @@ export function TableListing({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products?.map((item, key) => (
-            <TableRow key={item.id}>
-              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
-                <Input
-                  type="hidden"
-                  name={`services[${key}][serviceId]`}
-                  value={item.serviceId}
-                />
-                <Input
-                  type="checkbox"
-                  name={`services[${key}][productId]`}
-                  value={item.id}
-                />
-              </TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
-                {maskPrice(item.price)}
-              </TableCell>
-              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
-                {item.quantity}
-              </TableCell>
-              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
-                <InputLabel
-                  defaultValue={0}
-                  name={`services[${key}][rental]`}
-                  onKeyUp={(e) =>
-                    resolveSum(`${item.id}`, item.price, e.currentTarget.value)
-                  }
-                />
-              </TableCell>
-              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
-                <InputLabel
-                  defaultValue={maskPrice(sum[`${item.id}`] || 0)}
-                  name={`services[${key}][rentalPrice]`}
-                  readOnly
-                />
-              </TableCell>
-              <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
-                <Link
-                  href={{
-                    pathname: "/products",
-                    query: { id: item.id, modal: "true" },
-                  }}
-                  className={buttonVariants({
-                    variant: "outline",
-                    size: "sm",
-                  })}
-                >
-                  <Edit className="mr-1 w-4" />
-                  Editar
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))}
+          {products?.map((item, key) => {
+            const checked = !handleInput[`${item.id}`]
+            return (
+              <TableRow key={item.id}>
+                <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
+                  <Input
+                    type="hidden"
+                    name={`services[${key}][serviceId]`}
+                    value={item.serviceId}
+                  />
+                  <Input
+                    type="checkbox"
+                    name={`services[${key}][productId]`}
+                    value={item.id}
+                    onChange={(e) => {
+                      let checked = e.currentTarget.checked
+
+                      setHandleInput({
+                        ...handleInput,
+                        [`${item.id}`]: checked,
+                      })
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
+                  {maskPrice(item.price)}
+                </TableCell>
+                <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
+                  {item.quantity}
+                </TableCell>
+                <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
+                  <InputLabel
+                    type="number"
+                    disabled={checked}
+                    defaultValue={0}
+                    name={`services[${key}][rental]`}
+                    onKeyUp={(e) =>
+                      resolveSum(
+                        `${item.id}`,
+                        item.price,
+                        e.currentTarget.value,
+                      )
+                    }
+                  />
+                </TableCell>
+                <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
+                  <InputLabel
+                    disabled={checked}
+                    defaultValue={maskPrice(sum[`${item.id}`] || 0)}
+                    name={`services[${key}][rentalPrice]`}
+                    readOnly
+                  />
+                </TableCell>
+                <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
+                  <Link
+                    href={{
+                      pathname: "/products",
+                      query: { id: item.id, modal: "true" },
+                    }}
+                    className={buttonVariants({
+                      variant: "outline",
+                      size: "sm",
+                    })}
+                  >
+                    <Edit className="mr-1 w-4" />
+                    Editar
+                  </Link>
+                </TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
     </form>
