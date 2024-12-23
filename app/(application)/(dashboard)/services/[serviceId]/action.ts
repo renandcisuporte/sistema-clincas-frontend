@@ -4,7 +4,7 @@ import { apiFecth } from "@/app/_lib/api"
 import { dataToJson } from "@/app/_lib/utils"
 import { authOptions } from "@/auth"
 import { getServerSession } from "next-auth"
-import { revalidateTag } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 export async function saveServiceInProduct(
   _state: any,
@@ -13,8 +13,6 @@ export async function saveServiceInProduct(
   const session = await getServerSession(authOptions)
 
   const form = dataToJson(formData)
-
-  console.log("form", form)
 
   const api = {
     accessToken: session?.accessToken,
@@ -31,8 +29,10 @@ export async function saveServiceInProduct(
     ...restApi,
   })
 
-  revalidateTag(`service-${services[0].serviceId}-product`)
+  revalidateTag("products")
   revalidateTag("services")
+  revalidateTag(`service-${services[0].serviceId}-product`)
+  revalidatePath(`/services/${services[0].productId}`)
 
   return {
     errorMessage: "OK",

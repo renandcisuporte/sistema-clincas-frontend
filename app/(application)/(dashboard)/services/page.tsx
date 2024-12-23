@@ -18,7 +18,7 @@ import Link from "next/link"
 import { ModalDelete, ModalForm } from "./page-client"
 
 export const metadata: Metadata = {
-  title: "Lista de Serviços - Clinicas",
+  title: "Lista de Procedimentos - Clinicas",
 }
 
 export default async function Page({ searchParams }: SearchParamsProps) {
@@ -35,13 +35,13 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         </div>
       )}
 
-      <h1 className="text-2xl font-bold">Serviços</h1>
+      <h1 className="text-2xl font-bold">Procedimentos</h1>
       <form className="flex flex-row flex-wrap space-x-4" method="GET">
         <InputLabel
           classHelper="flex-1"
           type="text"
           name="name"
-          placeholder="Pesquisar serviços"
+          placeholder="Pesquisar procedimentos..."
         />
 
         <Button type="submit" size="sm">
@@ -61,7 +61,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Serviços</span>
+              <span>Procedimentos</span>
               <span className="ml-2 text-xs font-normal">
                 Total de cadastros: ({total})
               </span>

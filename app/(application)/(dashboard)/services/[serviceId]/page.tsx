@@ -48,7 +48,7 @@ export default async function Page({
   return (
     <div className="flex flex-col space-y-4">
       <h1 className="text-2xl font-bold">
-        Serviços/Produtos{" "}
+        Procedimentos/Produtos{" "}
         <span className="text-sm font-normal text-gray-400">
           {data?.[0]?.serviceName}
         </span>
@@ -78,7 +78,7 @@ export default async function Page({
           <Button
             type="submit"
             form="form-add-product"
-            className={cn(buttonVariants({ variant: "secondary", size: "sm" }))}
+            className={cn(buttonVariants({ variant: "orange", size: "sm" }))}
           >
             <Save className="mr-1 w-4" />
             Adicionar

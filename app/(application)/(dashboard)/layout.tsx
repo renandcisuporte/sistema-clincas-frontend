@@ -132,7 +132,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
             <Nav.Link href="/services">
               <span>
                 <ChartNoAxesGantt className="h-6 w-6" />
-                <span>Serviços</span>
+                <span>Procedimentos</span>
               </span>
             </Nav.Link>
             <Nav.Link href="/peoples">
