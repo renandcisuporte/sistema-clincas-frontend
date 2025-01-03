@@ -5,6 +5,7 @@ import { ChildrenProps } from "@/app/_types/common"
 import { authOptions } from "@/auth"
 import {
   ChartNoAxesGantt,
+  ChartSpline,
   Clock,
   Equal,
   Gauge,
@@ -154,6 +155,24 @@ export default async function RootLayout({ children }: ChildrenProps) {
               <span>
                 <TrendingUp className="h-6 w-6" />
                 <span>Capacidade Operacional</span>
+              </span>
+            </Nav.Link>
+          </Nav.LinkDropDown>
+
+          <Nav.LinkDropDown
+            data-href={["/report-product", "/report-procediment"]}
+            label="Relatórios"
+          >
+            <Nav.Link href="/report-product">
+              <span>
+                <ChartSpline className="h-6 w-6" />
+                <span>Relatório de Produtos</span>
+              </span>
+            </Nav.Link>
+            <Nav.Link href="/report-procediment">
+              <span>
+                <ChartSpline className="h-6 w-6" />
+                <span>Relatório de Procedimentos</span>
               </span>
             </Nav.Link>
           </Nav.LinkDropDown>

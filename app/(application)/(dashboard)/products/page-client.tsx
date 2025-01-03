@@ -92,6 +92,9 @@ export function ModalForm({ open, data }: ModalFormInterface) {
                 classHelper="md:basis-44 md:mr-4"
                 name="price"
                 defaultValue={maskPrice(`${data?.price}` || "0")}
+                onFocus={(e) => {
+                  e.currentTarget.value = ""
+                }}
                 onChange={(e) => {
                   e.currentTarget.value = maskPrice(
                     String(e.currentTarget.value),

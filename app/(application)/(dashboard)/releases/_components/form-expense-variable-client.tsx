@@ -123,9 +123,11 @@ export function FormExpenseVariableClient({
                             placeholder="0,00"
                             className="min-w-20 text-right"
                             name={`expenses[${_id}][${date}][price]`}
-                            // readOnly={priceValueBool}
                             disabled={priceValueBool}
                             defaultValue={priceValue}
+                            onFocus={(e) => {
+                              e.currentTarget.value = ""
+                            }}
                             onChange={(e) => {
                               e.currentTarget.value = maskPrice(
                                 e.currentTarget.value,

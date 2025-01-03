@@ -100,6 +100,9 @@ export function FormExpenseFixedClient({
                         // readOnly={priceValueBool}
                         disabled={priceValueBool}
                         defaultValue={priceValue}
+                        onFocus={(e) => {
+                          e.currentTarget.value = ""
+                        }}
                         onChange={(e) => {
                           e.currentTarget.value = maskPrice(
                             e.currentTarget.value,
