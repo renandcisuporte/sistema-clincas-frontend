@@ -75,7 +75,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
               <TableCell>{item.name}</TableCell>
               <TableCell className="w-[1%] space-x-1 whitespace-nowrap text-center">
                 <Link
-                  href={{ query: { id: item.id, modal: "true" } }}
+                  href={{ query: { id: item.id, modal: "true", name } }}
                   className={buttonVariants({ variant: "outline", size: "sm" })}
                 >
                   <Edit className="mr-1 w-4" />
@@ -94,7 +94,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 </Link>
               </TableCell>
             </TableRow>
-          ))}{" "}
+          ))}
         </TableBody>
         <TableFooter>
           <TableRow>

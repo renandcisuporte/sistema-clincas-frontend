@@ -4,12 +4,12 @@ import { apiFecth } from "@/app/_lib/api"
 import { authOptions } from "@/auth"
 import { getServerSession } from "next-auth"
 
-export async function generateReport(_state: any, _formData: FormData) {
+export async function generateReport(_state: any, formData: FormData) {
   const session = await getServerSession(authOptions)
   const api = {
     accessToken: session?.accessToken,
     method: "POST",
-    body: "",
+    body: JSON.stringify({ ...Object.fromEntries(formData.entries()) }),
   }
 
   const result = await apiFecth("/reports/procediment-in-product", {
