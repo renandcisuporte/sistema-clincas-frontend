@@ -9,6 +9,8 @@ import { Fragment } from "react"
 import {
   // @ts-ignore
   experimental_useFormState as useFormState,
+  // @ts-ignore
+  experimental_useFormStatus as useFormStatus,
 } from "react-dom"
 import { actionRelease } from "../[expenses]/action"
 
@@ -30,9 +32,15 @@ export function FormExpenseFixedClient({
   expenses: Expenses[]
   realeses: Realeses[]
 }) {
-  const [_, formAction] = useFormState(actionRelease, {
-    message: "OK",
-  })
+  const { pending } = useFormStatus()
+  const [_, formAction] = useFormState(actionRelease, {})
+
+  if (pending)
+    return (
+      <div className="flex justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+      </div>
+    )
 
   return (
     <form action={formAction}>
@@ -40,7 +48,7 @@ export function FormExpenseFixedClient({
         <ButtonSubmit />
       </div>
 
-      <Table.TableNotFlow className="block">
+      <Table.TableNotFlow className={cn(pending && "opacity-50")}>
         <Table.TableHeader className="sticky top-16 z-[100] font-bold">
           <Table.TableRow>
             {mockMonths.map(({ id, month: asMonth }: any, index) => {
@@ -79,7 +87,7 @@ export function FormExpenseFixedClient({
 
                   const realese = realeses?.[_id]?.[date]
                   if (realese && +realese.price > 0) {
-                    priceValueBool = true
+                    // priceValueBool = true
                     priceValue = maskPrice(`${+realese.price * 100}`)
                   }
 
@@ -97,7 +105,6 @@ export function FormExpenseFixedClient({
                         placeholder="0,00"
                         className="min-w-20 text-right"
                         name={`expenses[${_id}][${date}][price]`}
-                        // readOnly={priceValueBool}
                         disabled={priceValueBool}
                         defaultValue={priceValue}
                         onFocus={(e) => {

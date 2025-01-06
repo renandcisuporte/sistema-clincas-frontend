@@ -42,8 +42,6 @@ export function ModalForm({ open, data }: ModalFormInterface) {
     back()
   }, [state, back, toast])
 
-  console.log(data)
-
   return (
     <Dialog open={open} modal={true}>
       <DialogContent

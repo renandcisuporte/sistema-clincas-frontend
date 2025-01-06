@@ -36,8 +36,6 @@ export function FormExpenseVariableClient({
     message: "OK",
   })
 
-  console.log(selected)
-
   return (
     <form action={formAction}>
       <div className="mb-4 flex justify-center space-x-4">
@@ -105,7 +103,7 @@ export function FormExpenseVariableClient({
 
                       const realese = realeses?.[_id]?.[date]
                       if (realese && +realese.price > 0) {
-                        priceValueBool = true
+                        // priceValueBool = true
                         priceValue = maskPrice(`${+realese.price * 100}`)
                       }
 
