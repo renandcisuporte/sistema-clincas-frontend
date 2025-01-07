@@ -1,6 +1,13 @@
 "use client"
 
 import { Button } from "@/app/_components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/_components/ui/select"
 import { BookOpenCheck } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -11,9 +18,11 @@ import {
   experimental_useFormStatus as useFormStatus,
 } from "react-dom"
 import { generateReport } from "./action"
+import { Service } from "./page"
 
-export function PageClient() {
+export function PageClient({ data }: { data: Service[] }) {
   const [checked, setChecked] = useState("nameAsc")
+  const [selected, setSelected] = useState<Service>()
 
   const { push } = useRouter()
 
@@ -31,6 +40,26 @@ export function PageClient() {
     <form className="flex flex-col items-center py-4" action={formAction}>
       <div className="flex flex-row items-center space-x-4">
         <input type="hidden" name={checked} value="true" />
+        <input type="hidden" name="serviceId" defaultValue={selected?.id} />
+
+        <Select
+          onValueChange={(value) =>
+            setSelected(data.find((item) => item.id === value))
+          }
+        >
+          <SelectTrigger className="w-[280px]">
+            <SelectValue placeholder="Selecione o procedimento" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="null">Todos</SelectItem>
+            {data.map((item) => (
+              <SelectItem key={item.id} value={item.id}>
+                {item.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
         <div className="flex items-center space-x-2">
           <input
             id="asc"
