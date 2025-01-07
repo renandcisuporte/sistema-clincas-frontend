@@ -87,8 +87,8 @@ export function FormExpenseFixedClient({
 
                   const realese = realeses?.[_id]?.[date]
                   if (realese && +realese.price > 0) {
-                    // priceValueBool = true
-                    priceValue = maskPrice(`${+realese.price * 100}`)
+                    priceValueBool = true
+                    priceValue = maskPrice(`${+realese.price}`)
                   }
 
                   return (

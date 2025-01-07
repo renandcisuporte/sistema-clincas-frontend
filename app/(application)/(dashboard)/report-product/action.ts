@@ -17,6 +17,6 @@ export async function generateReport(_state: any, formData: FormData) {
   })
 
   return {
-    url: result.data,
+    url: `${result.data}?timestamp=${Date.now()}`,
   }
 }
