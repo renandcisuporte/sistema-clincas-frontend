@@ -68,7 +68,7 @@ export default async function RootLayout({ children }: ChildrenProps) {
             // '[&>div>div>a]:text-sm [&>div>div>a]:flex [&>div>div>a]:items-center [&>div>div>a]:px-4 [&>div>div>a]:h-16 [&>div>div]:w-full',
 
             // nav > div > div > a
-            "[&>div>div>a]:relative [&>div>div>a]:block [&>div>div>a]:h-16 [&>div>div>a]:w-full [&>div>div>a]:flex-wrap [&>div>div>a]:items-center [&>div>div>a]:space-x-2 [&>div>div>a]:bg-default-dark [&>div>div>a]:px-4 [&>div>div>a]:text-sm [&>div>div>a]:text-white hover:[&>div>div>a]:bg-neutral-100 hover:[&>div>div>a]:text-black", // nav > a
+            "[&>div>div>a]:relative [&>div>div>a]:block [&>div>div>a]:h-16 [&>div>div>a]:w-full [&>div>div>a]:flex-wrap [&>div>div>a]:items-center [&>div>div>a]:space-x-2 [&>div>div>a]:bg-default [&>div>div>a]:px-4 [&>div>div>a]:text-sm [&>div>div>a]:text-white hover:[&>div>div>a]:bg-neutral-100 hover:[&>div>div>a]:text-black", // nav > a
 
             // nav > div > div > a > span
             "[&>div>div>a>span]:flex [&>div>div>a>span]:h-16 [&>div>div>a>span]:items-center [&>div>div>a>span]:space-x-1", // nav > a > span

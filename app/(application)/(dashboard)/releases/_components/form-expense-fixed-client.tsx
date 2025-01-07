@@ -1,11 +1,13 @@
 "use client"
 
 import { ButtonSubmit } from "@/app/_components/common/button-submit"
+import * as CtxMenu from "@/app/_components/ui/context-menu"
 import { Input } from "@/app/_components/ui/input"
 import * as Table from "@/app/_components/ui/table"
 import { mockMonths, month } from "@/app/_contants"
 import { cn, maskPrice } from "@/app/_lib/utils"
-import { Fragment } from "react"
+import { Edit } from "lucide-react"
+import { Fragment, useEffect, useState } from "react"
 import {
   // @ts-ignore
   experimental_useFormState as useFormState,
@@ -25,6 +27,13 @@ type Realeses = {
   }
 }
 
+type Selected = {
+  [key: string]: {
+    selected: boolean
+    priceValue: string
+  }
+}
+
 export function FormExpenseFixedClient({
   expenses,
   realeses,
@@ -32,15 +41,31 @@ export function FormExpenseFixedClient({
   expenses: Expenses[]
   realeses: Realeses[]
 }) {
+  const [selected, setSelected] = useState<Selected>({})
+
   const { pending } = useFormStatus()
   const [_, formAction] = useFormState(actionRelease, {})
 
-  if (pending)
-    return (
-      <div className="flex justify-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
-      </div>
-    )
+  useEffect(() => {
+    // Inicializar um objeto intermediário para acumular os valores de selected
+    const updatedSelection: Selected = {}
+
+    // Iterar pelos arrays e preencher o objeto intermediário
+    expenses.forEach(({ id: _id }: any) => {
+      mockMonths.forEach(({ id, date }: any) => {
+        const key = `${_id}_${id}`
+        const realese = realeses?.[_id]?.[date]
+        const isTrue = realese && +realese.price > 0
+        updatedSelection[key] = {
+          selected: isTrue,
+          priceValue: maskPrice(`${+realese.price}`),
+        }
+      })
+    })
+
+    // Atualizar o estado uma única vez com os valores acumulados
+    setSelected(updatedSelection)
+  }, [expenses, realeses])
 
   return (
     <form action={formAction}>
@@ -81,41 +106,58 @@ export function FormExpenseFixedClient({
               </Table.TableRow>
               <Table.TableRow>
                 {mockMonths.map(({ id, date }: any, index) => {
-                  let priceValue: string = "0,00"
-                  let priceValueBool = false
+                  const key = `${_id}_${id}`
                   const monthAtualy = month === index
-
-                  const realese = realeses?.[_id]?.[date]
-                  if (realese && +realese.price > 0) {
-                    priceValueBool = true
-                    priceValue = maskPrice(`${+realese.price}`)
-                  }
 
                   return (
                     <Table.TableCell
-                      key={`${_id}_${id}`}
+                      key={key}
+                      data-atualy={`${monthAtualy}`}
                       className={cn(
                         "p-2 data-[atualy='true']:!bg-orange-200 [&>input]:data-[atualy='true']:!border-orange-600 [&>input]:data-[atualy='true']:!bg-transparent [&>input]:data-[atualy='true']:!text-orange-600 [&>input]:data-[atualy='true']:placeholder:!text-orange-600",
                       )}
-                      data-atualy={`${monthAtualy}`}
                     >
-                      <Input
-                        id={id}
-                        type="tel"
-                        placeholder="0,00"
-                        className="min-w-20 text-right"
-                        name={`expenses[${_id}][${date}][price]`}
-                        disabled={priceValueBool}
-                        defaultValue={priceValue}
-                        onFocus={(e) => {
-                          e.currentTarget.value = ""
-                        }}
-                        onChange={(e) => {
-                          e.currentTarget.value = maskPrice(
-                            e.currentTarget.value,
-                          )
-                        }}
-                      />
+                      {selected && selected[key]?.selected ? (
+                        <CtxMenu.ContextMenu>
+                          <CtxMenu.ContextMenuTrigger className="flex h-[40px] w-24 items-center justify-end rounded-md border border-dashed p-3 text-sm">
+                            {selected[key].priceValue}
+                          </CtxMenu.ContextMenuTrigger>
+                          <CtxMenu.ContextMenuContent className="w-14">
+                            <CtxMenu.ContextMenuItem inset>
+                              Editar
+                              <CtxMenu.ContextMenuShortcut>
+                                <Edit
+                                  className="h-4 w-4 cursor-pointer"
+                                  onClick={() =>
+                                    setSelected((old) => ({
+                                      ...old,
+                                      [key]: {
+                                        selected: false,
+                                        priceValue: selected[key].priceValue,
+                                      },
+                                    }))
+                                  }
+                                />
+                              </CtxMenu.ContextMenuShortcut>
+                            </CtxMenu.ContextMenuItem>
+                          </CtxMenu.ContextMenuContent>
+                        </CtxMenu.ContextMenu>
+                      ) : (
+                        <Input
+                          id={id}
+                          type="tel"
+                          placeholder="0,00"
+                          className="min-w-20 text-right"
+                          style={{ direction: "rtl" }}
+                          name={`expenses[${_id}][${date}][price]`}
+                          defaultValue={selected[key]?.priceValue}
+                          onChange={(e) => {
+                            e.currentTarget.value = maskPrice(
+                              e.currentTarget.value,
+                            )
+                          }}
+                        />
+                      )}
                     </Table.TableCell>
                   )
                 })}

@@ -1,12 +1,14 @@
 "use client"
 
 import { ButtonSubmit } from "@/app/_components/common/button-submit"
+import * as CtxMenu from "@/app/_components/ui/context-menu"
 import { Input } from "@/app/_components/ui/input"
 import { MultiSelect } from "@/app/_components/ui/multi-select"
 import * as Table from "@/app/_components/ui/table"
 import { mockMonths, month } from "@/app/_contants"
 import { cn, maskPrice } from "@/app/_lib/utils"
-import { Fragment, useState } from "react"
+import { Edit } from "lucide-react"
+import { Fragment, useEffect, useState } from "react"
 import {
   // @ts-ignore
   experimental_useFormState as useFormState,
@@ -24,6 +26,11 @@ type Realeses = {
   }
 }
 
+type Selected = {
+  selected: boolean
+  priceValue: string
+}
+
 export function FormExpenseVariableClient({
   expenses,
   realeses,
@@ -31,10 +38,38 @@ export function FormExpenseVariableClient({
   expenses: Expenses[]
   realeses: Realeses[]
 }) {
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<{
+    [key: string]: Selected
+  }>({})
+
+  const [selectedInput, setSelectedInput] = useState<string[]>([])
+
   const [_, formAction] = useFormState(actionRelease, {
     message: "OK",
   })
+
+  useEffect(() => {
+    // Inicializar um objeto intermediário para acumular os valores de selected
+    const updatedSelection: { [key: string]: Selected } = {}
+
+    // Iterar pelos arrays e preencher o objeto intermediário
+    expenses
+      .filter((item) => selectedInput.includes(item.id))
+      .forEach(({ id: _id }: any) => {
+        mockMonths.forEach(({ id, date }: any) => {
+          const key = `${_id}_${id}`
+          const realese = realeses?.[_id]?.[date]
+          const isTrue = realese && +realese.price > 0
+          updatedSelection[key] = {
+            selected: isTrue,
+            priceValue: maskPrice(`${+realese.price}`),
+          }
+        })
+      })
+
+    // Atualizar o estado uma única vez com os valores acumulados
+    setSelected(updatedSelection)
+  }, [expenses, realeses, selectedInput])
 
   return (
     <form action={formAction}>
@@ -44,8 +79,8 @@ export function FormExpenseVariableClient({
             value: item.id,
             label: item.description,
           }))}
-          onValueChange={(value) => setSelected(value)}
-          defaultValue={selected}
+          onValueChange={(value) => setSelectedInput(value)}
+          defaultValue={selectedInput}
           placeholder="Selecione um tipo de gasto"
           variant="inverted"
           maxCount={5}
@@ -61,7 +96,7 @@ export function FormExpenseVariableClient({
           </small>
         </div>
       )}
-      {selected.length > 0 && (
+      {selectedInput.length > 0 && (
         <Table.TableNotFlow className="block">
           <Table.TableHeader className="sticky top-16 z-[1] font-bold">
             <Table.TableRow>
@@ -83,7 +118,7 @@ export function FormExpenseVariableClient({
           </Table.TableHeader>
           <Table.TableBody>
             {expenses
-              .filter((item) => selected.includes(item.id))
+              .filter((item) => selectedInput.includes(item.id))
               .map(({ id: _id, description }: any) => (
                 <Fragment key={_id}>
                   <Table.TableRow className="odd:bg-default/30 odd:text-default">
@@ -97,41 +132,59 @@ export function FormExpenseVariableClient({
                   </Table.TableRow>
                   <Table.TableRow>
                     {mockMonths.map(({ id, date }: any, index) => {
-                      let priceValue: string = "0,00"
-                      let priceValueBool = false
+                      const key = `${_id}_${id}`
                       const monthAtualy = month === index
-
-                      const realese = realeses?.[_id]?.[date]
-                      if (realese && +realese.price > 0) {
-                        priceValueBool = true
-                        priceValue = maskPrice(`${+realese.price}`)
-                      }
 
                       return (
                         <Table.TableCell
-                          key={`${_id}_${id}`}
+                          key={key}
                           className={cn(
                             "p-2 data-[atualy='true']:!bg-orange-200 [&>input]:data-[atualy='true']:!border-orange-600 [&>input]:data-[atualy='true']:!bg-transparent [&>input]:data-[atualy='true']:!text-orange-600 [&>input]:data-[atualy='true']:placeholder:!text-orange-600",
                           )}
                           data-atualy={`${monthAtualy}`}
                         >
-                          <Input
-                            id={id}
-                            type="tel"
-                            placeholder="0,00"
-                            className="min-w-20 text-right"
-                            name={`expenses[${_id}][${date}][price]`}
-                            disabled={priceValueBool}
-                            defaultValue={priceValue}
-                            onFocus={(e) => {
-                              e.currentTarget.value = ""
-                            }}
-                            onChange={(e) => {
-                              e.currentTarget.value = maskPrice(
-                                e.currentTarget.value,
-                              )
-                            }}
-                          />
+                          {selected && selected[key]?.selected ? (
+                            <CtxMenu.ContextMenu>
+                              <CtxMenu.ContextMenuTrigger className="flex h-[40px] w-24 items-center justify-end rounded-md border border-dashed p-3 text-sm">
+                                {selected[key].priceValue}
+                              </CtxMenu.ContextMenuTrigger>
+                              <CtxMenu.ContextMenuContent className="w-14">
+                                <CtxMenu.ContextMenuItem inset>
+                                  Editar
+                                  <CtxMenu.ContextMenuShortcut>
+                                    <Edit
+                                      className="h-4 w-4 cursor-pointer"
+                                      onClick={() =>
+                                        setSelected((old) => ({
+                                          ...old,
+                                          [key]: {
+                                            selected: false,
+                                            priceValue:
+                                              selected[key].priceValue,
+                                          },
+                                        }))
+                                      }
+                                    />
+                                  </CtxMenu.ContextMenuShortcut>
+                                </CtxMenu.ContextMenuItem>
+                              </CtxMenu.ContextMenuContent>
+                            </CtxMenu.ContextMenu>
+                          ) : (
+                            <Input
+                              id={id}
+                              type="tel"
+                              placeholder="0,00"
+                              className="min-w-20 text-right"
+                              style={{ direction: "rtl" }}
+                              name={`expenses[${_id}][${date}][price]`}
+                              defaultValue={selected[key]?.priceValue}
+                              onChange={(e) => {
+                                e.currentTarget.value = maskPrice(
+                                  e.currentTarget.value,
+                                )
+                              }}
+                            />
+                          )}
                         </Table.TableCell>
                       )
                     })}
