@@ -6,7 +6,7 @@ import { Input } from "@/app/_components/ui/input"
 import { MultiSelect } from "@/app/_components/ui/multi-select"
 import * as Table from "@/app/_components/ui/table"
 import { mockMonths, month } from "@/app/_contants"
-import { cn, maskPrice } from "@/app/_lib/utils"
+import { cn, formatPrice, maskPrice } from "@/app/_lib/utils"
 import { Edit } from "lucide-react"
 import { Fragment, useEffect, useState } from "react"
 import {
@@ -179,7 +179,7 @@ export function FormExpenseVariableClient({
                               name={`expenses[${_id}][${date}][price]`}
                               defaultValue={selected[key]?.priceValue}
                               onChange={(e) => {
-                                e.currentTarget.value = maskPrice(
+                                e.currentTarget.value = formatPrice(
                                   e.currentTarget.value,
                                 )
                               }}
