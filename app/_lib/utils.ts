@@ -6,13 +6,42 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function maskPrice(value: any): string {
-  // Remove qualquer caractere que não seja número ou vírgula
-  value = String(value).replace(/\D/g, "")
-  // Converte o value para centavos e adiciona o símbolo de moeda R$
-  value = (parseFloat(value) / 100).toFixed(2).toString()
-  // Formata o value para o formato Real (R$ 0.000,00)
-  value = value.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-  return `${value}`
+  // Garante que o valor é uma string
+  value = String(value)
+
+  // Remove qualquer caractere que não seja número ou ponto decimal
+  value = value.replace(/[^\d.]/g, "")
+
+  // Converte para número, garantindo que seja tratado corretamente como decimal
+  const numericValue = parseFloat(value)
+
+  // Formata o número para centavos e adiciona o símbolo de moeda R$
+  if (isNaN(numericValue)) {
+    return "0,00" // Retorna 0,00 caso o valor não seja um número válido
+  }
+
+  // Formata o valor para o formato brasileiro (0.000,00)
+  const formattedValue = numericValue
+    .toFixed(2) // Garante duas casas decimais
+    .replace(".", ",") // Substitui o ponto por vírgula
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".") // Adiciona os pontos separadores de milhar
+
+  return formattedValue
+}
+
+export function formatPrice(value: any): string {
+  // Remove qualquer caractere que não seja número
+  const numericValue = value.replace(/\D/g, "")
+
+  // Converte para centavos
+  const centavosValue = (parseInt(numericValue) / 100).toFixed(2)
+
+  // Formata o valor para o formato brasileiro (0.000,00)
+  const formattedValue = centavosValue
+    .replace(".", ",")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+
+  return formattedValue
 }
 
 export function maskDocument(str: string): string {

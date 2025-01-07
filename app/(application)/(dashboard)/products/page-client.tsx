@@ -14,7 +14,7 @@ import {
 } from "@/app/_components/ui/dialog"
 import { ScrollArea } from "@/app/_components/ui/scroll-area"
 import { useToast } from "@/app/_hooks/use-toast"
-import { maskPrice } from "@/app/_lib/utils"
+import { formatPrice, maskPrice } from "@/app/_lib/utils"
 import { Product } from "@/app/_types/products"
 import { CircleX } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -89,12 +89,10 @@ export function ModalForm({ open, data }: ModalFormInterface) {
                 message={errors?.price}
                 classHelper="md:basis-44 md:mr-4"
                 name="price"
+                style={{ direction: "ltr" }}
                 defaultValue={maskPrice(`${data?.price}` || "0")}
-                onFocus={(e) => {
-                  e.currentTarget.value = ""
-                }}
                 onChange={(e) => {
-                  e.currentTarget.value = maskPrice(
+                  e.currentTarget.value = formatPrice(
                     String(e.currentTarget.value),
                   )
                 }}
