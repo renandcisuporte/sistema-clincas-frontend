@@ -88,7 +88,9 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 </Link>
 
                 <Link
-                  href={{ query: { id: item.id, modal: "true" } }}
+                  href={{
+                    query: { id: item.id, modal: "true", name, limit, page },
+                  }}
                   className={buttonVariants({ variant: "outline", size: "sm" })}
                 >
                   <Edit className="mr-1 w-4" />
