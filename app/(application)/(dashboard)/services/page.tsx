@@ -98,7 +98,9 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 </Link>
 
                 <Link
-                  href={{ query: { id: item.id, modal: "delete" } }}
+                  href={{
+                    query: { id: item.id, modal: "delete", name, limit, page },
+                  }}
                   className={buttonVariants({
                     variant: "destructive",
                     size: "sm",
@@ -109,7 +111,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 </Link>
               </TableCell>
             </TableRow>
-          ))}{" "}
+          ))}
         </TableBody>
         <TableFooter>
           <TableRow>
