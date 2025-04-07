@@ -34,7 +34,7 @@ export default async function Page({
   params,
   searchParams,
 }: SearchParamsProps) {
-  const { modal, id, productName } = searchParams
+  const { modal, id, productName, name, page } = searchParams
   const { data } = await loadServicesInProducts(`${params?.serviceId}`)
 
   let products: ({ serviceId: string } & Product)[] = []
@@ -67,7 +67,7 @@ export default async function Page({
         </Button>
 
         <Link
-          href={{ pathname: "/services" }}
+          href={{ pathname: "/services", query: { name, page } }}
           className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
         >
           <Undo className="mr-1 w-4" />

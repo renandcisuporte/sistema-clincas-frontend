@@ -77,6 +77,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
                 <Link
                   href={{
                     pathname: `/services/${item.id}`,
+                    query: { name, limit, page },
                   }}
                   className={buttonVariants({
                     variant: "default-10",
