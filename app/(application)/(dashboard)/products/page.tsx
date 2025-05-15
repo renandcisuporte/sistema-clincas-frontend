@@ -1,16 +1,16 @@
 import { loadProduct } from "@/app/_actions/products"
 import { InputLabel } from "@/app/_components/common/input"
+import { Pagination } from "@/app/_components/common/pagination"
 import { Button, buttonVariants } from "@/app/_components/ui/button"
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table"
-import { cn } from "@/app/_lib/utils"
+import { cn, formatPagination } from "@/app/_lib/utils"
 import { SearchParamsProps } from "@/app/_types/common"
 import { Edit, Save, Search, Trash } from "lucide-react"
 import { Metadata } from "next"
@@ -24,14 +24,13 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: SearchParamsProps) {
   const { name = "", limit = 15, page = 1, modal, id } = searchParams
 
-  const result = await loadProduct({ name, limit, page })
-  const { data, total } = result
+  const { data, total, errorMessage } = await loadProduct({ name, limit, page })
 
   return (
     <div className="flex flex-col space-y-4">
-      {result.errorMessage && (
+      {errorMessage && (
         <div className="rounded-lg bg-amber-100/50 p-6 font-semibold text-amber-600">
-          {result.errorMessage}
+          {errorMessage}
         </div>
       )}
 
@@ -57,14 +56,54 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         </Link>
       </form>
 
+      <Pagination.root>
+        <Pagination.bredcrumb>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
+          </span>
+          <span className="mx-2 text-xs font-normal">-</span>
+          <span className="text-xs font-normal">
+            {formatPagination(+page, +limit, +total)}
+          </span>
+        </Pagination.bredcrumb>
+        <Pagination.first
+          pathname="/products"
+          search={{ name: String(name) }}
+          orderBy=""
+        />
+        <Pagination.prev
+          page={+page}
+          pathname="/products"
+          search={{ name: String(name) }}
+        />
+        <Pagination.links
+          page={+page}
+          perPage={+limit}
+          totalPage={total}
+          pathname="/products"
+          search={{ name: String(name) }}
+        />
+        <Pagination.next
+          page={+page}
+          pathname="/products"
+          search={{ name: String(name) }}
+          perPage={+limit}
+          totalPage={total}
+        />
+        <Pagination.last
+          pathname="/products"
+          search={{ name: String(name) }}
+          orderBy=""
+          perPage={+limit}
+          totalPage={total}
+        />
+      </Pagination.root>
+
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>
               <span>Produtos</span>
-              <span className="ml-2 text-xs font-normal">
-                Total de cadastros: ({total})
-              </span>
             </TableHead>
             <TableHead className="text-center">Ações</TableHead>
           </TableRow>
@@ -96,44 +135,50 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>
-              <div className="flex flex-row flex-wrap items-center justify-end space-x-4">
-                <span>PAGINAÇÃO:</span>
-                <Link
-                  href={{
-                    query: {
-                      name,
-                      limit,
-                      page: Number(page) - 1 === 0 ? 1 : Number(page) - 1,
-                    },
-                  }}
-                  className={buttonVariants({ variant: "outline", size: "sm" })}
-                >
-                  Anterior
-                </Link>
-                <span>{page}</span>
-                <Link
-                  href={{
-                    query: {
-                      name,
-                      limit,
-                      page:
-                        data?.length === Number(limit)
-                          ? Number(page) + 1
-                          : Number(page),
-                    },
-                  }}
-                  className={buttonVariants({ variant: "outline", size: "sm" })}
-                >
-                  Próxima
-                </Link>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
+
+      <Pagination.root>
+        <Pagination.bredcrumb>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
+          </span>
+          <span className="mx-2 text-xs font-normal">-</span>
+          <span className="text-xs font-normal">
+            {formatPagination(+page, +limit, +total)}
+          </span>
+        </Pagination.bredcrumb>
+        <Pagination.first
+          pathname="/products"
+          search={{ name: String(name) }}
+          orderBy=""
+        />
+        <Pagination.prev
+          page={+page}
+          pathname="/products"
+          search={{ name: String(name) }}
+        />
+        <Pagination.links
+          page={+page}
+          perPage={+limit}
+          totalPage={total}
+          pathname="/products"
+          search={{ name: String(name) }}
+        />
+        <Pagination.next
+          page={+page}
+          pathname="/products"
+          search={{ name: String(name) }}
+          perPage={+limit}
+          totalPage={total}
+        />
+        <Pagination.last
+          pathname="/products"
+          search={{ name: String(name) }}
+          orderBy=""
+          perPage={+limit}
+          totalPage={total}
+        />
+      </Pagination.root>
 
       <ModalForm
         open={modal === "true"}

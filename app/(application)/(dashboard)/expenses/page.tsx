@@ -3,6 +3,13 @@ import { InputLabel } from "@/app/_components/common/input"
 import { Pagination } from "@/app/_components/common/pagination"
 import { Button, buttonVariants } from "@/app/_components/ui/button"
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/_components/ui/select"
+import {
   Table,
   TableBody,
   TableCell,
@@ -10,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table"
-import { cn } from "@/app/_lib/utils"
+import { cn, formatPagination } from "@/app/_lib/utils"
 import { SearchParamsProps } from "@/app/_types/common"
 import { Edit, Save, Search, Trash } from "lucide-react"
 import { Metadata } from "next"
@@ -24,16 +31,37 @@ export const metadata: Metadata = {
 }
 
 export default async function Page({ searchParams }: SearchParamsProps) {
-  const { description = "", limit = 15, page = 1, modal, id } = searchParams
+  const {
+    description = "",
+    type,
+    active,
+    limit = 15,
+    page = 1,
+    modal,
+    id,
+  } = searchParams
 
-  const result = await loadExpenses({ description, limit, page })
-  const { data, total, fixed, variable, active, inative } = result
+  const {
+    data,
+    total,
+    fixed,
+    variable,
+    active: totalActive,
+    inative,
+    errorMessage,
+  } = await loadExpenses({
+    description: String(description),
+    type,
+    active,
+    limit,
+    page,
+  })
 
   return (
     <div className="flex flex-col space-y-4">
-      {result.errorMessage && (
+      {errorMessage && (
         <div className="rounded-lg bg-amber-100/50 p-6 font-semibold text-amber-600">
-          {result.errorMessage}
+          {errorMessage}
         </div>
       )}
 
@@ -45,6 +73,28 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           name="description"
           placeholder="Pesquisar..."
         />
+
+        <Select name="active" defaultValue={String(active || "all")}>
+          <SelectTrigger className="w-[220px]">
+            <SelectValue placeholder="Ativo/Inativo" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="true">Ativos</SelectItem>
+            <SelectItem value="false">Inativos</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select name="type" defaultValue={String(type || "all")}>
+          <SelectTrigger className="w-[220px]">
+            <SelectValue placeholder="Renda Fixa/Variável" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="fixed">Renda Fixa</SelectItem>
+            <SelectItem value="variable">Renda Variável</SelectItem>
+          </SelectContent>
+        </Select>
 
         <Button type="submit">
           <Search className="mr-1 w-4" />
@@ -59,29 +109,83 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         </Link>
       </form>
 
-      <Pagination
-        limit={+limit}
-        page={+page}
-        total={Number(data?.length)}
-        description={String(description)}
-      />
+      <Pagination.root>
+        <Pagination.bredcrumb>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
+          </span>
+          <span className="ml-2 text-xs font-normal">Fixas: ({fixed})</span>
+          <span className="ml-2 text-xs font-normal">
+            Variáveis: ({variable})
+          </span>
+          <span className="ml-2 text-xs font-normal">
+            Ativas: ({totalActive})
+          </span>
+          <span className="ml-2 text-xs font-normal">
+            Inativas: ({inative})
+          </span>
+          <span className="ml-2 text-xs font-normal">
+            {formatPagination(+page, +limit, +total)}
+          </span>
+        </Pagination.bredcrumb>
+        <Pagination.first
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+          orderBy=""
+        />
+        <Pagination.prev
+          page={+page}
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+        />
+        <Pagination.links
+          page={+page}
+          perPage={+limit}
+          totalPage={total}
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+        />
+        <Pagination.next
+          page={+page}
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+          perPage={+limit}
+          totalPage={total}
+        />
+        <Pagination.last
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+          orderBy=""
+          perPage={+limit}
+          totalPage={total}
+        />
+      </Pagination.root>
 
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Despesas</span>
-              <span className="ml-2 text-xs font-normal">Total: ({total})</span>
-              <span className="ml-2 text-xs font-normal">Fixas: ({fixed})</span>
-              <span className="ml-2 text-xs font-normal">
-                Variáveis: ({variable})
-              </span>
-              <span className="ml-2 text-xs font-normal">
-                Ativas: ({active})
-              </span>
-              <span className="ml-2 text-xs font-normal">
-                Inativas: ({inative})
-              </span>
+              <span>Descrição</span>
             </TableHead>
             <TableHead className="text-center">Tipo</TableHead>
             <TableHead>Ativo/Inativo</TableHead>
@@ -123,12 +227,78 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         </TableBody>
       </Table>
 
-      <Pagination
-        limit={+limit}
-        page={+page}
-        total={Number(data?.length)}
-        description={String(description)}
-      />
+      <Pagination.root>
+        <Pagination.bredcrumb>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
+          </span>
+          <span className="ml-2 text-xs font-normal">Fixas: ({fixed})</span>
+          <span className="ml-2 text-xs font-normal">
+            Variáveis: ({variable})
+          </span>
+          <span className="ml-2 text-xs font-normal">
+            Ativas: ({totalActive})
+          </span>
+          <span className="ml-2 text-xs font-normal">
+            Inativas: ({inative})
+          </span>
+          <span className="ml-2 text-xs font-normal">
+            {formatPagination(+page, +limit, +total)}
+          </span>
+        </Pagination.bredcrumb>
+        <Pagination.first
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+          orderBy=""
+        />
+        <Pagination.prev
+          page={+page}
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+        />
+        <Pagination.links
+          page={+page}
+          perPage={+limit}
+          totalPage={total}
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+        />
+        <Pagination.next
+          page={+page}
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+          perPage={+limit}
+          totalPage={total}
+        />
+        <Pagination.last
+          pathname="/expenses"
+          search={{
+            description: String(description),
+            type: String(type),
+            active: String(active),
+          }}
+          orderBy=""
+          perPage={+limit}
+          totalPage={total}
+        />
+      </Pagination.root>
+
       <ModalForm
         open={modal === "true"}
         data={data?.find((item) => item.id === id)}

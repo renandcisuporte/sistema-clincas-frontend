@@ -1,16 +1,16 @@
 import { loadServices } from "@/app/_actions/services"
 import { InputLabel } from "@/app/_components/common/input"
+import { Pagination } from "@/app/_components/common/pagination"
 import { Button, buttonVariants } from "@/app/_components/ui/button"
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table"
-import { cn } from "@/app/_lib/utils"
+import { cn, formatPagination } from "@/app/_lib/utils"
 import { SearchParamsProps } from "@/app/_types/common"
 import { Edit, PackageSearch, Save, Search, Trash } from "lucide-react"
 import { Metadata } from "next"
@@ -57,14 +57,57 @@ export default async function Page({ searchParams }: SearchParamsProps) {
         </Link>
       </form>
 
+      <Pagination.root>
+        <Pagination.bredcrumb>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
+          </span>
+          <span className="mx-2 text-xs font-normal">-</span>
+          <span className="text-xs font-normal">
+            {formatPagination(+page, +limit, +total)}
+          </span>
+        </Pagination.bredcrumb>
+        <Pagination.first
+          pathname="/services"
+          search={{ name: String(name) }}
+          orderBy=""
+        />
+        <Pagination.prev
+          page={+page}
+          pathname="/services"
+          search={{ name: String(name) }}
+        />
+        <Pagination.links
+          page={+page}
+          perPage={+limit}
+          totalPage={total}
+          pathname="/services"
+          search={{ name: String(name) }}
+        />
+        <Pagination.next
+          page={+page}
+          pathname="/services"
+          search={{ name: String(name) }}
+          perPage={+limit}
+          totalPage={total}
+        />
+        <Pagination.last
+          pathname="/services"
+          search={{ name: String(name) }}
+          orderBy=""
+          perPage={+limit}
+          totalPage={total}
+        />
+      </Pagination.root>
+
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>
               <span>Procedimentos</span>
-              <span className="ml-2 text-xs font-normal">
+              {/* <span className="ml-2 text-xs font-normal">
                 Total de cadastros: ({total})
-              </span>
+              </span> */}
             </TableHead>
             <TableHead className="text-center">Ações</TableHead>
           </TableRow>
@@ -114,44 +157,50 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>
-              <div className="flex flex-row flex-wrap items-center justify-end space-x-4">
-                <span>PAGINAÇÃO:</span>
-                <Link
-                  href={{
-                    query: {
-                      name,
-                      limit,
-                      page: Number(page) - 1 === 0 ? 1 : Number(page) - 1,
-                    },
-                  }}
-                  className={buttonVariants({ variant: "outline", size: "sm" })}
-                >
-                  Anterior
-                </Link>
-                <span>{page}</span>
-                <Link
-                  href={{
-                    query: {
-                      name,
-                      limit,
-                      page:
-                        data?.length === Number(limit)
-                          ? Number(page) + 1
-                          : Number(page),
-                    },
-                  }}
-                  className={buttonVariants({ variant: "outline", size: "sm" })}
-                >
-                  Próxima
-                </Link>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
+
+      <Pagination.root>
+        <Pagination.bredcrumb>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
+          </span>
+          <span className="mx-2 text-xs font-normal">-</span>
+          <span className="text-xs font-normal">
+            {formatPagination(+page, +limit, +total)}
+          </span>
+        </Pagination.bredcrumb>
+        <Pagination.first
+          pathname="/services"
+          search={{ name: String(name) }}
+          orderBy=""
+        />
+        <Pagination.prev
+          page={+page}
+          pathname="/services"
+          search={{ name: String(name) }}
+        />
+        <Pagination.links
+          page={+page}
+          perPage={+limit}
+          totalPage={total}
+          pathname="/services"
+          search={{ name: String(name) }}
+        />
+        <Pagination.next
+          page={+page}
+          pathname="/services"
+          search={{ name: String(name) }}
+          perPage={+limit}
+          totalPage={total}
+        />
+        <Pagination.last
+          pathname="/services"
+          search={{ name: String(name) }}
+          orderBy=""
+          perPage={+limit}
+          totalPage={total}
+        />
+      </Pagination.root>
 
       <ModalForm
         open={modal === "true"}

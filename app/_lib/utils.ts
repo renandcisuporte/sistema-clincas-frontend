@@ -160,3 +160,12 @@ export function dataToJson(data: FormData): Record<string, any> {
     return object
   }, {})
 }
+
+export function formatPagination(
+  page: number,
+  limit: number,
+  total: number,
+): string {
+  const end = Math.min(page * limit, total)
+  return `Página: (${page}/${end})`
+}
