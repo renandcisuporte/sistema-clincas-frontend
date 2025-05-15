@@ -166,6 +166,7 @@ export function formatPagination(
   limit: number,
   total: number,
 ): string {
+  const start = (page - 1) * limit + 1
   const end = Math.min(page * limit, total)
-  return `Página: (${page}/${end})`
+  return `Página: (${start}/${end})`
 }
