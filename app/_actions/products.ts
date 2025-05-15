@@ -71,6 +71,7 @@ export async function loadProduct(args: any): Promise<ApiResponse<Product[]>> {
     name,
     limit,
     page,
+    nameAsc: "true",
   })
 
   const result = await apiFecth(`/products?${searchParams.toString()}`, {
