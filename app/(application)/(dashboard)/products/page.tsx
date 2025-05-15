@@ -59,11 +59,11 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       <Pagination.root>
         <Pagination.bredcrumb>
           <span className="text-xs font-normal">
-            Total de Registros: ({total})
+            Produtos: {formatPagination(+page, +limit, +total)}
           </span>
-          <span className="mx-2 text-xs font-normal">-</span>
+          <span className="mx-1 text-xs font-normal">-</span>
           <span className="text-xs font-normal">
-            {formatPagination(+page, +limit, +total)}
+            Total de Registros: ({total})
           </span>
         </Pagination.bredcrumb>
         <Pagination.first
@@ -140,11 +140,11 @@ export default async function Page({ searchParams }: SearchParamsProps) {
       <Pagination.root>
         <Pagination.bredcrumb>
           <span className="text-xs font-normal">
-            Total de Registros: ({total})
+            Produtos: {formatPagination(+page, +limit, +total)}
           </span>
-          <span className="mx-2 text-xs font-normal">-</span>
+          <span className="mx-1 text-xs font-normal">-</span>
           <span className="text-xs font-normal">
-            {formatPagination(+page, +limit, +total)}
+            Total de Registros: ({total})
           </span>
         </Pagination.bredcrumb>
         <Pagination.first
