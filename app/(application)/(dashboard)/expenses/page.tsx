@@ -111,10 +111,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
 
       <Pagination.root>
         <Pagination.bredcrumb>
-          <span className="text-xs font-normal">
-            Total de Registros: ({total})
-          </span>
-          <span className="ml-2 text-xs font-normal">Fixas: ({fixed})</span>
+          <span className="text-xs font-normal">Fixas: ({fixed})</span>
           <span className="ml-2 text-xs font-normal">
             Variáveis: ({variable})
           </span>
@@ -125,7 +122,11 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             Inativas: ({inative})
           </span>
           <span className="ml-2 text-xs font-normal">
-            {formatPagination(+page, +limit, +total)}
+            Desepesas: {formatPagination(+page, +limit, +total)}
+          </span>
+          <span className="mx-1 text-xs font-normal">-</span>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
           </span>
         </Pagination.bredcrumb>
         <Pagination.first
@@ -229,10 +230,7 @@ export default async function Page({ searchParams }: SearchParamsProps) {
 
       <Pagination.root>
         <Pagination.bredcrumb>
-          <span className="text-xs font-normal">
-            Total de Registros: ({total})
-          </span>
-          <span className="ml-2 text-xs font-normal">Fixas: ({fixed})</span>
+          <span className="text-xs font-normal">Fixas: ({fixed})</span>
           <span className="ml-2 text-xs font-normal">
             Variáveis: ({variable})
           </span>
@@ -243,7 +241,11 @@ export default async function Page({ searchParams }: SearchParamsProps) {
             Inativas: ({inative})
           </span>
           <span className="ml-2 text-xs font-normal">
-            {formatPagination(+page, +limit, +total)}
+            Desepesas: {formatPagination(+page, +limit, +total)}
+          </span>
+          <span className="mx-1 text-xs font-normal">-</span>
+          <span className="text-xs font-normal">
+            Total de Registros: ({total})
           </span>
         </Pagination.bredcrumb>
         <Pagination.first
