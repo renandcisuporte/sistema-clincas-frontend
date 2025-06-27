@@ -46,24 +46,48 @@ export function FormExpenseFixedClient({
   const { pending } = useFormStatus()
   const [_, formAction] = useFormState(actionRelease, {})
 
+  // useEffect(() => {
+  //   // Inicializar um objeto intermediário para acumular os valores de selected
+  //   const updatedSelection: Selected = {}
+
+  //   // Iterar pelos arrays e preencher o objeto intermediário
+  //   expenses.forEach(({ id: _id }: any) => {
+  //     mockMonths.forEach(({ id, date }: any) => {
+  //       const key = `${_id}_${id}`
+  //       const realese = realeses?.[_id]?.[date]
+
+  //       const isTrue = realese && Number(realese.price) > 0
+  //       updatedSelection[key] = {
+  //         selected: isTrue,
+  //         priceValue: maskPrice(release?.price || 0),
+  //       }
+  //     })
+  //   })
+
+  //   // Atualizar o estado uma única vez com os valores acumulados
+  //   setSelected(updatedSelection)
+  // }, [expenses, realeses])
+
   useEffect(() => {
-    // Inicializar um objeto intermediário para acumular os valores de selected
-    const updatedSelection: Selected = {}
+    if (!expenses.length || !realeses) return
 
-    // Iterar pelos arrays e preencher o objeto intermediário
-    expenses.forEach(({ id: _id }: any) => {
-      mockMonths.forEach(({ id, date }: any) => {
-        const key = `${_id}_${id}`
-        const realese = realeses?.[_id]?.[date]
-        const isTrue = realese && Number(realese.price) > 0
-        updatedSelection[key] = {
-          selected: isTrue,
-          priceValue: maskPrice(realese.price),
+    const updatedSelection = expenses.reduce<Selected>(
+      (acc, { id: expenseId }) => {
+        for (const { id: monthId, date } of mockMonths) {
+          const key = `${expenseId}_${monthId}`
+          const release = realeses?.[expenseId as any]?.[date]
+
+          const isSelected = release && Number(release.price) > 0
+          acc[key] = {
+            selected: isSelected,
+            priceValue: maskPrice(release?.price || 0),
+          }
         }
-      })
-    })
+        return acc
+      },
+      {},
+    )
 
-    // Atualizar o estado uma única vez com os valores acumulados
     setSelected(updatedSelection)
   }, [expenses, realeses])
 
