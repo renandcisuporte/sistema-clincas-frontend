@@ -1,3 +1,5 @@
-export default function Page() {
-  return <div className="flex space-x-4 flex-wrap">Olá, Bem Vindo</div>
+export default async function Page() {
+  await new Promise((resolve) => setTimeout(resolve, 3000))
+
+  return <div className="flex flex-wrap space-x-4">Olá, Bem Vindo</div>
 }
