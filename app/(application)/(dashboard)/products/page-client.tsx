@@ -134,7 +134,7 @@ export function ModalDelete({ open, data }: ModalFormInterface) {
           action={formAction}
           className="float-right flex flex-col flex-wrap justify-end space-y-4 md:flex-row md:space-x-2"
         >
-          <input type="hidden" name="id" value={data?.id} />
+          <input type="hidden" name="id" value={data?.id} readOnly />
           <DialogClose asChild>
             <Button variant="ghost" type="button">
               Cancelar
