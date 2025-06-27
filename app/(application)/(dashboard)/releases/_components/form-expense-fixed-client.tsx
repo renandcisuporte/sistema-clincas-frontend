@@ -55,10 +55,10 @@ export function FormExpenseFixedClient({
       mockMonths.forEach(({ id, date }: any) => {
         const key = `${_id}_${id}`
         const realese = realeses?.[_id]?.[date]
-        const isTrue = realese && +realese.price > 0
+        const isTrue = realese && Number(realese.price) > 0
         updatedSelection[key] = {
           selected: isTrue,
-          priceValue: maskPrice(`${+realese.price}`),
+          priceValue: maskPrice(realese.price),
         }
       })
     })
